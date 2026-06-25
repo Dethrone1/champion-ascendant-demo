@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Champion Ascendant — The ASCENT Scoring System</title>
+  <meta name="description" content="ASCENT scores unsigned MMA fighters 0–100 on signing readiness for DWCS and ONE Championship. Data-driven scouting for managers, scouts, and investors."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --midnight: #1C2E4A;
+      --midnight-deep: #0F1B2D;
+      --gold: #D4AF37;
+      --gold-dim: rgba(212,175,55,0.15);
+      --gold-glow: rgba(212,175,55,0.3);
+      --charcoal: #2C2C2C;
+      --charcoal-light: #3A3A3A;
+      --white: #F0F0F0;
+      --gray: #A0A8B4;
+      --gray-dim: #6A7280;
+      --red: #C0392B;
+      --green: #27AE60;
+      --surface: rgba(28,46,74,0.6);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --max: 1100px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    html, body { overflow-x: hidden; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--midnight-deep);
+      color: var(--white);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* bg shapes */
+    .page-ornaments {
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 0; overflow: hidden;
+    }
+    .bg-orb {
+      position: absolute;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.18), rgba(212,175,55,0.05) 50%, transparent 72%);
+      border: 1px solid rgba(212,175,55,0.18);
+      opacity: 0.7;
+      animation: orbPulse 5s ease-in-out infinite;
+    }
+    .bg-orb::after {
+      content: ""; position: absolute; inset: 30px;
+      border-radius: 50%;
+      border: 1px dashed rgba(255,255,255,0.08);
+    }
+    @keyframes orbPulse {
+      0%,100% { transform: translate3d(0,0,0) scale(1); opacity: 0.55; }
+      50% { transform: translate3d(10px,6px,0) scale(1.04); opacity: 0.75; }
+    }
+    .bg-octagon {
+      position: absolute;
+      width: 520px; height: 520px;
+      clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+      background: radial-gradient(circle at 35% 35%, rgba(192,57,43,0.14), rgba(212,175,55,0.06) 50%, transparent 72%);
+      border: 1px solid rgba(212,175,55,0.12);
+      opacity: 0.65;
+      transform: rotate(12deg);
+      animation: octaFloat 8s ease-in-out infinite;
+    }
+    @keyframes octaFloat {
+      0%,100% { transform: rotate(12deg) translate3d(0,0,0); }
+      50% { transform: rotate(12deg) translate3d(-12px,14px,0); }
+    }
+    .orb-tl { left: -200px; top: -200px; }
+    .oct-br { right: -220px; bottom: -260px; }
+    .orb-br { right: -160px; bottom: 30%; width: 380px; height: 380px; opacity: 0.4; }
+    .oct-tl { left: -240px; top: 40%; opacity: 0.4; width: 440px; height: 440px; }
+
+    /* nav */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(15,27,45,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(212,175,55,0.1);
+    }
+    .topbar-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 0;
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), rgba(212,175,55,0.5));
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(212,175,55,0.25);
+    }
+    .brand-icon svg { width: 20px; height: 20px; }
+    .brand-text { font-family: var(--font-display); font-size: 22px; letter-spacing: 1.5px; }
+    .brand-sub { font-size: 10px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a {
+      font-size: 13px; font-weight: 700; color: var(--gray);
+      letter-spacing: 0.3px; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); text-decoration: none; }
+
+    .hero { padding: 80px 0 60px; text-align: center; position: relative; }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 80px);
+      letter-spacing: 3px; line-height: 1; margin-bottom: 20px;
+    }
+    .hero h1 .gold { color: var(--gold); }
+    .hero-sub {
+      font-size: 18px; color: var(--gray);
+      max-width: 60ch; margin: 0 auto 32px; line-height: 1.7;
+    }
+    .hero-sub strong { color: var(--white); font-weight: 700; }
+    .hero-badges { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 16px; border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.2);
+      background: rgba(212,175,55,0.06);
+      font-size: 13px; font-weight: 700; color: var(--gold);
+    }
+
+    section { padding: 64px 0; position: relative; }
+
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 11px; font-weight: 900; color: var(--gold);
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;
+    }
+    .section-label::before { content: ""; width: 28px; height: 2px; background: var(--gold); }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(30px, 4vw, 48px);
+      letter-spacing: 2px; line-height: 1.1; margin-bottom: 16px;
+    }
+    .section-desc {
+      font-size: 16px; color: var(--gray);
+      max-width: 62ch; line-height: 1.65; margin-bottom: 36px;
+    }
+    .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15), transparent); }
+
+    /* pathway tabs */
+    .pathway-tabs {
+      display: flex; gap: 0; margin-bottom: 32px;
+      border-radius: var(--radius); overflow: hidden;
+      border: 1px solid rgba(212,175,55,0.15); width: fit-content;
+    }
+    .pathway-tab {
+      padding: 14px 32px; font-family: var(--font-display);
+      font-size: 20px; letter-spacing: 2px; cursor: pointer;
+      background: var(--charcoal); color: var(--gray);
+      border: none; transition: all 0.2s;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pathway-tab .tab-icon { width: 20px; height: 20px; display: inline-flex; }
+    .pathway-tab.active { background: var(--gold); color: var(--midnight-deep); }
+    .pathway-tab:not(.active):hover { background: var(--charcoal-light); color: var(--white); }
+    .pathway-panel { display: none; }
+    .pathway-panel.active { display: block; }
+
+    .calc-layout {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 32px; align-items: start;
+    }
+    .calc-inputs {
+      background: var(--charcoal);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .calc-inputs h3 {
+      font-family: var(--font-display); font-size: 24px;
+      letter-spacing: 1.5px; margin-bottom: 20px; color: var(--gold);
+    }
+    .field { margin-bottom: 16px; }
+    .field label {
+      display: block; font-size: 12px; font-weight: 900;
+      color: var(--gray); text-transform: uppercase;
+      letter-spacing: 0.8px; margin-bottom: 6px;
+    }
+    .field input, .field select {
+      width: 100%; padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: var(--midnight); color: var(--white);
+      font-size: 15px; font-weight: 600;
+      font-family: var(--font-body); outline: none;
+      transition: all 0.2s;
+    }
+    .field input:focus, .field select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.15);
+    }
+    .field input::placeholder { color: var(--gray-dim); }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .field .hint { font-size: 11px; color: var(--gray-dim); margin-top: 3px; }
+    .field .error-hint { font-size: 11px; color: var(--red); margin-top: 3px; display: none; }
+    .field.has-error input, .field.has-error select { border-color: var(--red); }
+    .field.has-error .error-hint { display: block; }
+    .field.has-error .hint { display: none; }
+
+    .calc-btn {
+      width: 100%; padding: 14px;
+      border-radius: var(--radius-sm);
+      background: var(--gold); color: var(--midnight-deep);
+      font-family: var(--font-display); font-size: 20px;
+      letter-spacing: 2px; border: none; cursor: pointer;
+      margin-top: 8px; transition: all 0.2s;
+      box-shadow: 0 6px 20px rgba(212,175,55,0.25);
+    }
+    .calc-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.35); }
+
+    /* result panel */
+    .result-card {
+      background: var(--charcoal);
+      border: 1px solid rgba(212,175,55,0.15);
+      border-radius: var(--radius); padding: 28px;
+      position: sticky; top: 80px;
+    }
+    .result-placeholder {
+      text-align: center; padding: 48px 20px;
+      color: var(--gray-dim); font-size: 15px;
+    }
+    .result-placeholder .placeholder-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }
+    .result-score-row { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+    .score-ring-wrap { width: 100px; height: 100px; position: relative; flex-shrink: 0; }
+    .score-ring-wrap svg { width: 100px; height: 100px; transform: rotate(-90deg); }
+    .score-ring-wrap .ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 7; }
+    .score-ring-wrap .ring-fill {
+      fill: none; stroke: var(--gold); stroke-width: 7;
+      stroke-linecap: round; stroke-dasharray: 263; stroke-dashoffset: 263;
+      transition: stroke-dashoffset 1s ease;
+    }
+    .score-number {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: 28px; font-weight: 700; color: var(--gold);
+    }
+    .score-meta strong { display: block; font-size: 18px; font-weight: 900; margin-bottom: 2px; }
+    .score-meta .tier { font-size: 13px; color: var(--gray); font-weight: 700; }
+
+    .breakdown-list { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
+    .breakdown-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px; border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04); font-size: 13px;
+    }
+    .breakdown-row .bl { color: var(--gray); font-weight: 600; }
+    .breakdown-row .bv { font-family: var(--font-mono); font-weight: 700; font-size: 13px; }
+    .bv.positive { color: var(--green); }
+    .bv.negative { color: var(--red); }
+    .bv.neutral { color: var(--white); }
+
+    .factors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .factor-card {
+      padding: 24px; border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--charcoal); transition: border-color 0.2s;
+    }
+    .factor-card:hover { border-color: rgba(212,175,55,0.2); }
+    .factor-card .factor-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .factor-card .factor-weight {
+      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+      padding: 3px 8px; border-radius: 999px;
+      background: rgba(212,175,55,0.12); color: var(--gold);
+    }
+    .factor-card h4 { font-size: 15px; font-weight: 900; }
+    .factor-card p { font-size: 13px; color: var(--gray); line-height: 1.55; }
+
+    .method-box {
+      padding: 28px; border-radius: var(--radius);
+      border: 1px solid rgba(212,175,55,0.15);
+      background: rgba(212,175,55,0.03);
+    }
+    .method-box h3 { font-family: var(--font-display); font-size: 24px; letter-spacing: 1.5px; margin-bottom: 10px; }
+    .method-box p { font-size: 14px; color: var(--gray); line-height: 1.65; max-width: 72ch; }
+
+    .source-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .source-tag {
+      padding: 5px 12px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      font-size: 12px; font-weight: 700; color: var(--gray);
+    }
+
+    .stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat-box {
+      padding: 20px; border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.06);
+      background: var(--charcoal); text-align: center;
+    }
+    .stat-box .num {
+      font-family: var(--font-mono); font-size: 26px; font-weight: 700;
+      color: var(--gold); display: block; margin-bottom: 4px;
+    }
+    .stat-box .desc { font-size: 11px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    footer {
+      padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 12px; color: var(--gray-dim);
+    }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .calc-layout { grid-template-columns: 1fr; }
+      .factors-grid { grid-template-columns: 1fr; }
+      .stat-row { grid-template-columns: 1fr 1fr; }
+      .result-card { position: static; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 48px 0 36px; }
+      section { padding: 48px 0; }
+      .pathway-tab { padding: 12px 20px; font-size: 16px; }
+      .field-row { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .bg-orb, .bg-octagon { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-ornaments" aria-hidden="true">
+    <div class="bg-orb orb-tl"></div>
+    <div class="bg-octagon oct-br"></div>
+    <div class="bg-orb orb-br"></div>
+    <div class="bg-octagon oct-tl"></div>
+  </div>
+
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <div class="brand">
+          <div class="brand-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#1C2E4A" stroke-width="2.5" stroke-linecap="round"><path d="M12 2L15 9H21L16 14L18 21L12 17L6 21L8 14L3 9H9L12 2Z"/></svg>
+          </div>
+          <div>
+            <div class="brand-text">CHAMPION ASCENDANT</div>
+            <div class="brand-sub">The Ascent System</div>
+          </div>
+        </div>
+        <nav class="nav-links">
+          <a href="#calculator">Calculator</a>
+          <a href="#factors">Factors</a>
+          <a href="#data">Data</a>
+          <a href="/prospects">Top Prospects</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="wrap">
+      <h1>THE <span class="gold">ASCENT</span> SCORE</h1>
+      <p class="hero-sub">
+        A <strong>0–100 signing readiness benchmark</strong> for unsigned MMA fighters.
+        Two pathways: <strong>ONE Championship</strong> and <strong>Dana White's Contender Series</strong>.
+        Built on verified signing data from 2020–2026. Every input is observable. Every output is auditable.
+      </p>
+      <div class="hero-badges">
+        <span class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+          ONE Championship Pathway
+        </span>
+        <span class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"/></svg>
+          DWCS Pathway
+        </span>
+        <span class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          No Black Boxes
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  <section id="calculator" class="reveal">
+    <div class="wrap">
+      <div class="section-label">Score a Fighter</div>
+      <h2 class="section-title">ASCENT CALCULATOR</h2>
+      <p class="section-desc">
+        Enter a fighter's stats. Get their ASCENT score with a full component breakdown. Each pathway uses a different formula calibrated to that promotion's signing patterns. <strong>Note: this public demo uses a simplified placeholder formula — the production ASCENT model is private.</strong>
+      </p>
+
+      <div class="pathway-tabs">
+        <button class="pathway-tab active" data-tab="one" onclick="switchTab('one')">
+          <span class="tab-icon"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/></svg></span>
+          ONE CHAMPIONSHIP
+        </button>
+        <button class="pathway-tab" data-tab="dwcs" onclick="switchTab('dwcs')">
+          <span class="tab-icon"><svg viewBox="0 0 20 20" fill="none"><polygon points="10,1 18.5,5.5 18.5,14.5 10,19 1.5,14.5 1.5,5.5" stroke="currentColor" stroke-width="1.5"/></svg></span>
+          DWCS
+        </button>
+      </div>
+
+      <div class="pathway-panel active" id="panel-one">
+        <div class="calc-layout">
+          <div class="calc-inputs">
+            <h3>ONE ASCENT INPUTS</h3>
+            <div class="field-row">
+              <div class="field">
+                <label>Finish Rate (%)</label>
+                <input type="number" id="one-fr" min="0" max="100" step="0.1" placeholder="e.g. 85"/>
+                <div class="hint">% of wins by KO/TKO/Sub</div>
+                <div class="error-hint">Must be 0–100</div>
+              </div>
+              <div class="field">
+                <label>Win Rate (%)</label>
+                <input type="number" id="one-wr" min="0" max="100" step="0.1" placeholder="e.g. 90"/>
+                <div class="hint">Wins / (Wins + Losses) × 100</div>
+                <div class="error-hint">Must be 0–100</div>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Age</label>
+                <input type="number" id="one-age" min="16" max="50" step="1" placeholder="e.g. 26"/>
+                <div class="hint">Current age (16–50)</div>
+                <div class="error-hint">Must be 16–50</div>
+              </div>
+              <div class="field">
+                <label>Title Fight Wins</label>
+                <input type="number" id="one-titles" min="0" max="30" step="1" value="0"/>
+                <div class="hint">Championship wins (uncapped)</div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Main Promotion</label>
+              <select id="one-promo">
+                <option value="Regional_Shows" selected>Regional / Other</option>
+                <option value="ONE_Friday_Fights">ONE Friday Fights</option>
+                <option value="LFA">LFA</option>
+                <option value="ACA">ACA</option>
+                <option value="Cage_Warriors">Cage Warriors</option>
+              </select>
+              <div class="hint">Promotion with most recent fights</div>
+            </div>
+            <div class="field">
+              <label>Country of Origin</label>
+              <select id="one-country">
+                <option value="USA" selected>USA</option>
+                <option value="Brazil">Brazil</option>
+                <option value="Japan">Japan</option>
+                <option value="Thailand">Thailand</option>
+                <option value="Russia">Russia</option>
+              </select>
+            </div>
+            <button class="calc-btn" onclick="calcONE()">CALCULATE ASCENT SCORE</button>
+          </div>
+
+          <div class="result-card" id="one-result">
+            <div class="result-placeholder">
+              <div class="placeholder-icon">&#9733;</div>
+              <p>Enter fighter stats and hit calculate<br/>to see the ONE ASCENT score.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pathway-panel" id="panel-dwcs">
+        <div class="calc-layout">
+          <div class="calc-inputs">
+            <h3>DWCS ASCENT INPUTS</h3>
+            <div class="field-row">
+              <div class="field">
+                <label>Finish Rate (%)</label>
+                <input type="number" id="dwcs-fr" min="0" max="100" step="0.1" placeholder="e.g. 85"/>
+                <div class="hint">% of wins by KO/TKO/Sub</div>
+                <div class="error-hint">Must be 0–100</div>
+              </div>
+              <div class="field">
+                <label>Win Rate (%)</label>
+                <input type="number" id="dwcs-wr" min="0" max="100" step="0.1" placeholder="e.g. 90"/>
+                <div class="hint">Wins / (Wins + Losses) × 100</div>
+                <div class="error-hint">Must be 0–100</div>
+              </div>
+            </div>
+            <div class="field-row">
+              <div class="field">
+                <label>Age</label>
+                <input type="number" id="dwcs-age" min="16" max="50" step="1" placeholder="e.g. 25"/>
+                <div class="hint">Current age (16–50)</div>
+                <div class="error-hint">Must be 16–50</div>
+              </div>
+              <div class="field">
+                <label>Current Win Streak</label>
+                <input type="number" id="dwcs-streak" min="0" max="50" step="1" value="0"/>
+                <div class="hint">Consecutive wins</div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Weight Class</label>
+              <select id="dwcs-wc">
+                <option value="lightweight" selected>Lightweight</option>
+                <option value="featherweight">Featherweight</option>
+                <option value="welterweight">Welterweight</option>
+                <option value="flyweight">Flyweight</option>
+                <option value="heavyweight">Heavyweight</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Main Promotion</label>
+              <select id="dwcs-promo">
+                <option value="Regional" selected>Regional / Other</option>
+                <option value="LFA">LFA</option>
+                <option value="Cage Warriors">Cage Warriors</option>
+                <option value="Fury FC">Fury FC</option>
+              </select>
+            </div>
+            <button class="calc-btn" onclick="calcDWCS()">CALCULATE ASCENT SCORE</button>
+          </div>
+
+          <div class="result-card" id="dwcs-result">
+            <div class="result-placeholder">
+              <div class="placeholder-icon">&#9733;</div>
+              <p>Enter fighter stats and hit calculate<br/>to see the DWCS ASCENT score.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  <section id="factors" class="reveal">
+    <div class="wrap">
+      <div class="section-label">Why These Factors</div>
+      <h2 class="section-title">WHAT DRIVES THE SCORE</h2>
+      <p class="section-desc">
+        Every component in ASCENT is there because it showed up in actual signing data. Not because it sounds smart — because it predicted who got signed. The specific weights are proprietary; the factors themselves are summarized below.
+      </p>
+
+      <div style="margin-bottom:20px;">
+        <h3 style="font-family:var(--font-display);font-size:22px;letter-spacing:1.5px;color:var(--gold);margin-bottom:14px;">ONE CHAMPIONSHIP ASCENT</h3>
+      </div>
+      <div class="factors-grid" style="margin-bottom:40px;">
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">dominant factor</span>
+            <h4>Finish Rate</h4>
+          </div>
+          <p>The dominant predictor. ONE Championship signs finishers — fighters who end fights by KO/TKO or submission. Finish rate alone explains more of the variance in who gets signed than any other single variable.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">secondary</span>
+            <h4>Win Rate</h4>
+          </div>
+          <p>Winning matters, but less than how you win. A decision-heavy undefeated record gets credit, but not as much as a finish-heavy one. This separates "good record" from "exciting record" — and ONE skews toward exciting.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">pipeline</span>
+            <h4>Promotion Pipeline</h4>
+          </div>
+          <p>Not all promotions feed equally into ONE. Pipeline strength captures both where fighters compete and where scouts pay attention, weighted by historical signing share.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">regional</span>
+            <h4>Origin Region Fit</h4>
+          </div>
+          <p>Based on actual signing share by fighter's region of origin. Certain regions account for a disproportionate share of ONE's MMA signings. This is data from real signings, not subjective "appeal."</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">modifier</span>
+            <h4>Age (Development Runway)</h4>
+          </div>
+          <p>Younger fighters have more upside, more time to develop, and more potential fights on a contract. Older fighters are penalized — not because they can't compete, but because promotions invest in longer timelines.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">bonus</span>
+            <h4>Title Fight Wins</h4>
+          </div>
+          <p>Winning championships proves you perform under pressure. Title-fight wins layer a bonus on top, rewarding proven competitive ability at the highest level of a fighter's current promotion.</p>
+        </div>
+      </div>
+
+      <div style="margin-bottom:20px;">
+        <h3 style="font-family:var(--font-display);font-size:22px;letter-spacing:1.5px;color:var(--gold);margin-bottom:14px;">DWCS ASCENT</h3>
+      </div>
+      <div class="factors-grid">
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">dominant factor</span>
+            <h4>Finish Rate (Normalized)</h4>
+          </div>
+          <p>Finishing ability is the main driver for DWCS invites too. Unlike ONE, this version normalizes by weight class — because DWCS spans a wider weight range and finish rates vary significantly across divisions. The normalization levels that playing field.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">secondary</span>
+            <h4>Win Rate</h4>
+          </div>
+          <p>Same logic: winning matters but doesn't dominate. Records below a threshold trigger a penalty, because DWCS rarely invites fighters with shaky records regardless of finishes.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">momentum</span>
+            <h4>Win Streak</h4>
+          </div>
+          <p>DWCS rewards momentum. The streak bonus uses a diminishing-returns curve — the first few consecutive wins matter most. This reflects how matchmakers think about "hot" fighters.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">pipeline</span>
+            <h4>Promotion Pipeline</h4>
+          </div>
+          <p>Feeder promotions are tiered by how many DWCS invitees came from each. Top feeders carry significant weight; regional unknowns carry little — not because they can't get invited, but the odds are much lower.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">modifier</span>
+            <h4>Age</h4>
+          </div>
+          <p>DWCS has a distinct sweet spot — prospects right in their athletic prime who can develop over a UFC career. Older fighters face a steeper penalty than in the ONE pathway.</p>
+        </div>
+        <div class="factor-card">
+          <div class="factor-header">
+            <span class="factor-weight">elite bonus</span>
+            <h4>Elite Stack Bonuses</h4>
+          </div>
+          <p>What separates strong fighters from blue-chip ones. Bonuses stack for elite traits like being undefeated, an elite normalized finish rate, or a long active win streak. You need to be elite across multiple traits to break into the top tier.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  <section id="data" class="reveal">
+    <div class="wrap">
+      <div class="section-label">The Data</div>
+      <h2 class="section-title">BUILT ON VERIFIED OUTCOMES</h2>
+      <p class="section-desc">
+        Every number traces back to actual signing data. Cross-referenced against Tapology, Sherdog, and official promotion records.
+      </p>
+      <div class="stat-row">
+        <div class="stat-box"><span class="num">6</span><span class="desc">Years of signing data</span></div>
+        <div class="stat-box"><span class="num">100+</span><span class="desc">Verified signings analyzed</span></div>
+        <div class="stat-box"><span class="num">2</span><span class="desc">Separate pathways</span></div>
+        <div class="stat-box"><span class="num">0–100</span><span class="desc">Auditable score</span></div>
+      </div>
+      <div class="method-box">
+        <h3>TRANSPARENT BY DESIGN</h3>
+        <p>
+          No hidden weights. No black-box AI. ASCENT is a deterministic formula — the same inputs always produce the same output. Every component is observable (record outcomes, age, promotion, region, title fights). The score breaks down into visible parts so you see exactly why a fighter scored the way they did. Different formulas for different pathways, because ONE Championship and DWCS value different things.
+        </p>
+        <div class="source-tags">
+          <span class="source-tag">Tapology</span>
+          <span class="source-tag">Sherdog</span>
+          <span class="source-tag">Official fight records</span>
+          <span class="source-tag">ONE signing patterns (2020–2026)</span>
+          <span class="source-tag">DWCS outcomes (S1–S9)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <div>&copy; <span id="yr"></span> Champion Ascendant · <a href="mailto:championascendant@gmail.com">Contact</a></div>
+        <div>Built on verified outcomes · Benchmark, not guarantee</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ============================================================
+       PUBLIC PORTFOLIO BUILD
+       ------------------------------------------------------------
+       The ASCENT scoring engine (component weights, promotion
+       pipeline tables, region/age curves, normalization model)
+       is proprietary and is NOT included in this public repo.
+       It has been replaced below with a transparent demo stub so
+       the interface remains fully interactive. Scores produced by
+       this build are illustrative only and do NOT reflect the
+       real ASCENT model.
+       ============================================================ */
+
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    function switchTab(tab) {
+      document.querySelectorAll('.pathway-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+      document.querySelectorAll('.pathway-panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tab));
+    }
+
+    function clamp(x, lo, hi) { return Math.max(lo, Math.min(hi, x)); }
+
+    function validate(id, min, max) {
+      const el = document.getElementById(id);
+      const field = el.closest('.field');
+      const v = parseFloat(el.value);
+      if (isNaN(v) || v < min || v > max) {
+        field.classList.add('has-error');
+        return null;
+      }
+      field.classList.remove('has-error');
+      return v;
+    }
+
+    /* ---- DEMO STUB ----------------------------------------------
+       The real ASCENT formula is proprietary and lives in a private
+       build. The function below is a simplified placeholder used only
+       so the calculator UI works in this public demo.
+       --------------------------------------------------------------- */
+    function demoScore(fr, wr, age) {
+      // Illustrative only — NOT the real ASCENT weights.
+      const base = 0.5 * (fr / 100) + 0.5 * (wr / 100);
+      let ageNudge = (age >= 23 && age <= 27) ? 5 : 0;
+      return clamp(base * 90 + ageNudge, 0, 100);
+    }
+
+    function calcONE() {
+      document.querySelectorAll('#panel-one .field').forEach(f => f.classList.remove('has-error'));
+      const fr = validate('one-fr', 0, 100);
+      const wr = validate('one-wr', 0, 100);
+      const age = validate('one-age', 16, 50);
+      if (fr === null || wr === null || age === null) return;
+
+      const score = demoScore(fr, wr, age);
+      renderResult('one-result', score, [
+        ['Demo Score', score.toFixed(1) + ' of 100', 'neutral'],
+        ['Note', 'Real model omitted', 'neutral'],
+      ], 'ONE Championship', score);
+    }
+
+    function calcDWCS() {
+      document.querySelectorAll('#panel-dwcs .field').forEach(f => f.classList.remove('has-error'));
+      const fr = validate('dwcs-fr', 0, 100);
+      const wr = validate('dwcs-wr', 0, 100);
+      const age = validate('dwcs-age', 16, 50);
+      if (fr === null || wr === null || age === null) return;
+
+      const score = demoScore(fr, wr, age);
+      renderResult('dwcs-result', score, [
+        ['Demo Score', score.toFixed(1) + ' of 100', 'neutral'],
+        ['Note', 'Real model omitted', 'neutral'],
+      ], 'DWCS', score);
+    }
+
+    function getTier(score, pathway) {
+      if (score >= 85) return { label: 'Tier A — Elite signing readiness', color: '#27AE60' };
+      if (score >= 70) return { label: 'Tier B — Strong prospect', color: '#D4AF37' };
+      if (score >= 55) return { label: 'Tier C — Developing', color: '#E67E22' };
+      return { label: 'Tier D — Significant gaps', color: '#C0392B' };
+    }
+
+    function renderResult(containerId, score, rows, pathway, rawScore) {
+      const tier = getTier(score, pathway);
+      const circ = 2 * Math.PI * 42;
+      const offset = circ * (1 - score / 100);
+
+      let html = '<div class="result-score-row">'
+        + '<div class="score-ring-wrap"><svg viewBox="0 0 100 100">'
+        + '<circle class="ring-bg" cx="50" cy="50" r="42"/>'
+        + '<circle class="ring-fill" cx="50" cy="50" r="42" style="stroke-dasharray:' + circ.toFixed(1) + ';stroke-dashoffset:' + offset.toFixed(1) + ';stroke:' + tier.color + '"/>'
+        + '</svg><div class="score-number" style="color:' + tier.color + '">' + Math.round(score) + '</div></div>'
+        + '<div class="score-meta"><strong>' + pathway + ' ASCENT: ' + score.toFixed(1) + '/100</strong>'
+        + '<div class="tier" style="color:' + tier.color + '">' + tier.label + '</div>'
+        + '<div class="tier" style="color:var(--gray-dim);margin-top:4px">Demo build — real model private</div>'
+        + '</div></div><div class="breakdown-list">';
+
+      rows.forEach(r => {
+        html += '<div class="breakdown-row"><span class="bl">' + r[0] + '</span><span class="bv ' + r[2] + '">' + r[1] + '</span></div>';
+      });
+
+      html += '</div>';
+      document.getElementById(containerId).innerHTML = html;
+    }
+  </script>
+</body>
+</html>

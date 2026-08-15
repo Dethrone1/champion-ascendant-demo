@@ -22,22 +22,18 @@ There's also a prospects page listing scored fighters.
 
 ## Stack
 
-- Backend: Python / Flask
-- Frontend: HTML, CSS, vanilla JavaScript (no framework)
-- Hosting: Railway
-
-The scoring runs client-side in JavaScript. Flask serves two routes and the
-page templates.
+The scoring runs client-side in JavaScript. Flask serves four routes and the page templates.
 
 ## Structure
 
-```
-app.py            Flask app and routes
+app.py                  Flask app and routes
 templates/
-  index.html      Calculator + methodology page
-  prospects.html  Ranked prospect list
-requirements.txt  Python dependencies
-railway.json      Deployment config
+  index.html            Calculator + methodology page
+  prospects.html        ONE ranked prospect list
+  dwcs.html             DWCS ranked prospect list
+  receipts.html         Scoring receipts
+requirements.txt        Python dependencies
+railway.json            Deployment config
 ```
 
 ## Running locally

@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Champion Ascendant — Off the Board</title>
+  <meta name="description" content="Fighters who were on the ASCENT board — and where they went. Dated, verifiable entries: UFC signings, Contender Series call-ups, and ONE Championship contracts."/>
+
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Champion Ascendant"/>
+  <meta property="og:title" content="Off the Board — Where ASCENT Prospects Went"/>
+  <meta property="og:description" content="Fighters tracked on this board before the UFC, Contender Series, and ONE Championship took them. Every entry dated and verifiable."/>
+  <meta property="og:url" content="https://championascendant.com/receipts.html"/>
+  <meta property="og:image" content="https://championascendant.com/og-card.png"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content="Off the Board — Champion Ascendant"/>
+  <meta name="twitter:description" content="Board fighters taken by the UFC, DWCS, and ONE in 2026. Dated. Verifiable."/>
+  <meta name="twitter:image" content="https://championascendant.com/og-card.png"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --midnight: #1C2E4A;
+      --midnight-deep: #0F1B2D;
+      --gold: #D4AF37;
+      --charcoal: #2C2C2C;
+      --white: #F0F0F0;
+      --gray: #A0A8B4;
+      --gray-dim: #6A7280;
+      --red: #C0392B;
+      --green: #27AE60;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Source Sans 3', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --radius: 12px;
+      --radius-sm: 8px;
+      --max: 1000px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    html, body { overflow-x: hidden; }
+    body { font-family: var(--font-body); background: var(--midnight-deep); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: var(--gold); text-decoration: none; }
+    a:hover { text-decoration: underline; }.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }.page-ornaments { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }.bg-orb {
+      position: absolute; width: 480px; height: 480px; border-radius: 50%;
+      background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.18), rgba(212,175,55,0.05) 50%, transparent 72%);
+      border: 1px solid rgba(212,175,55,0.18); opacity: 0.6;
+    }.orb-tl { left: -200px; top: -180px; }.orb-br { right: -180px; bottom: -160px; opacity: 0.35; }.topbar { position: sticky; top: 0; z-index: 50; background: rgba(15,27,45,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(212,175,55,0.1); }.topbar-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }.brand { display: flex; align-items: center; gap: 12px; }.brand-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), rgba(212,175,55,0.5)); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(212,175,55,0.25); }.brand-icon svg { width: 20px; height: 20px; }.brand-text { font-family: var(--font-display); font-size: 22px; letter-spacing: 1.5px; }.brand-sub { font-size: 10px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }.nav-links { display: flex; gap: 28px; align-items: center; }.nav-links a { font-size: 13px; font-weight: 700; color: var(--gray); transition: color 0.2s; }.nav-links a:hover { color: var(--gold); text-decoration: none; }.nav-links a.active { color: var(--gold); }.nav-cta { padding: 8px 18px; border-radius: 999px; background: var(--gold); color: var(--midnight-deep) !important; font-weight: 900 !important; }.nav-cta:hover { text-decoration: none !important; filter: brightness(1.08); }.hero { padding: 64px 0 40px; text-align: center; }.hero h1 { font-family: var(--font-display); font-size: clamp(44px, 7vw, 72px); letter-spacing: 3px; line-height: 1; margin-bottom: 18px; }.hero h1 .gold { color: var(--gold); }.hero-sub { font-size: 17px; color: var(--gray); max-width: 62ch; margin: 0 auto; line-height: 1.7; }.hero-sub strong { color: var(--white); }
+
+    section { padding: 40px 0 56px; position: relative; }.section-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 900; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }.section-label::before { content: ""; width: 28px; height: 2px; background: var(--gold); }.section-title { font-family: var(--font-display); font-size: clamp(26px, 4vw, 40px); letter-spacing: 2px; margin-bottom: 8px; }.section-desc { font-size: 15px; color: var(--gray); max-width: 68ch; line-height: 1.65; margin-bottom: 28px; }.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15), transparent); }.receipt {
+      display: grid; grid-template-columns: 110px 1fr auto;
+      gap: 20px; align-items: start;
+      padding: 22px 24px; margin-bottom: 12px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(28,46,74,0.35);
+      transition: border-color 0.2s;
+    }.receipt:hover { border-color: rgba(212,175,55,0.25); }.receipt-date { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--gray-dim); padding-top: 4px; }.receipt-body .fighter-name { font-family: var(--font-display); font-size: 24px; letter-spacing: 1px; }.receipt-body .outcome { font-size: 14px; color: var(--gray); line-height: 1.6; margin-top: 4px; max-width: 60ch; }.receipt-body .outcome strong { color: var(--white); }.receipt-body .verify { font-size: 12px; margin-top: 6px; }.receipt-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }.score-chip {
+      font-family: var(--font-mono); font-size: 15px; font-weight: 700;
+      padding: 6px 14px; border-radius: 999px;
+      border: 1px solid rgba(212,175,55,0.3); color: var(--gold);
+      background: rgba(212,175,55,0.07); white-space: nowrap;
+    }.score-chip small { font-size: 10px; color: var(--gray-dim); font-family: var(--font-body); font-weight: 700; }.dest-pill {
+      font-size: 11px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 999px; white-space: nowrap;
+    }.dest-ufc { background: rgba(192,57,43,0.15); color: #E74C3C; border: 1px solid rgba(192,57,43,0.35); }.dest-one { background: rgba(39,174,96,0.12); color: var(--green); border: 1px solid rgba(39,174,96,0.35); }.dest-pipe { background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); }.method-box { padding: 24px 28px; border-radius: var(--radius); border: 1px solid rgba(212,175,55,0.15); background: rgba(212,175,55,0.03); margin-top: 32px; }.method-box h3 { font-family: var(--font-display); font-size: 22px; letter-spacing: 1.5px; margin-bottom: 8px; }.method-box p { font-size: 14px; color: var(--gray); line-height: 1.65; }.access-card { margin-top: 44px; border-radius: var(--radius); border: 1px solid rgba(212,175,55,0.25); background: linear-gradient(160deg, rgba(212,175,55,0.08), rgba(28,46,74,0.5)); padding: 36px; text-align: center; }.access-card h2 { font-family: var(--font-display); font-size: clamp(26px, 4vw, 38px); letter-spacing: 2px; margin-bottom: 10px; }.access-card p { font-size: 15px; color: var(--gray); max-width: 54ch; margin: 0 auto 22px; line-height: 1.65; }.access-form { display: flex; gap: 10px; max-width: 620px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }.access-form input[type=email] { flex: 1 1 240px; padding: 14px 16px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.12); background: var(--midnight-deep); color: var(--white); font-size: 15px; font-weight: 600; font-family: var(--font-body); outline: none; }.access-form input[type=email]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }.access-form select { flex: 0 1 170px; padding: 14px 12px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.12); background: var(--midnight-deep); color: var(--white); font-size: 14px; font-weight: 600; font-family: var(--font-body); outline: none; }.access-form button { flex: 0 0 auto; padding: 14px 26px; border-radius: var(--radius-sm); border: none; cursor: pointer; background: var(--gold); color: var(--midnight-deep); font-family: var(--font-display); font-size: 18px; letter-spacing: 1.5px; box-shadow: 0 6px 20px rgba(212,175,55,0.25); transition: all 0.2s; }.access-form button:hover { transform: translateY(-2px); }.access-micro { font-size: 12px; color: var(--gray-dim); margin-top: 12px; }.access-status { font-size: 14px; font-weight: 700; margin-top: 14px; display: none; }.access-status.ok { display: block; color: var(--green); }.access-status.err { display: block; color: var(--red); }
+
+    footer { padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: var(--gray-dim); }.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+    @media (max-width: 720px) {.receipt { grid-template-columns: 1fr; gap: 10px; }.receipt-meta { flex-direction: row; align-items: center; }.access-card { padding: 26px 18px; }
+    }.access-notes-wrap { margin: 14px auto 0; text-align: left; max-width: 560px; }.access-notes-wrap label { display:block; font-size:13px; font-weight:700; color:var(--gray); margin-bottom:6px; }.access-notes-wrap input {
+      width:100%; padding:12px 14px; border-radius:var(--radius-sm);
+      border:1px solid rgba(212,175,55,0.25); background:rgba(255,255,255,0.04);
+      color:var(--white); font-family:var(--font-body); font-size:15px;
+    }.access-notes-wrap input:focus { outline:2px solid var(--gold); outline-offset:2px; border-color:var(--gold); }
+
+    /* --- mobile nav: scrollable strip, never hidden --- */
+    @media (max-width: 900px) {.topbar-inner { gap: 10px; }.brand-sub { display: none; }.brand-text { font-size: 18px; }.nav-links {
+        gap: 18px; overflow-x: auto; flex: 1; justify-content: flex-end;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+        mask-image: linear-gradient(to right, transparent 0, #000 14px);
+        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14px);
+      }.nav-links::-webkit-scrollbar { display: none; }.nav-links a { display: inline-block !important; white-space: nowrap; font-size: 12px; }.nav-links a.nav-cta { position: sticky; right: 0; }
+    }
+    @media (max-width: 520px) {.brand-text { font-size: 16px; }.nav-links { gap: 14px; }
+    }
+
+    /* nav must not wrap once a 6th item exists */.nav-links a { white-space: nowrap; }.brand-text { white-space: nowrap; }
+    @media (max-width: 1100px) { .nav-links { gap: 20px; } }
+
+    /* Tap targets: text links default to ~14-19px tall, which is a small target on a
+       phone. Pad them out vertically without changing how they look. */
+    @media (max-width: 900px) {.nav-links a { padding: 9px 0; }.receipt-body a, .outcome a, .footnote a, .m-section a, .verify a { display: inline-block; padding: 9px 0; }.filter-chip { min-height: 38px; }
+    }.method-box p + p { margin-top: 12px; }
+  </style>
+</head>
+<body>
+
+  <div class="page-ornaments" aria-hidden="true">
+    <div class="bg-orb orb-tl"></div>
+    <div class="bg-orb orb-br"></div>
+  </div>
+
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <a href="index.html" style="text-decoration:none;">
+          <div class="brand">
+            <div class="brand-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#1C2E4A" stroke-width="2.5" stroke-linecap="round"><path d="M12 2L15 9H21L16 14L18 21L12 17L6 21L8 14L3 9H9L12 2Z"/></svg>
+            </div>
+            <div>
+              <div class="brand-text">CHAMPION ASCENDANT</div>
+              <div class="brand-sub">The Ascent System</div>
+            </div>
+          </div>
+        </a>
+        <nav class="nav-links">
+          <a href="index.html#calculator">Calculator</a>
+          <a href="index.html#factors">Factors</a>
+          <a href="both.html">Both Systems</a>
+          <a href="#" class="active">Off the Board</a>
+          <a href="methodology.html">Method</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="wrap">
+      <h1>OFF THE <span class="gold">BOARD</span></h1>
+      <p class="hero-sub">
+        Fighters who were sitting on the ASCENT board, and where they ended up.
+        No accuracy percentages, no edits after the fact, and no pretending a fighter was a call when he was already
+        booked. <strong>Dated entries with links you can check yourself</strong>, added to every time the sport takes
+        one of them.
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  <section>
+    <div class="wrap">
+      <div class="section-label">2026</div>
+      <h2 class="section-title">TAKEN</h2>
+      <p class="section-desc">Board fighters signed or called up by major promotions, in reverse order.</p>
+
+      <div class="receipt">
+        <div class="receipt-date">JUL 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Marcos Degli</div>
+          <div class="outcome">Ranked <strong>#1 on the ONE board at 100.0</strong> and <strong>#27 on the DWCS board</strong> — two separate formulas, two separate numbers for the same fighter. LFA interim flyweight champion, 14-3 with 13 finishes. Booked on <strong>Contender Series Season 10</strong>, Episode 7 (September 22) vs Paris Moran.</div>
+          <div class="verify"><a href="https://www.tapology.com/fightcenter/fighters/240354-marcos-tailandes" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">100.0 <small>ONE ASCENT</small></span>
+          <span class="dest-pill dest-ufc">DWCS S10</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">JUL 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Carlos Petruzzella</div>
+          <div class="outcome">Ranked <strong>#9 on the ONE board at 95.5</strong> — 15-1 with a 100% finish rate out of Samurai Fight House. A ONE-pathway fighter the Contender Series took first. Booked on <strong>Season 10</strong>, Episode 3 (August 25) vs Nick Galanti.</div>
+          <div class="verify"><a href="https://www.tapology.com/search?term=carlos+petruzzella" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">95.5 <small>ONE ASCENT</small></span>
+          <span class="dest-pill dest-ufc">DWCS S10</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">JUN 29, 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Damian Rzepecki</div>
+          <div class="outcome">Listed on the board at <strong>9-0 with a 100% finish rate</strong>. Signed <strong>straight to the UFC</strong> with no Contender Series stop in between, and debuts July 25 against Dzhamal Zaynukov in Abu Dhabi.</div>
+          <div class="verify"><a href="https://www.tapology.com/fightcenter/fighters/damian-rzepecki" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">92.0 <small>at listing</small></span>
+          <span class="dest-pill dest-ufc">UFC</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">JUN 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Nazareth Lalthazuala</div>
+          <div class="outcome">Tracked in the prospect pool before signing. Ran <strong>3-0 in ONE Friday Fights, all finishes</strong>, including a win over fellow board fighter Jake Bron at Friday Fights 144, and earned a <strong>ONE Championship contract</strong>.</div>
+          <div class="verify"><a href="https://www.tapology.com/fightcenter/bouts/1105820-one-friday-fights-144-nazareth-the-northstar-lalthazuala-vs-jake-venom-bron" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">77.8 <small>pre-signing</small></span>
+          <span class="dest-pill dest-one">ONE</span>
+        </div>
+      </div>
+
+      
+
+      <div class="receipt">
+        <div class="receipt-date">2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Ryohei Kurosawa</div>
+          <div class="outcome">Tracked in the pool as a 20-fight Pancrase veteran. Signed with <strong>ONE Championship</strong> through the Pancrase partnership pathway.</div>
+          <div class="verify"><a href="https://www.tapology.com/search?term=ryohei+kurosawa" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">74.3 <small>pre-signing</small></span>
+          <span class="dest-pill dest-one">ONE</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">MAY 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">George Mangos</div>
+          <div class="outcome">Listed on the board at <strong>8-1 with a 100% finish rate</strong>. Entered the UFC pipeline: a Contender Series Season 9 appearance, then the <strong>Road to UFC Season 5</strong> featherweight tournament.</div>
+          <div class="verify"><a href="https://www.tapology.com/search?term=george+mangos" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">90.3 <small>at listing</small></span>
+          <span class="dest-pill dest-ufc">UFC PIPELINE</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap"><div class="divider"></div></div>
+
+  <section>
+    <div class="wrap">
+      <div class="section-label">Live</div>
+      <h2 class="section-title">IN THE PIPELINE</h2>
+      <p class="section-desc">Board fighters currently auditioning, including the ones it hasn't gone well for. Setbacks get logged the same as wins.</p>
+
+      <div class="receipt">
+        <div class="receipt-date">FEB 27, 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Sardor Karimboev</div>
+          <div class="outcome">Board fighter now <strong>6-0 and active in ONE Friday Fights</strong>. Took a decision over undefeated Edson Machavane at Friday Fights 144. ONE has been handing out contracts after three or four Friday Fights wins; he's on that track.</div>
+          <div class="verify"><a href="https://www.tapology.com/search?term=sardor+karimboev" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">81.9 <small>current</small></span>
+          <span class="dest-pill dest-pipe">ONE FF</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">FEB 27, 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Jake Bron</div>
+          <div class="outcome">Board fighter, 19 years old, reached <strong>ONE's developmental circuit</strong>. Took a short-notice Friday Fights debut and was submitted in round two by fellow board fighter Lalthazuala after a strong start. A loss, logged honestly: the board found both fighters in that cage.</div>
+          <div class="verify"><a href="https://www.tapology.com/fightcenter/fighters/423065-jake-bron-venom" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">91.7 <small>at listing</small></span>
+          <span class="dest-pill dest-pipe">ONE FF DEBUT</span>
+        </div>
+      </div>
+
+      
+
+      <div class="section-label" style="margin-top:36px;">Separate System</div>
+      <h2 class="section-title">DWCS BOARD &rarr; SEASON 10</h2>
+      <p class="section-desc">
+        A separate formula with its own dataset. The scores below are the <strong>v2.7.1 numbers</strong>, locked
+        before the Season 10 premiere on August 11 and left unedited since. The public board has moved on to v2.8.5.
+        These haven't and won't.
+        <br/><br/>
+        <strong>Read these as tracking, not as calls.</strong> Most were already booked and public when I scored them.
+        Three more (Bertolso, Moreno, Bulaid) were on the board first and announced afterwards, but the board was not
+        public at that point, so there is no third-party record showing they were listed before the booking.
+        Without that, it is tracking. Calling any of it a hit rate would be dishonest.
+        <br/><br/>
+        <strong>What the frozen column is actually good for:</strong> across the whole Season 10 field it
+        produced a mean of <strong style="color:var(--gold)">70.9</strong> against
+        <strong style="color:var(--gold)">72.0</strong> for Season 9 . About a point apart, on a season the
+        weights weren't built from. That's a calibration result. It says the formula describes an invitee field
+        consistently year to year. It says nothing about picking who gets the call.
+      </p>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 8 &middot; TBA</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Aieza Bertolso</div>
+          <div class="outcome">
+            The highest-scoring fighter the board has had booked. <strong>99.3 on the ONE board</strong> and
+            <strong>85.7 on DWCS</strong>, undefeated with a finish rate well above her division average.
+            She sat on both boards as an unsigned prospect and was announced for Episode 8 afterwards.
+            The boards were not public at the time, so there is nothing to verify against and this does not
+            count as a call. Logged because the score was high and the booking happened.
+          </div>
+          <a href="https://www.tapology.com/search?term=Aieza+Bertolso" target="_blank" rel="noopener">Verify on Tapology &rarr;</a>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">85.7 <small>DWCS &middot; v2.8.5</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 5 &middot; TBA</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Isaac Moreno</div>
+          <div class="outcome">Board fighter, announced for Episode 5 after being scored. Same caveat: the board was not public, so it is tracking rather than a call.</div>
+          <a href="https://www.tapology.com/search?term=Isaac+Moreno" target="_blank" rel="noopener">Verify on Tapology &rarr;</a>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">78.2 <small>DWCS &middot; v2.8.5</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 8 &middot; TBA</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Ilias Bulaid</div>
+          <div class="outcome">Board fighter, announced for Episode 8. Scored below the invitee median, which is worth logging as plainly as the ones above it.</div>
+          <a href="https://www.tapology.com/search?term=Ilias+Bulaid" target="_blank" rel="noopener">Verify on Tapology &rarr;</a>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">66.4 <small>DWCS &middot; v2.8.5</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 2 · AUG 18</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Taner Trembley</div>
+          <div class="outcome">Undefeated LFA bantamweight, listed for his finishing rate and Tier-S pipeline. Faces Roman Puga.</div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">97.1 <small>v2.7.1 &middot; already booked</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 1 · AUG 11</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Bilal Hasan</div>
+          <div class="outcome">Undefeated CFFC flyweight champion with three title defenses. Opens the season vs Mridul Saikia.</div>
+          <div class="verify"><a href="https://www.tapology.com/fightcenter/fighters/326683-bilal-hasan" target="_blank" rel="noopener">Verify on Tapology →</a></div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">85.0 <small>v2.7.1 &middot; already booked</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 7 · SEP 22</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Marcos Degli</div>
+          <div class="outcome">On both boards with different numbers from different formulas: #27 on DWCS, #1 on ONE. Faces Paris Moran.</div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">89.9 <small>v2.7.1 &middot; already booked</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 1 · AUG 11</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Joseph Kropschot</div>
+          <div class="outcome">The man who took the LFA middleweight title from board #1 David Allakhverdiev in February. Faces Jon Kunneman.</div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">76.2 <small>v2.7.1 &middot; already booked</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 7 · SEP 22</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Emilio Quissua</div>
+          <div class="outcome">Undefeated UAE Warriors light heavyweight. Faces Damian Piwowarczyk.</div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">61.0 <small>v2.7.1 &middot; already booked</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">EP 3 &middot; AUG 25</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Carlos Petruzzella</div>
+          <div class="outcome">Tracked primarily on the ONE board, where he ranked #9. Scored on the DWCS board too, well above the invitee median. Faces Nick Galanti.</div>
+        </div>
+        <div class="receipt-meta">
+          <span class="score-chip">79.6 <small>v2.7.1 &middot; already booked</small></span>
+          <span class="dest-pill dest-ufc">S10 ROSTER</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">AUG 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Razhabali Shaydullaev</div>
+          <div class="outcome">Board fighter, <strong>signed by RIZIN</strong>. Off both boards under the eligibility rule: contracted to a destination promotion, so no longer a signable prospect.</div>
+          <a href="https://www.tapology.com/search?term=Razhabali+Shaydullaev" target="_blank" rel="noopener">Verify on Tapology &rarr;</a>
+        </div>
+        <div class="receipt-meta">
+          <span class="dest-pill">SIGNED RIZIN</span>
+        </div>
+      </div>
+
+      <div class="receipt">
+        <div class="receipt-date">AUG 2026</div>
+        <div class="receipt-body">
+          <div class="fighter-name">Patrick Habirora</div>
+          <div class="outcome">Board fighter, <strong>signed by PFL</strong>. Off both boards for the same reason.</div>
+          <a href="https://www.tapology.com/search?term=Patrick+Habirora" target="_blank" rel="noopener">Verify on Tapology &rarr;</a>
+        </div>
+        <div class="receipt-meta">
+          <span class="dest-pill">SIGNED PFL</span>
+        </div>
+      </div>
+
+      <div class="method-box" style="border-left:3px solid var(--gold);">
+        <h3>THE OPEN WINDOW</h3>
+        <p>
+          Season 10 isn't fully booked. Eleven fighters on the roster still have no episode attached and a run of slots
+          hasn't been announced at all. So the DWCS board as it stands on
+          <strong style="color:var(--gold)">11 August 2026</strong> is frozen and dated against the part of the season
+          nobody has seen yet.
+        </p>
+        <p>
+          If a fighter from that frozen board turns up in a booking announced after today, it goes here as a clean call
+          with both dates shown. If none of them do, that goes here too, in the same size type. Season 11 gets the
+          proper version of this: board frozen and published before any casting news, denominator fixed in advance,
+          then count what happens.
+        </p>
+      </div>
+
+      <div class="method-box">
+        <h3>HOW TO READ THIS PAGE</h3>
+        <p>
+          This isn't an accuracy claim. <strong>Clean prospective calls on this page: zero.</strong> Every Season 10
+          fighter here was already publicly booked when I scored him, which makes this a tracking log rather than a
+          track record.
+          <br/><br/>
+          What it does give you is the fighters the board was carrying, the score they had, the version that produced
+          it, and where they ended up, each entry dated and linked to primary records.
+          <br/><br/>
+          Season 10 entries stay frozen at v2.7.1. Re-scoring them once results are in would wreck the only thing that
+          makes them worth reading. When board fighters stall out or lose, that goes on here the same way.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-inner">
+        <div>© <span id="yr"></span> Champion Ascendant · championascendant.com</div>
+        <div style="display:flex;gap:20px;">
+          <a href="index.html">Calculator</a>
+          <a href="both.html">Both Systems</a>
+          <span style="color:var(--gray-dim)">Every entry verifiable · Tapology · Sherdog</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    /* Early access form — same setup as the other pages.
+       Paste your Formspree endpoint below; until then it falls back to email. */
+  </script>
+</body>
+</html>

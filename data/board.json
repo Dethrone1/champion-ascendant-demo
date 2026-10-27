@@ -5,54 +5,6 @@
   "note": "Inputs are public fight records (Tapology first, then Sherdog). Expected scores are the published numbers; scoring/test_board.py recomputes them.",
   "fighters": [
     {
-      "name": "Wendrio Chaves",
-      "country": "Brazil",
-      "age": 21,
-      "ageLabel": "21",
-      "division": "Flyweight",
-      "wins": 6,
-      "losses": 0,
-      "draws": 0,
-      "finishRate": 100.0,
-      "winStreak": 6,
-      "titleWins": 0,
-      "onePromotion": "LFA",
-      "dwcsPromotion": "LFA",
-      "promotionName": "LFA",
-      "lastFight": "31 Jul 2026",
-      "notes": "Stopped Thiago Taveira at LFA 238 (31 Jul 2026).",
-      "flag": true,
-      "tapology": "https://www.tapology.com/fightcenter/fighters/410602-wendrio-silva-chiquinho",
-      "expected": {
-        "ONE": 102.5,
-        "DWCS": 96.4
-      }
-    },
-    {
-      "name": "Gian Maurente",
-      "country": "Uruguay",
-      "age": 23,
-      "ageLabel": "23",
-      "division": "Lightweight",
-      "wins": 9,
-      "losses": 2,
-      "draws": 0,
-      "finishRate": 100.0,
-      "winStreak": 5,
-      "titleWins": 2,
-      "onePromotion": "LFA",
-      "dwcsPromotion": "LFA",
-      "promotionName": "LFA",
-      "lastFight": "29 May 2026",
-      "notes": "Two title wins at Samurai Fight House.",
-      "flag": false,
-      "tapology": "https://www.tapology.com/fightcenter/fighters/401660-gian-maurente",
-      "expected": {
-        "ONE": 98.1,
-        "DWCS": 96.5
-      }
-    },
-    {
       "name": "Eduardo Dutra",
       "country": "Brazil",
       "age": 22,
@@ -141,7 +93,7 @@
       "promotionName": "Inka FC",
       "lastFight": "28 Jan 2026",
       "notes": "12 wins, all finishes (9 TKO, 3 submissions).",
-      "flag": true,
+      "flag": false,
       "tapology": "https://www.tapology.com/fightcenter/fighters/142738-thiago-navarro",
       "expected": {
         "ONE": 91.6,
@@ -165,7 +117,7 @@
       "promotionName": "Pancrase",
       "lastFight": "6 Sep 2026",
       "notes": "7-0, every win a finish.",
-      "flag": true,
+      "flag": false,
       "tapology": "https://www.tapology.com/fightcenter/fighters/306838-qosim-sardorov",
       "expected": {
         "ONE": 91.3,
@@ -189,11 +141,35 @@
       "promotionName": "LFA",
       "lastFight": "Mar 2026",
       "notes": "No exact date of birth found; ages 26 and 27 score the same.",
-      "flag": true,
+      "flag": false,
       "tapology": "https://www.tapology.com/search?term=Richard+Martins",
       "expected": {
         "ONE": 88.9,
         "DWCS": 87.1
+      }
+    },
+    {
+      "name": "Jack Humphries",
+      "country": "England",
+      "age": 23,
+      "ageLabel": "23",
+      "division": "Bantamweight",
+      "wins": 5,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 5,
+      "titleWins": 0,
+      "onePromotion": "Cage_Warriors",
+      "dwcsPromotion": "Cage Warriors",
+      "promotionName": "Cage Warriors",
+      "lastFight": "22 Nov 2025",
+      "notes": "Five wins, all finishes. Last out: anaconda choke at Cage Warriors 198.",
+      "flag": true,
+      "tapology": "https://www.tapology.com/search?term=Jack+Humphries",
+      "expected": {
+        "ONE": 87.2,
+        "DWCS": 93.0
       }
     },
     {

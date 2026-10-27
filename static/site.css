@@ -32,11 +32,12 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { background: var(--bg); }
 body {
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.6;
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
   -webkit-font-smoothing: antialiased;
   font-variant-numeric: tabular-nums;
@@ -204,3 +205,30 @@ code { font-family: var(--font-code); font-size: 0.9em; background: var(--panel-
 .site-foot a { color: var(--muted); text-decoration: none; }
 .site-foot a:hover { color: var(--text); text-decoration: underline; }
 @media (max-width: 760px) { .site-foot .wrap { grid-template-columns: 1fr; } }
+
+/* ---------- background cages: ONE's circle and the UFC's octagon ---------- */
+body::before, body::after {
+  content: ""; position: fixed; z-index: -1; pointer-events: none;
+  width: 620px; height: 620px;
+  animation: cage-pulse 9s ease-in-out infinite;
+}
+body::before { /* ONE Championship's circular cage */
+  left: -220px; top: 90px; border-radius: 50%;
+  border: 2px solid rgba(226, 181, 63, 0.22);
+  box-shadow: inset 0 0 0 26px rgba(226, 181, 63, 0.035), 0 0 80px rgba(226, 181, 63, 0.05);
+  background: radial-gradient(circle, rgba(226, 181, 63, 0.06), transparent 65%);
+}
+body::after { /* the UFC's octagon */
+  right: -230px; bottom: -160px; animation-delay: -4.5s;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M29.3 1h41.4L99 29.3v41.4L70.7 99H29.3L1 70.7V29.3z' fill='rgba(59,183,196,0.05)' stroke='rgba(59,183,196,0.24)' stroke-width='0.5'/%3E%3Cpath d='M31.4 6h37.2L94 31.4v37.2L68.6 94H31.4L6 68.6V31.4z' fill='none' stroke='rgba(59,183,196,0.1)' stroke-width='0.35'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+@keyframes cage-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.035); }
+}
+@media (max-width: 760px) {
+  body::before, body::after { width: 380px; height: 380px; }
+  body::before { left: -190px; top: 120px; }
+  body::after { right: -190px; bottom: -120px; }
+}
+@media (prefers-reduced-motion: reduce) { body::before, body::after { animation: none; opacity: 0.8; } }

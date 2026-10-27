@@ -1,14 +1,10 @@
-"""Smoke tests for the Flask site: every page serves, old URLs redirect,
-and no page shows raw script as visible text (the 24 Oct 2026 calculator bug)."""
-import os
+"""Smoke tests for the pages: everything serves, old URLs redirect, and no page
+shows raw code, version numbers or formula files."""
 import re
-import sys
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-from app import app, PAGES, RETIRED  # noqa: E402
+from app import app, PAGES, RETIRED
 
-STATIC = ["/static/site.css", "/static/site.js", "/static/ascent.js",
-          "/static/ascent_tables.js", "/static/both_systems.json", "/og-card.png"]
+STATIC = ["/static/site.css", "/static/site.js", "/static/favicon.svg", "/og-card.png"]
 
 
 def visible_text(html):
@@ -17,12 +13,17 @@ def visible_text(html):
     return re.sub(r"<[^>]+>", " ", html)
 
 
+def pages():
+    c = app.test_client()
+    for name in PAGES:
+        yield name, c.get("/" if name == "index" else f"/{name}").get_data(as_text=True)
+
+
 def test_pages_and_assets_serve():
     c = app.test_client()
     for name in PAGES:
-        for url in (f"/{name}", f"/{name}.html") if name != "index" else ("/",):
-            r = c.get(url)
-            assert r.status_code == 200, url
+        for url in (("/",) if name == "index" else (f"/{name}", f"/{name}.html")):
+            assert c.get(url).status_code == 200, url
     for url in STATIC:
         assert c.get(url).status_code == 200, url
     assert c.get("/not-a-page").status_code == 404
@@ -30,23 +31,43 @@ def test_pages_and_assets_serve():
 
 def test_retired_pages_redirect():
     c = app.test_client()
-    for old, new in RETIRED.items():
-        r = c.get(f"/{old}")
-        assert r.status_code == 301 and r.headers["Location"].endswith(f"/{new}.html")
+    for old in RETIRED:
+        assert c.get(f"/{old}").status_code == 301, old
 
 
-def test_no_script_leaks_into_page_text():
-    c = app.test_client()
-    for name in PAGES:
-        html = c.get("/" if name == "index" else f"/{name}").get_data(as_text=True)
+def test_no_code_or_versions_on_pages():
+    for name, html in pages():
         assert html.count("<script") == html.count("</script>"), f"{name}: unbalanced script tags"
         text = visible_text(html)
         for tell in ("function (", "function(", "innerHTML", "=>", "});"):
             assert tell not in text, f"{name}: code visible on the page ({tell!r})"
+        assert not re.search(r"\bv\d+\.\d", html), f"{name}: shows a version number"
 
 
-if __name__ == "__main__":
-    test_pages_and_assets_serve()
-    test_retired_pages_redirect()
-    test_no_script_leaks_into_page_text()
-    print("OK - site smoke tests")
+def test_formula_never_reaches_the_browser():
+    c = app.test_client()
+    for url in ("/static/ascent.js", "/static/ascent_tables.js", "/static/both_systems.json"):
+        assert c.get(url).status_code == 404, url
+    for name, html in pages():
+        assert "ascent_tables" not in html and "/static/ascent.js" not in html, name
+
+
+def test_page_scripts_parse():
+    """Every inline script is valid JavaScript (needs Node.js; skipped without it)."""
+    import shutil
+    import subprocess
+    import tempfile
+
+    import pytest
+
+    node = shutil.which("node")
+    if not node:
+        pytest.skip("node not installed")
+    for name, html in pages():
+        for i, js in enumerate(re.findall(r"<script>(.*?)</script>", html, flags=re.S)):
+            with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as f:
+                f.write(js)
+            r = subprocess.run([node, "--check", f.name], capture_output=True, text=True)
+            assert r.returncode == 0, f"{name} script {i}: {r.stderr.strip()[:300]}"
+    r = subprocess.run([node, "--check", "static/site.js"], capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr

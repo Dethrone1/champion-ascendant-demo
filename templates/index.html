@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Champion Ascendant — ASCENT scores for unsigned MMA fighters</title>
-  <meta name="description" content="ASCENT scores unsigned MMA fighters against the records of fighters ONE Championship signed and the Contender Series invited. Two separate formulas, every point shown, every published score reproduced by tests."/>
+  <title>Champion Ascendant — scores for unsigned MMA fighters</title>
+  <meta name="description" content="Champion Ascendant scores unsigned MMA fighters against the fighters who actually got signed: one score for ONE Championship, one for the UFC."/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Champion Ascendant"/>
-  <meta property="og:title" content="Champion Ascendant — the ASCENT score"/>
-  <meta property="og:description" content="Unsigned MMA fighters, scored against who actually got signed. Two formulas, never combined. Every point shown."/>
+  <meta property="og:title" content="Champion Ascendant — scores for unsigned MMA fighters"/>
+  <meta property="og:description" content="Champion Ascendant scores unsigned MMA fighters against the fighters who actually got signed: one score for ONE Championship, one for the UFC."/>
   <meta property="og:url" content="https://championascendant.com/"/>
   <meta property="og:image" content="https://championascendant.com/og-card.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
@@ -24,27 +24,16 @@
     .hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
     .hero h1 { margin-bottom: 22px; }
     .hero .lede { margin-bottom: 30px; }
-    .hero .systems { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 26px; font-size: 14px; color: var(--dim); }
-
     .tape { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px 26px 22px; }
     .tape-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 18px; margin-bottom: 20px; border-bottom: 1px solid var(--line-soft); }
     .tape-name { font-family: var(--font-display); font-size: 40px; line-height: 0.95; }
     .tape-meta { font-size: 14px; color: var(--muted); margin-top: 6px; }
     .tape-record { font-family: var(--font-display); font-size: 40px; line-height: 0.95; text-align: right; }
-    .tape-record small { display: block; font-family: var(--font-body); font-size: 12px; color: var(--dim); }
-    .tape .anatomy + .anatomy { margin-top: 20px; }
-    .tape-foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line-soft); font-size: 13px; color: var(--dim); }
+    .tape .anatomy + .anatomy { margin-top: 18px; }
+    .tape-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 14px; }
 
-    .audience h3 a { color: var(--text); text-decoration: none; }
-    .audience h3 a:hover { color: var(--one); }
-    .audience .panel { display: flex; flex-direction: column; gap: 8px; }
-    .audience .panel .go { margin-top: auto; padding-top: 10px; font-weight: 700; font-size: 15px; }
-
-    /* calculator */
-    .calc { display: grid; grid-template-columns: 1fr 1.05fr; gap: 28px; align-items: start; }
-    .form { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 24px; }
-    .form fieldset { border: 0; padding: 0; margin: 0 0 20px; }
-    .form legend { font-size: 15px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+    .form { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 24px; display: grid; gap: 14px; }
     .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
     .row.three { grid-template-columns: repeat(3, 1fr); }
     .row.two { grid-template-columns: 1fr 1fr; }
@@ -54,32 +43,22 @@
       background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-sm);
     }
     .field input:focus, .field select:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px rgba(244,214,122,0.18); }
-    .field.bad input { border-color: var(--neg); }
-    .field .hint { font-size: 12px; color: var(--dim); margin-top: 4px; }
-    .preset { display: flex; gap: 10px; align-items: end; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--line-soft); }
-    .preset .field { flex: 1; }
-    .form-msg { font-size: 14px; color: var(--neg); min-height: 1.4em; }
-    .results { display: grid; gap: 16px; position: sticky; top: 84px; }
+    .form-msg { font-size: 14px; color: var(--neg); min-height: 1.3em; }
+    .results { display: grid; gap: 16px; }
     .result { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 22px; }
     .result.one { border-top: 3px solid var(--one); }
-    .result.dwcs { border-top: 3px solid var(--dwcs); }
+    .result.ufc { border-top: 3px solid var(--dwcs); }
     .result .empty { color: var(--dim); font-size: 15px; }
-    .result-note { font-size: 13px; color: var(--dim); margin-top: 12px; }
-    .apart { font-size: 13px; color: var(--dim); text-align: center; }
 
-    .factor-tables { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-    .factor-tables h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .factor-tables td:first-child { font-weight: 700; white-space: nowrap; }
-    .factor-tables td.pts { white-space: nowrap; color: var(--muted); }
-    .factor-tables td p { font-size: 14px; color: var(--muted); }
+    .factors { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .factors .panel h3 { margin-bottom: 4px; }
+    .factors .panel h3.one { color: var(--one); }
+    .factors .panel h3.ufc { color: var(--dwcs); }
+    .factors ul { list-style: none; margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
 
-    @media (max-width: 960px) {
-      .hero .wrap, .calc, .factor-tables { grid-template-columns: 1fr; }
-      .results { position: static; }
-    }
+    @media (max-width: 960px) { .hero .wrap, .calc, .factors { grid-template-columns: 1fr; } }
     @media (max-width: 520px) {
-      .row { grid-template-columns: 1fr 1fr; }
-      .row.three { grid-template-columns: 1fr 1fr; }
+      .row, .row.three { grid-template-columns: 1fr 1fr; }
       .tape { padding: 20px 18px; }
       .tape-name, .tape-record { font-size: 32px; }
     }
@@ -96,7 +75,6 @@
     <nav class="nav" aria-label="Main">
       <a href="/#calculator">Calculator</a>
       <a href="/both">Board</a>
-      <a href="/receipts">Off the Board</a>
       <a href="/methodology">Method</a>
       <a href="/build">How it's built</a>
       <a class="gh" href="https://github.com/Dethrone1/champion-ascendant-demo"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
@@ -105,305 +83,144 @@
 </header>
 
 <main id="main">
-  <section class="hero">
-    <div class="wrap">
-      <div>
-        <h1 class="display">Who gets signed, measured.</h1>
-        <p class="lede">
-          ASCENT scores an unsigned MMA fighter against the records of fighters who actually made it:
-          the ones ONE Championship has signed since 2023, and the ones the UFC's Contender Series invited.
-          Every point is shown, and every published score is recomputed by tests on every change.
-        </p>
-        <div class="btn-row">
-          <a class="btn btn-primary" href="#calculator">Score a fighter</a>
-          <a class="btn btn-ghost" href="/both">See the board</a>
-        </div>
-        <div class="systems">
-          Two formulas, kept apart:
-          <span class="tag one"><span class="dot"></span>ONE ASCENT v3.9</span>
-          <span class="tag dwcs"><span class="dot"></span>DWCS ASCENT v3.0</span>
-        </div>
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1 class="display">Who gets signed, measured.</h1>
+      <p class="lede">Champion Ascendant scores unsigned MMA fighters against the fighters who actually got signed.
+        One score for ONE Championship, one for the UFC.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href="#calculator">Score a fighter</a>
+        <a class="btn btn-ghost" href="/both">See the board</a>
       </div>
-
-      <article class="tape" id="featured" aria-live="polite">
-        <noscript><p class="muted">Turn on JavaScript to see a fighter's score broken into its parts, or open the <a href="/both">board</a>.</p></noscript>
-      </article>
     </div>
-  </section>
+    <article class="tape" id="featured" aria-live="polite">
+      <noscript><p class="muted">Turn on JavaScript to see scores, or open the <a href="/both">board</a>.</p></noscript>
+    </article>
+  </div>
+</section>
 
-  <section class="block audience">
-    <div class="wrap grid-3">
+<section class="block" id="calculator">
+  <div class="wrap">
+    <div class="block-intro">
+      <h2 class="display">Score a fighter</h2>
+      <p>Enter a pro record. The two scores are separate and shouldn't be compared with each other.</p>
+    </div>
+    <div class="calc">
+      <form class="form" id="calc-form" novalidate>
+        <div class="field">
+          <label for="preset">Or start from a board fighter</label>
+          <select id="preset"><option value="">Choose a fighter…</option></select>
+        </div>
+        <div class="row">
+          <div class="field"><label for="wins">Wins</label><input id="wins" type="number" inputmode="numeric" min="1" max="99" value="8"/></div>
+          <div class="field"><label for="losses">Losses</label><input id="losses" type="number" inputmode="numeric" min="0" max="99" value="1"/></div>
+          <div class="field"><label for="draws">Draws</label><input id="draws" type="number" inputmode="numeric" min="0" max="99" value="0"/></div>
+          <div class="field"><label for="finishes">Finishes</label><input id="finishes" type="number" inputmode="numeric" min="0" max="99" value="6" title="Wins by KO, TKO or submission"/></div>
+        </div>
+        <div class="row three">
+          <div class="field"><label for="age">Age</label><input id="age" type="number" inputmode="numeric" min="16" max="50" value="24"/></div>
+          <div class="field"><label for="title_wins">Title wins</label><input id="title_wins" type="number" inputmode="numeric" min="0" max="30" value="0"/></div>
+          <div class="field"><label for="win_streak">Win streak</label><input id="win_streak" type="number" inputmode="numeric" min="0" max="99" value="5"/></div>
+        </div>
+        <div class="row two">
+          <div class="field"><label for="division">Division</label><select id="division"></select></div>
+          <div class="field"><label for="country">Country</label><select id="country"></select></div>
+        </div>
+        <div class="field"><label for="promotion">Promotion (most recent fight)</label><select id="promotion"></select></div>
+        <p class="form-msg" id="form-msg" role="alert"></p>
+      </form>
+      <div class="results" aria-live="polite">
+        <div class="result one" id="res-one"><p class="empty">ONE ASCENT appears here.</p></div>
+        <div class="result ufc" id="res-ufc"><p class="empty">DWCS/UFC ASCENT appears here.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="block-intro"><h2 class="display">What each score looks at</h2></div>
+    <div class="factors">
       <div class="panel">
-        <h3><a href="/both">Shortlist prospects</a></h3>
-        <p>For managers and scouts. Filter unsigned fighters by division, open any one to see why it scores the way it does, and check the record on Tapology.</p>
-        <a class="go" href="/both">Open the board</a>
+        <h3 class="one">ONE ASCENT</h3>
+        <p>Built from the fighters ONE Championship has signed since 2023.</p>
+        <ul><li class="tag">Finishing</li><li class="tag">Record</li><li class="tag">Promotion</li><li class="tag">Age and origin</li><li class="tag">Titles</li></ul>
       </div>
       <div class="panel">
-        <h3><a href="/receipts">Check the track record</a></h3>
-        <p>Where board fighters ended up, dated and linked, including the losses and the calls that don't count. Corrections are logged, never made silently.</p>
-        <a class="go" href="/receipts">Read Off the Board</a>
-      </div>
-      <div class="panel">
-        <h3><a href="/build">See how it's built</a></h3>
-        <p>For engineers and hiring teams. Python formulas, a browser port tested against them on 8,000+ inputs, validation against real invite outcomes, and CI on every commit.</p>
-        <a class="go" href="/build">How it's built</a>
+        <h3 class="ufc">DWCS/UFC ASCENT</h3>
+        <p>Built from the fighters the UFC brings in through the Contender Series. High scores also fit the fighters it signs directly.</p>
+        <ul><li class="tag">Finishing</li><li class="tag">Record and momentum</li><li class="tag">Promotion</li><li class="tag">Age</li><li class="tag">Titles</li></ul>
       </div>
     </div>
-  </section>
-
-  <section class="block" id="calculator">
-    <div class="wrap">
-      <div class="block-intro">
-        <h2 class="display">Score a fighter</h2>
-        <p>Enter a pro record. You get the ONE ASCENT and DWCS ASCENT scores separately, each broken into its parts.
-          They're different formulas built on different data, so the two numbers aren't the same unit and shouldn't be compared.</p>
-      </div>
-
-      <div class="calc">
-        <form class="form" id="calc-form" novalidate>
-          <div class="preset">
-            <div class="field">
-              <label for="preset">Start from a board fighter</label>
-              <select id="preset"><option value="">Choose a fighter…</option></select>
-            </div>
-          </div>
-
-          <fieldset>
-            <legend>Record</legend>
-            <div class="row">
-              <div class="field"><label for="w">Wins</label><input id="w" type="number" inputmode="numeric" min="0" max="99" value="8"/></div>
-              <div class="field"><label for="l">Losses</label><input id="l" type="number" inputmode="numeric" min="0" max="99" value="1"/></div>
-              <div class="field"><label for="d">Draws</label><input id="d" type="number" inputmode="numeric" min="0" max="99" value="0"/></div>
-              <div class="field"><label for="fin">Finishes</label><input id="fin" type="number" inputmode="numeric" min="0" max="99" value="6"/></div>
-            </div>
-            <div class="hint" style="font-size:12px;color:var(--dim);margin-top:6px">Finishes are wins by KO, TKO or submission.</div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Fighter</legend>
-            <div class="row three">
-              <div class="field"><label for="age">Age</label><input id="age" type="number" inputmode="numeric" min="16" max="50" value="24"/></div>
-              <div class="field"><label for="titles">Title wins</label><input id="titles" type="number" inputmode="numeric" min="0" max="30" value="0"/></div>
-              <div class="field"><label for="streak">Win streak</label><input id="streak" type="number" inputmode="numeric" min="0" max="99" value="5"/></div>
-            </div>
-            <div class="row two" style="margin-top:10px">
-              <div class="field"><label for="div">Division</label><select id="div"></select></div>
-              <div class="field"><label for="country">Country</label><select id="country"></select></div>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Main promotion <span class="tiny" style="font-weight:500">(most recent fight)</span></legend>
-            <div class="row two">
-              <div class="field"><label for="one-promo"><span style="color:var(--one)">For ONE ASCENT</span></label><select id="one-promo"></select></div>
-              <div class="field"><label for="dwcs-promo"><span style="color:var(--dwcs)">For DWCS ASCENT</span></label><select id="dwcs-promo"></select></div>
-            </div>
-            <div class="hint" style="font-size:12px;color:var(--dim);margin-top:6px">Each formula weighs promotions by its own data, so the lists differ. Win streak and the DWCS promotion only affect DWCS; country only affects ONE.</div>
-          </fieldset>
-          <p class="form-msg" id="form-msg" role="alert"></p>
-        </form>
-
-        <div class="results" aria-live="polite">
-          <div class="result one" id="res-one"><p class="empty">ONE ASCENT appears here.</p></div>
-          <div class="result dwcs" id="res-dwcs"><p class="empty">DWCS ASCENT appears here.</p></div>
-          <p class="apart">Separate formulas, separate data. Never added or averaged.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="factors">
-    <div class="wrap">
-      <div class="block-intro">
-        <h2 class="display">What goes into each score</h2>
-        <p>Every part traces back to something measured in the signing or invite data. The <a href="/methodology">method page</a> covers where each weight came from, what was tested, and what broke.</p>
-      </div>
-      <div class="factor-tables">
-        <div>
-          <h3><span class="tag one"><span class="dot"></span>ONE ASCENT v3.9</span></h3>
-          <div class="table-wrap">
-            <table class="data">
-              <thead><tr><th>Part</th><th>Points</th><th>What it measures</th></tr></thead>
-              <tbody>
-                <tr><td>Finish rate</td><td class="pts">up to 65</td><td><p>Finishes per win, pulled toward the division average for short records, then scaled against that division's global finish rate. The biggest single part.</p></td></tr>
-                <tr><td>Win rate</td><td class="pts">up to 15</td><td><p>Wins over all fights, draws included.</p></td></tr>
-                <tr><td>Promotion</td><td class="pts">0 to 12</td><td><p>The promotion's share of ONE's MMA signings since 2023. ONE Friday Fights and LFA sit at the top.</p></td></tr>
-                <tr><td>Promotion region</td><td class="pts">0 to 2</td><td><p>Share of signings by the promotion's home region.</p></td></tr>
-                <tr><td>Origin region</td><td class="pts">2 to 6</td><td><p>Share of signings by where the fighter is from.</p></td></tr>
-                <tr><td>Age</td><td class="pts">−4 to +3</td><td><p>23 and under gets the most. 34 and over loses 4. Not a claim about ability.</p></td></tr>
-                <tr><td>Title wins</td><td class="pts">3 + 1 each</td><td><p>Pro titles only, uncapped. None scores nothing.</p></td></tr>
-                <tr><td>Undefeated</td><td class="pts">+5</td><td><p>No losses and at least five wins.</p></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div>
-          <h3><span class="tag dwcs"><span class="dot"></span>DWCS ASCENT v3.0</span></h3>
-          <div class="table-wrap">
-            <table class="data">
-              <thead><tr><th>Part</th><th>Points</th><th>What it measures</th></tr></thead>
-              <tbody>
-                <tr><td>Finish rate</td><td class="pts">up to 45</td><td><p>Scaled against the division average, capped at 1.55× so the top of the board still ranks.</p></td></tr>
-                <tr><td>Win rate</td><td class="pts">up to 6</td><td><p>Cut from 15 in v3.0. Every invitee wins, so it barely separates them.</p></td></tr>
-                <tr><td>Loss band</td><td class="pts">0 to 8</td><td><p>Zero and one loss look almost the same among invitees. Two losses drops off sharply.</p></td></tr>
-                <tr><td>Win streak</td><td class="pts">square root</td><td><p>Scores below chance against invites (AUC 0.485), so its weight was not raised.</p></td></tr>
-                <tr><td>Promotion</td><td class="pts">3 to 15</td><td><p>Share of Season 9 invitees. LFA alone produced about a fifth.</p></td></tr>
-                <tr><td>Age</td><td class="pts">−3 to +3</td><td><p>26 to 29 scores highest. Kept flat because two age signals disagreed.</p></td></tr>
-                <tr><td>Title wins</td><td class="pts">uncapped</td><td><p>Scaled by promotion tier, with diminishing returns per belt.</p></td></tr>
-                <tr><td>Bonuses</td><td class="pts">+4, +3</td><td><p>Elite finish rate, and a win streak of seven or more.</p></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <p class="tiny" style="margin-top:10px">The DWCS total is rescaled so the invitee median sits at 78 and the 97th percentile at 100. That changes the units, not the order.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  </div>
+</section>
 </main>
 
 <footer class="site-foot">
   <div class="wrap">
     <div>
       <p style="color:var(--muted);margin-bottom:8px"><strong>Champion Ascendant</strong></p>
-      <p>A benchmark, not a prediction. ASCENT describes how closely a fighter matches the record profile of real signings and invites. It doesn't say who will get signed.</p>
-      <p style="margin-top:10px">&copy; <span data-year>2026</span> Champion Ascendant. Conceived and directed by Chris, built with AI tools.</p>
+      <p>A benchmark, not a prediction. It shows how closely a fighter matches the fighters who got signed.</p>
+      <p style="margin-top:10px">&copy; <span data-year>2026</span> Champion Ascendant. Conceived and directed by Chris, built using AI tools.</p>
     </div>
     <div>
       <h4>Site</h4>
-      <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/receipts">Off the Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
+      <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
     </div>
     <div>
-      <h4>Sources</h4>
-      <ul><li>Tapology (records of truth)</li><li>Sherdog</li><li>FightMatrix division finish rates</li><li>onefc.com, ufc.com</li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo">Source code on GitHub</a></li></ul>
+      <h4>Records from</h4>
+      <ul><li>Tapology</li><li>Sherdog</li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo">Code on GitHub</a></li></ul>
     </div>
   </div>
 </footer>
 
-<script src="/static/ascent_tables.js"></script>
-<script src="/static/ascent.js"></script>
 <script src="/static/site.js"></script>
 <script>
 (function () {
   'use strict';
-  var T = ASCENT.tables, $ = function (id) { return document.getElementById(id); };
-  var FEATURED = 'Kevin Navarro';
+  var $ = function (id) { return document.getElementById(id); };
+  var FIELDS = ['wins', 'losses', 'draws', 'finishes', 'age', 'title_wins', 'win_streak', 'division', 'country', 'promotion'];
+  var timer, seq = 0, fighters = [];
+  function opt(v, label, sel) { return '<option value="' + CA.esc(v) + '"' + (sel ? ' selected' : '') + '>' + CA.esc(label) + '</option>'; }
 
-  // ---------- option lists, built from the generated tables ----------
-  var DIVISIONS = ['Flyweight', 'Bantamweight', 'Featherweight', 'Lightweight', 'Welterweight', 'Middleweight',
-    'Light Heavyweight', 'Heavyweight', 'Strawweight', "Women's Atomweight", "Women's Strawweight",
-    "Women's Flyweight", "Women's Bantamweight", "Women's Featherweight"];
-  var DESTINATIONS = { UFC: 1, KSW: 1, RIZIN: 1, PFL: 1, Road_To_UFC: 1, 'Brave FC': 1 };
-  var NAMES = { ONE_Friday_Fights: 'ONE Friday Fights', OLMMA: 'Octagon League', SFH: 'Samurai Fight House', FNG: 'Fight Night Global',
-    WEF: 'World Ertaymash Federation', UAEW: 'UAE Warriors', CFN: 'Canggu Fight Night', JCK: 'Jue Cheng King', SFT: 'SFT Combat',
-    GTC: 'Golden Team Championship', EFCA: 'EFC Africa', NFC: 'NFC', Inka: 'Inka FC', BRAVE_CF: 'BRAVE CF', ARES_FC: 'Ares FC',
-    Unknown: 'Regional or not listed' };
-  var NOT_COUNTRIES = /^(American|Argentine|Armenian|Australian|Azerbaijani|Brazilian|British|Canadian|English|Filipino|French|Georgian|Indian|Indonesian|Irish|Italian|Kazakh|Kyrgyz|Kyrgystan|Mexican|Mongolian|Russian|Thai|Turkish|Tajik|Uzbek|Vietnamese|Bosnia and Herzegovnia|Czechia|Democratic Republic of Congo|Great Britain|UK|United States|Korea)$|[\/ ]$|\//;
-
-  function opt(value, label, sel) { return '<option value="' + CA.esc(value) + '"' + (sel ? ' selected' : '') + '>' + CA.esc(label) + '</option>'; }
-
-  $('div').innerHTML = DIVISIONS.map(function (d) { return opt(d, d, d === 'Lightweight'); }).join('');
-
-  var byRegion = {};
-  Object.keys(T.ONE.COUNTRY_REGION).forEach(function (c) {
-    if (NOT_COUNTRIES.test(c) || c !== c.trim()) return;
-    var r = T.ONE.COUNTRY_REGION[c]; (byRegion[r] = byRegion[r] || []).push(c);
-  });
-  $('country').innerHTML = Object.keys(byRegion).sort().map(function (r) {
-    return '<optgroup label="' + r + ' (+' + T.ONE.ORIGIN_FIT[r] + ')">' + byRegion[r].sort().map(function (c) { return opt(c, c, c === 'Brazil'); }).join('') + '</optgroup>';
-  }).join('') + '<optgroup label="Other (+2)">' + opt('', 'Other or unknown') + '</optgroup>';
-
-  var onePts = {};
-  Object.keys(T.ONE.PROMO_POINTS).forEach(function (code) {
-    // Skip destination promotions and duplicate spellings of the same show.
-    if (DESTINATIONS[code] || code === 'Hex' || code === 'Shooto_Brasil') return;
-    var p = T.ONE.PROMO_POINTS[code];
-    (onePts[p] = onePts[p] || []).push(code);
-  });
-  $('one-promo').innerHTML = Object.keys(onePts).map(Number).sort(function (a, b) { return b - a; }).map(function (p) {
-    return '<optgroup label="' + p + ' points">' + onePts[p].map(function (c) {
-      return { c: c, n: NAMES[c] || c.replace(/_/g, ' ') };
-    }).sort(function (a, b) { return a.c === 'Unknown' ? 1 : b.c === 'Unknown' ? -1 : a.n.localeCompare(b.n); })
-      .map(function (x) { return opt(x.c, x.n, x.c === 'LFA'); }).join('') + '</optgroup>';
-  }).join('');
-
-  var dPts = {};
-  Object.keys(T.DWCS.PROMO_TIERS).forEach(function (k) {
-    if (DESTINATIONS[k]) return;
-    var p = T.DWCS.PROMO_TIERS[k]; (dPts[p] = dPts[p] || []).push(k);
-  });
-  $('dwcs-promo').innerHTML = Object.keys(dPts).map(Number).sort(function (a, b) { return b - a; }).map(function (p) {
-    return '<optgroup label="' + p + ' points">' + dPts[p].sort().map(function (k) { return opt(k, k, k === 'LFA'); }).join('') + '</optgroup>';
-  }).join('') + '<optgroup label="' + T.DWCS.UNLISTED_DEFAULT + ' points">' + opt('', 'Regional or not listed') + '</optgroup>';
-
-  // ---------- calculator ----------
-  function num(id) { var v = $(id).value.trim(); return v === '' ? null : Number(v); }
-  function setBad(id, bad) { $(id).parentNode.classList.toggle('bad', !!bad); }
-
-  function read() {
-    var w = num('w'), l = num('l') || 0, d = num('d') || 0, fin = num('fin'), age = num('age');
-    var msg = '';
-    ['w', 'fin', 'age'].forEach(function (id) { setBad(id, false); });
-    if (w === null || w < 1) { msg = 'Enter at least one win.'; setBad('w', true); }
-    else if (fin === null || fin < 0 || fin > w) { msg = 'Finishes must be between 0 and the number of wins.'; setBad('fin', true); }
-    else if (age !== null && (age < 16 || age > 50)) { msg = 'Age must be between 16 and 50.'; setBad('age', true); }
-    if (msg) return { error: msg };
-    return {
-      wins: w, losses: l, draws: d,
-      finishRate: ASCENT.pyRound(100 * fin / w, 1),
-      age: age, titleWins: num('titles') || 0, winStreak: Math.min(num('streak') || 0, w),
-      division: $('div').value, country: $('country').value,
-      onePromotion: $('one-promo').value, dwcsPromotion: $('dwcs-promo').value
-    };
+  function score() {
+    var body = {}; FIELDS.forEach(function (k) { body[k] = $(k).value; });
+    var mine = ++seq;
+    CA.api('/api/score', body).then(function (r) {
+      if (mine !== seq) return;
+      $('form-msg').textContent = '';
+      $('res-one').innerHTML = CA.anatomy(r.one, 'one');
+      $('res-ufc').innerHTML = r.ufc ? CA.anatomy(r.ufc, 'ufc') : '<p class="empty">DWCS/UFC ASCENT needs an age.</p>';
+    }).catch(function (e) { if (mine === seq) $('form-msg').textContent = e.message; });
   }
+  function later() { clearTimeout(timer); timer = setTimeout(score, 200); }
+  $('calc-form').addEventListener('input', later);
+  $('calc-form').addEventListener('submit', function (e) { e.preventDefault(); score(); });
 
-  function render() {
-    var f = read();
-    $('form-msg').textContent = f.error || '';
-    if (f.error) return;
-    $('res-one').innerHTML = CA.anatomy(ASCENT.scoreONE(CA.forONE(f)), { notes: true })
-      + '<p class="result-note">Benchmarks against ONE Championship signings since 2023.' + (f.age === null ? ' No age entered, so age scores 0.' : '') + '</p>';
-    if (f.age === null) {
-      $('res-dwcs').innerHTML = '<p class="empty">DWCS ASCENT needs an age.</p>';
-    } else {
-      $('res-dwcs').innerHTML = CA.anatomy(ASCENT.scoreDWCS(CA.forDWCS(f)), { notes: true })
-        + '<p class="result-note">Benchmarks against Contender Series invitees. It says nothing about who wins on the show.</p>';
-    }
-  }
+  function load(c) { FIELDS.forEach(function (k) { $(k).value = c[k] == null ? '' : c[k]; }); score(); }
 
-  $('calc-form').addEventListener('input', render);
-  $('calc-form').addEventListener('change', render);
-  $('calc-form').addEventListener('submit', function (e) { e.preventDefault(); render(); });
+  Promise.all([CA.api('/api/options'), CA.api('/api/board')]).then(function (res) {
+    var o = res[0], board = res[1];
+    $('division').innerHTML = o.divisions.map(function (d) { return opt(d, d, d === 'Lightweight'); }).join('');
+    $('country').innerHTML = o.countries.map(function (c) { return opt(c, c, c === 'Brazil'); }).join('') + opt('', 'Other or unknown');
+    $('promotion').innerHTML = o.promotions.map(function (p) { return opt(p.id, p.name, p.id === 'lfa'); }).join('');
+    fighters = board.fighters;
+    $('preset').innerHTML += fighters.map(function (f, i) { return opt(i, f.name + ' (' + f.record + ')'); }).join('');
+    $('preset').addEventListener('change', function () { if (this.value !== '') load(fighters[+this.value].calculator); });
 
-  function load(f) {
-    $('w').value = f.wins; $('l').value = f.losses; $('d').value = f.draws;
-    $('fin').value = Math.round(f.finishRate / 100 * f.wins);
-    $('age').value = f.age; $('titles').value = f.titleWins; $('streak').value = f.winStreak;
-    $('div').value = f.division; $('country').value = f.country;
-    $('one-promo').value = f.onePromotion;
-    $('dwcs-promo').value = T.DWCS.PROMO_TIERS[f.dwcsPromotion] !== undefined ? f.dwcsPromotion : '';
-    render();
-  }
+    var wanted = new URLSearchParams(location.search).get('fighter'), loaded = false;
+    fighters.forEach(function (f, i) { if (f.name === wanted) { $('preset').value = i; load(f.calculator); loaded = true; } });
+    if (!loaded) score();
 
-  render();
-
-  // ---------- featured fighter + presets, from the published board ----------
-  fetch('/static/both_systems.json').then(function (r) { return r.json(); }).then(function (board) {
-    var fighters = board.fighters;
-    $('preset').innerHTML += fighters.map(function (f, i) { return opt(i, f.name + ' (' + f.wins + '-' + f.losses + '-' + f.draws + ')'); }).join('');
-    $('preset').addEventListener('change', function () { if (this.value !== '') load(fighters[+this.value]); });
-    var wanted = new URLSearchParams(location.search).get('fighter');
-    fighters.forEach(function (f, i) { if (f.name === wanted) { $('preset').value = i; load(f); } });
-
-    var f = fighters.filter(function (x) { return x.name === FEATURED; })[0] || fighters[0];
-    var one = ASCENT.scoreONE(CA.forONE(f)), dw = ASCENT.scoreDWCS(CA.forDWCS(f));
-    $('featured').innerHTML =
-      '<div class="tape-head"><div><div class="tape-name">' + CA.esc(f.name) + '</div>'
-      + '<div class="tape-meta">' + CA.esc(f.division) + ', ' + CA.esc(f.country) + ', age ' + CA.esc(f.ageLabel) + ', ' + CA.esc(f.promotionName) + '</div></div>'
-      + '<div class="tape-record">' + f.wins + '-' + f.losses + '-' + f.draws + '<small>' + Math.round(f.finishRate) + '% finishes</small></div></div>'
-      + CA.anatomy(one, { legend: false, animate: true }) + CA.anatomy(dw, { legend: false, animate: true })
-      + '<div class="tape-foot"><span>Two formulas, shown side by side, never added.</span><a href="/both#' + encodeURIComponent(f.name.toLowerCase().replace(/ /g, '-')) + '">Full breakdown on the board</a></div>';
+    var f = fighters.filter(function (x) { return x.name === 'Kevin Navarro'; })[0] || fighters[0];
+    $('featured').innerHTML = '<div class="tape-head"><div><div class="tape-name">' + CA.esc(f.name) + '</div>'
+      + '<div class="tape-meta">' + CA.esc(f.division) + ', ' + CA.esc(f.country) + ', age ' + CA.esc(f.age) + '</div></div>'
+      + '<div class="tape-record">' + CA.esc(f.record) + '</div></div>'
+      + CA.anatomy(f.one, 'one', { legend: false, animate: true }) + CA.anatomy(f.ufc, 'ufc', { legend: false, animate: true })
+      + '<div class="tape-foot"><a href="/both#' + f.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '">See why he scores this way</a></div>';
   }).catch(function () {
-    $('featured').innerHTML = '<p class="muted">The board data didn\'t load. <a href="/both">Open the board</a>.</p>';
+    $('form-msg').textContent = 'Scores didn\'t load. Refresh to try again.';
   });
 })();
 </script>

@@ -1,6 +1,8 @@
 from pathlib import Path
 
-from flask import Flask, abort, redirect, send_from_directory
+from flask import Flask, abort, jsonify, redirect, request, send_from_directory
+
+from scoring import service
 
 app = Flask(__name__)
 
@@ -8,11 +10,10 @@ PAGES_DIR = Path(__file__).parent / "templates"
 STATIC_DIR = Path(__file__).parent / "static"
 
 # Live pages. Each is reachable at /name and /name.html.
-PAGES = {"index", "both", "receipts", "methodology", "build"}
+PAGES = {"index", "both", "methodology", "build"}
 
-# Retired pages (removed 24 Oct 2026) point to the page that replaced them,
-# so old links and shared URLs keep working.
-RETIRED = {"prospects": "both", "dwcs": "both"}
+# Retired pages point to the page that replaced them, so old links keep working.
+RETIRED = {"prospects": "both", "dwcs": "both", "receipts": "index"}
 
 
 def serve_page(name):
@@ -30,11 +31,32 @@ def og_card():
     return send_from_directory(STATIC_DIR, "og-card.png")
 
 
+# ---------- JSON API: scoring happens here, never in the browser ----------
+
+@app.get("/api/options")
+def api_options():
+    return jsonify(service.options())
+
+
+@app.post("/api/score")
+def api_score():
+    try:
+        fighter = service.parse_request(request.get_json(silent=True) or {})
+    except service.InputError as e:
+        return jsonify(error=str(e)), 400
+    return jsonify(service.score_both(fighter))
+
+
+@app.get("/api/board")
+def api_board():
+    return jsonify(service.board())
+
+
 @app.route("/<path:slug>")
 def page(slug):
     name = slug[:-5] if slug.endswith(".html") else slug
     if name in RETIRED:
-        return redirect(f"/{RETIRED[name]}.html", code=301)
+        return redirect(f"/{RETIRED[name]}.html" if RETIRED[name] != "index" else "/", code=301)
     if name in PAGES:
         return serve_page(name)
     abort(404)

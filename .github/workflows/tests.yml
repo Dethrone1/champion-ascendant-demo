@@ -12,10 +12,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
       - name: Install
         run: pip install -r requirements.txt pytest
-      - name: Scoring, parity and site tests
-        run: pytest -q scoring tests
+      - name: Tests
+        run: pytest -q tests

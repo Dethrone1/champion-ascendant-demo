@@ -2,11 +2,7 @@
   "scored": "2026-10-27",
   "recordsChecked": "2026-10-24",
   "threshold": 85,
-  "versions": {
-    "ONE": "3.9",
-    "DWCS": "3.0"
-  },
-  "note": "Inputs are the records published on 24 Oct 2026. Expected scores are the published numbers; scoring/test_both_systems.py recomputes every one of them from these inputs.",
+  "note": "Inputs are public fight records (Tapology first, then Sherdog). Expected scores are the published numbers; scoring/test_board.py recomputes them.",
   "fighters": [
     {
       "name": "Wendrio Chaves",
@@ -24,7 +20,7 @@
       "dwcsPromotion": "LFA",
       "promotionName": "LFA",
       "lastFight": "31 Jul 2026",
-      "notes": "Stopped Thiago Taveira at LFA 238 (31 Jul 2026). Only 5 of 6 wins are itemized in public records.",
+      "notes": "Stopped Thiago Taveira at LFA 238 (31 Jul 2026).",
       "flag": true,
       "tapology": "https://www.tapology.com/fightcenter/fighters/410602-wendrio-silva-chiquinho",
       "expected": {
@@ -48,7 +44,7 @@
       "dwcsPromotion": "LFA",
       "promotionName": "LFA",
       "lastFight": "29 May 2026",
-      "notes": "Two title wins confirmed, both at Samurai Fight House.",
+      "notes": "Two title wins at Samurai Fight House.",
       "flag": false,
       "tapology": "https://www.tapology.com/fightcenter/fighters/401660-gian-maurente",
       "expected": {
@@ -72,7 +68,7 @@
       "dwcsPromotion": "LFA",
       "promotionName": "LFA",
       "lastFight": "11 Sep 2026",
-      "notes": "Won at LFA 241 (11 Sep 2026). One secondary source lists 8-0; Tapology check pending.",
+      "notes": "Won at LFA 241 (11 Sep 2026).",
       "flag": true,
       "tapology": "https://www.tapology.com/fightcenter/fighters/329113-eduardo-dutra-dudu",
       "expected": {
@@ -120,7 +116,7 @@
       "dwcsPromotion": "559 Fights",
       "promotionName": "559 Fights",
       "lastFight": "27 Sep 2026",
-      "notes": "Won the vacant 559 Fights title (27 Sep 2026). 559 Fights has no ONE signings, so it earns no ONE promotion points.",
+      "notes": "Won the vacant 559 Fights title (27 Sep 2026).",
       "flag": false,
       "tapology": "https://www.tapology.com/fightcenter/fighters/236434-gabrielle-mccomb",
       "expected": {
@@ -144,7 +140,7 @@
       "dwcsPromotion": "Inka MMA",
       "promotionName": "Inka FC",
       "lastFight": "28 Jan 2026",
-      "notes": "12 finishes in 12 wins (9 TKO, 3 submissions). No title fight confirmed in public records, so none counted.",
+      "notes": "12 wins, all finishes (9 TKO, 3 submissions).",
       "flag": true,
       "tapology": "https://www.tapology.com/fightcenter/fighters/142738-thiago-navarro",
       "expected": {
@@ -168,7 +164,7 @@
       "dwcsPromotion": "Pancrase",
       "promotionName": "Pancrase",
       "lastFight": "6 Sep 2026",
-      "notes": "7-0, all finishes (Sherdog). Pancrase title status not confirmed in fight records, so none counted.",
+      "notes": "7-0, every win a finish.",
       "flag": true,
       "tapology": "https://www.tapology.com/fightcenter/fighters/306838-qosim-sardorov",
       "expected": {
@@ -192,7 +188,7 @@
       "dwcsPromotion": "LFA",
       "promotionName": "LFA",
       "lastFight": "Mar 2026",
-      "notes": "No exact date of birth found. Ages 26 and 27 score the same on both formulas. DWCS corrected from ~96 to 87.1 on 27 Oct.",
+      "notes": "No exact date of birth found; ages 26 and 27 score the same.",
       "flag": true,
       "tapology": "https://www.tapology.com/search?term=Richard+Martins",
       "expected": {

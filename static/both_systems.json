@@ -1,0 +1,296 @@
+{
+  "scored": "2026-10-27",
+  "recordsChecked": "2026-10-24",
+  "threshold": 85,
+  "versions": {
+    "ONE": "3.9",
+    "DWCS": "3.0"
+  },
+  "note": "Inputs are the records published on 24 Oct 2026. Expected scores are the published numbers; scoring/test_both_systems.py recomputes every one of them from these inputs.",
+  "fighters": [
+    {
+      "name": "Wendrio Chaves",
+      "country": "Brazil",
+      "age": 21,
+      "ageLabel": "21",
+      "division": "Flyweight",
+      "wins": 6,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 6,
+      "titleWins": 0,
+      "onePromotion": "LFA",
+      "dwcsPromotion": "LFA",
+      "promotionName": "LFA",
+      "lastFight": "31 Jul 2026",
+      "notes": "Stopped Thiago Taveira at LFA 238 (31 Jul 2026). Only 5 of 6 wins are itemized in public records.",
+      "flag": true,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/410602-wendrio-silva-chiquinho",
+      "expected": {
+        "ONE": 102.5,
+        "DWCS": 96.4
+      }
+    },
+    {
+      "name": "Gian Maurente",
+      "country": "Uruguay",
+      "age": 23,
+      "ageLabel": "23",
+      "division": "Lightweight",
+      "wins": 9,
+      "losses": 2,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 5,
+      "titleWins": 2,
+      "onePromotion": "LFA",
+      "dwcsPromotion": "LFA",
+      "promotionName": "LFA",
+      "lastFight": "29 May 2026",
+      "notes": "Two title wins confirmed, both at Samurai Fight House.",
+      "flag": false,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/401660-gian-maurente",
+      "expected": {
+        "ONE": 98.1,
+        "DWCS": 96.5
+      }
+    },
+    {
+      "name": "Eduardo Dutra",
+      "country": "Brazil",
+      "age": 22,
+      "ageLabel": "22",
+      "division": "Featherweight",
+      "wins": 9,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 88.9,
+      "winStreak": 9,
+      "titleWins": 0,
+      "onePromotion": "LFA",
+      "dwcsPromotion": "LFA",
+      "promotionName": "LFA",
+      "lastFight": "11 Sep 2026",
+      "notes": "Won at LFA 241 (11 Sep 2026). One secondary source lists 8-0; Tapology check pending.",
+      "flag": true,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/329113-eduardo-dutra-dudu",
+      "expected": {
+        "ONE": 97.2,
+        "DWCS": 95.1
+      }
+    },
+    {
+      "name": "Thalyta Silva",
+      "country": "Brazil",
+      "age": 27,
+      "ageLabel": "27",
+      "division": "Women's Bantamweight",
+      "wins": 5,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 80.0,
+      "winStreak": 5,
+      "titleWins": 0,
+      "onePromotion": "LFA",
+      "dwcsPromotion": "LFA",
+      "promotionName": "LFA",
+      "lastFight": "11 Sep 2026",
+      "notes": "Won at LFA 241 (11 Sep 2026).",
+      "flag": false,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/358773-thalyta-silva",
+      "expected": {
+        "ONE": 94.4,
+        "DWCS": 93.6
+      }
+    },
+    {
+      "name": "Gabi McComb",
+      "country": "Brazil",
+      "age": 29,
+      "ageLabel": "29",
+      "division": "Women's Flyweight",
+      "wins": 5,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 5,
+      "titleWins": 1,
+      "onePromotion": "Unknown",
+      "dwcsPromotion": "559 Fights",
+      "promotionName": "559 Fights",
+      "lastFight": "27 Sep 2026",
+      "notes": "Won the vacant 559 Fights title (27 Sep 2026). 559 Fights has no ONE signings, so it earns no ONE promotion points.",
+      "flag": false,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/236434-gabrielle-mccomb",
+      "expected": {
+        "ONE": 93.1,
+        "DWCS": 92.2
+      }
+    },
+    {
+      "name": "Kevin Navarro",
+      "country": "Peru",
+      "age": 27,
+      "ageLabel": "27",
+      "division": "Bantamweight",
+      "wins": 12,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 12,
+      "titleWins": 0,
+      "onePromotion": "Inka",
+      "dwcsPromotion": "Inka MMA",
+      "promotionName": "Inka FC",
+      "lastFight": "28 Jan 2026",
+      "notes": "12 finishes in 12 wins (9 TKO, 3 submissions). No title fight confirmed in public records, so none counted.",
+      "flag": true,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/142738-thiago-navarro",
+      "expected": {
+        "ONE": 91.6,
+        "DWCS": 97.3
+      }
+    },
+    {
+      "name": "Qosim Sardorov",
+      "country": "Tajikistan",
+      "age": 25,
+      "ageLabel": "25",
+      "division": "Middleweight",
+      "wins": 7,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 7,
+      "titleWins": 0,
+      "onePromotion": "Pancrase",
+      "dwcsPromotion": "Pancrase",
+      "promotionName": "Pancrase",
+      "lastFight": "6 Sep 2026",
+      "notes": "7-0, all finishes (Sherdog). Pancrase title status not confirmed in fight records, so none counted.",
+      "flag": true,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/306838-qosim-sardorov",
+      "expected": {
+        "ONE": 91.3,
+        "DWCS": 85.9
+      }
+    },
+    {
+      "name": "Richard Martins",
+      "country": "Brazil",
+      "age": 27,
+      "ageLabel": "26–27",
+      "division": "Welterweight",
+      "wins": 11,
+      "losses": 1,
+      "draws": 0,
+      "finishRate": 90.9,
+      "winStreak": 2,
+      "titleWins": 0,
+      "onePromotion": "LFA",
+      "dwcsPromotion": "LFA",
+      "promotionName": "LFA",
+      "lastFight": "Mar 2026",
+      "notes": "No exact date of birth found. Ages 26 and 27 score the same on both formulas. DWCS corrected from ~96 to 87.1 on 27 Oct.",
+      "flag": true,
+      "tapology": "https://www.tapology.com/search?term=Richard+Martins",
+      "expected": {
+        "ONE": 88.9,
+        "DWCS": 87.1
+      }
+    },
+    {
+      "name": "Busurman Zhumagul",
+      "country": "Kyrgyzstan",
+      "age": 21,
+      "ageLabel": "21",
+      "division": "Welterweight",
+      "wins": 5,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 5,
+      "titleWins": 1,
+      "onePromotion": "CFFC",
+      "dwcsPromotion": "CFFC",
+      "promotionName": "CFFC",
+      "lastFight": null,
+      "notes": "Reigning CFFC welterweight champion.",
+      "flag": false,
+      "tapology": "https://www.tapology.com/search?term=Busurman+Zhumagul",
+      "expected": {
+        "ONE": 87.1,
+        "DWCS": 87.8
+      }
+    },
+    {
+      "name": "Ullubiy Amirzhanov",
+      "country": "Russia",
+      "age": 23,
+      "ageLabel": "23",
+      "division": "Bantamweight",
+      "wins": 7,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 7,
+      "titleWins": 0,
+      "onePromotion": "UAEW",
+      "dwcsPromotion": "UAE Warriors",
+      "promotionName": "UAE Warriors",
+      "lastFight": null,
+      "notes": "All seven wins by stoppage.",
+      "flag": false,
+      "tapology": "https://www.tapology.com/search?term=Ullubiy+Amirzhanov",
+      "expected": {
+        "ONE": 86.9,
+        "DWCS": 95.0
+      }
+    },
+    {
+      "name": "Nicolas Bojaca",
+      "country": "Colombia",
+      "age": 28,
+      "ageLabel": "28",
+      "division": "Flyweight",
+      "wins": 6,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 100.0,
+      "winStreak": 6,
+      "titleWins": 0,
+      "onePromotion": "Unknown",
+      "dwcsPromotion": "Lux Fight League",
+      "promotionName": "Lux Fight League",
+      "lastFight": null,
+      "notes": "Six wins, all by KO or TKO.",
+      "flag": false,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/173667-nicolas-bojac-nico",
+      "expected": {
+        "ONE": 86.5,
+        "DWCS": 91.9
+      }
+    }
+  ],
+  "held": [
+    {
+      "name": "Kaisar Zhaugashar",
+      "reason": "Taken off the published list on 27 Oct 2026 until the record is verified. No date of birth can be found, and sources disagree on his division, record and title count. The board requires an exact date of birth."
+    }
+  ],
+  "justMissed": [
+    {
+      "name": "Laura Vasconcelos",
+      "why": "clears 85 on both, but inactive since May 2025 (booked for LFA 246)"
+    },
+    {
+      "name": "Ieuan Davies",
+      "why": "ONE 83.3, below the cut"
+    },
+    {
+      "name": "Murad Guseinov",
+      "why": "ONE 77.5, below the cut"
+    }
+  ]
+}

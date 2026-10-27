@@ -3,430 +3,287 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Champion Ascendant — Both Systems</title>
-  <meta name="description" content="Unsigned MMA prospects who score 85+ on both the ONE ASCENT Score and the DWCS ASCENT Score, shown side by side and never combined."/>
-
-  <!-- Open Graph / social previews -->
+  <title>The board — unsigned fighters scoring 85+ on ONE ASCENT and DWCS ASCENT</title>
+  <meta name="description" content="Unsigned MMA fighters who score 85 or higher on both ONE ASCENT v3.9 and DWCS ASCENT v3.0, with every score broken into its parts. The two scores are never combined."/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Champion Ascendant"/>
-  <meta property="og:title" content="Both Systems — Unsigned prospects scoring 85+ on ONE ASCENT and DWCS ASCENT"/>
-  <meta property="og:description" content="Twelve unsigned fighters who clear 85 on ONE ASCENT v3.8.1 and DWCS ASCENT v3.0. Scores shown separately."/>
-  <meta property="og:url" content="https://championascendant.com/both.html"/>
+  <meta property="og:title" content="The board — unsigned fighters scoring 85+ on ONE ASCENT and DWCS ASCENT"/>
+  <meta property="og:description" content="Unsigned MMA fighters who score 85 or higher on both ONE ASCENT v3.9 and DWCS ASCENT v3.0, with every score broken into its parts. The two scores are never combined."/>
+  <meta property="og:url" content="https://championascendant.com/both"/>
   <meta property="og:image" content="https://championascendant.com/og-card.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="Both Systems — Champion Ascendant"/>
-  <meta name="twitter:description" content="Unsigned fighters scoring 85+ on ONE ASCENT and DWCS ASCENT. Two formulas, two datasets, never combined."/>
   <meta name="twitter:image" content="https://championascendant.com/og-card.png"/>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0D1626"/>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=Bebas+Neue&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/site.css"/>
   <style>
-    :root {
-      --midnight: #1C2E4A;
-      --midnight-deep: #0F1B2D;
-      --gold: #D4AF37;
-      --charcoal: #2C2C2C;
-      --white: #F0F0F0;
-      --gray: #A0A8B4;
-      --gray-dim: #6A7280;
-      --red: #C0392B;
-      --green: #27AE60;
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-body: 'Source Sans 3', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --max: 1100px;
+    .controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: end; justify-content: space-between; margin-bottom: 18px; }
+    .controls .group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .chip { font: 600 14px var(--font-body); color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; min-height: 38px; }
+    .chip:hover { color: var(--text); }
+    .chip[aria-pressed="true"] { color: var(--text); background: var(--panel-2); border-color: var(--muted); }
+    .controls select { font: 600 14px var(--font-body); color: var(--text); background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-sm); padding: 9px 10px; }
+    .controls label { font-size: 13px; color: var(--muted); margin-right: 6px; }
+    .count { font-size: 14px; color: var(--dim); }
+
+    .board { border: 1px solid var(--line-soft); border-radius: var(--r-lg); overflow: hidden; }
+    .board-head, .fighter > summary {
+      display: grid; grid-template-columns: 34px minmax(0, 2.3fr) 0.8fr 1.3fr 0.8fr 0.8fr 26px; gap: 14px; align-items: center; padding: 14px 18px;
     }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    html, body { overflow-x: hidden; }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--midnight-deep);
-      color: var(--white);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    a { color: var(--gold); text-decoration: none; }
-    a:hover { text-decoration: underline; }.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }.page-ornaments { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }.bg-orb {
-      position: absolute; width: 480px; height: 480px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.18), rgba(212,175,55,0.05) 50%, transparent 72%);
-      border: 1px solid rgba(212,175,55,0.18); opacity: 0.7;
-      animation: orbPulse 5s ease-in-out infinite;
-    }.bg-orb::after { content: ""; position: absolute; inset: 30px; border-radius: 50%; border: 1px dashed rgba(255,255,255,0.08); }
-    @keyframes orbPulse {
-      0%,100% { transform: translate3d(0,0,0) scale(1); opacity: 0.55; }
-      50% { transform: translate3d(10px,6px,0) scale(1.04); opacity: 0.75; }
-    }.bg-octagon {
-      position: absolute; width: 520px; height: 520px;
-      clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-      background: radial-gradient(circle at 35% 35%, rgba(192,57,43,0.14), rgba(212,175,55,0.06) 50%, transparent 72%);
-      border: 1px solid rgba(212,175,55,0.12); opacity: 0.65; transform: rotate(12deg);
-      animation: octaFloat 8s ease-in-out infinite;
-    }
-    @keyframes octaFloat {
-      0%,100% { transform: rotate(12deg) translate3d(0,0,0); }
-      50% { transform: rotate(12deg) translate3d(-12px,14px,0); }
-    }.orb-tl { left: -200px; top: -200px; }.oct-br { right: -220px; bottom: -260px; }.orb-br { right: -160px; bottom: 30%; width: 380px; height: 380px; opacity: 0.4; }.oct-tl { left: -240px; top: 40%; opacity: 0.4; width: 440px; height: 440px; }.topbar {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(15,27,45,0.92); backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(212,175,55,0.1);
-    }.topbar-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }.brand { display: flex; align-items: center; gap: 12px; }.brand-icon {
-      width: 38px; height: 38px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--gold), rgba(212,175,55,0.5));
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(212,175,55,0.25);
-    }.brand-icon svg { width: 20px; height: 20px; }.brand-text { font-family: var(--font-display); font-size: 22px; letter-spacing: 1.5px; }.brand-sub { font-size: 10px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }.nav-links { display: flex; gap: 28px; align-items: center; }.nav-links a { font-size: 13px; font-weight: 700; color: var(--gray); letter-spacing: 0.3px; transition: color 0.2s; }.nav-links a:hover { color: var(--gold); text-decoration: none; }.nav-links a.active { color: var(--gold); }.nav-cta { padding: 8px 18px; border-radius: 999px; background: var(--gold); color: var(--midnight-deep) !important; font-weight: 900 !important; }.nav-cta:hover { text-decoration: none !important; filter: brightness(1.08); }.hero { padding: 64px 0 44px; text-align: center; position: relative; }.hero h1 { font-family: var(--font-display); font-size: clamp(44px, 7vw, 72px); letter-spacing: 3px; line-height: 1; margin-bottom: 18px; }.hero h1 .gold { color: var(--gold); }.hero-sub { font-size: 17px; color: var(--gray); max-width: 62ch; margin: 0 auto 28px; line-height: 1.7; }.hero-sub strong { color: var(--white); font-weight: 700; }.hero-badges { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }.hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 16px; border-radius: 999px;
-      border: 1px solid rgba(212,175,55,0.2); background: rgba(212,175,55,0.06);
-      font-size: 13px; font-weight: 700; color: var(--gold);
-    }
-
-    section { padding: 48px 0 64px; position: relative; }.section-label {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 900; color: var(--gold);
-      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;
-    }.section-label::before { content: ""; width: 28px; height: 2px; background: var(--gold); }.section-title { font-family: var(--font-display); font-size: clamp(28px, 4vw, 44px); letter-spacing: 2px; line-height: 1.1; margin-bottom: 10px; }.section-desc { font-size: 15px; color: var(--gray); max-width: 66ch; line-height: 1.65; margin-bottom: 32px; }.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15), transparent); }.filter-bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 28px; }.filter-label { font-size: 11px; font-weight: 900; color: var(--gray-dim); letter-spacing: 1px; text-transform: uppercase; }.filter-chips { display: flex; gap: 8px; flex-wrap: wrap; }.filter-chip {
-      padding: 6px 14px; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: var(--charcoal);
-      font-size: 12px; font-weight: 700; color: var(--gray);
-      cursor: pointer; transition: all 0.18s; user-select: none;
-    }.filter-chip:hover { border-color: rgba(212,175,55,0.3); color: var(--white); }.filter-chip.active { border-color: var(--gold); background: rgba(212,175,55,0.12); color: var(--gold); }.lb-header {
-      display: grid;
-      grid-template-columns: 52px 1fr 100px 120px 110px 110px 90px;
-      padding: 10px 20px;
-      border-bottom: 1px solid rgba(212,175,55,0.15);
-      margin-bottom: 8px;
-    }.lb-header span { font-size: 10px; font-weight: 900; color: var(--gray-dim); text-transform: uppercase; letter-spacing: 1px; }.lb-header span.right { text-align: right; }.lb-header span.center { text-align: center; }.prospect-row {
-      display: grid;
-      grid-template-columns: 52px 1fr 100px 120px 110px 110px 90px;
-      align-items: center;
-      padding: 16px 20px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.04);
-      background: rgba(28,46,74,0.3);
-      margin-bottom: 8px;
-      transition: all 0.2s;
-      cursor: default;
-    }.prospect-row:hover { border-color: rgba(212,175,55,0.2); background: rgba(28,46,74,0.55); transform: translateX(3px); }.prospect-row.rank-1 { border-color: rgba(212,175,55,0.35); background: rgba(212,175,55,0.06); }.prospect-row.rank-2 { border-color: rgba(212,175,55,0.2); background: rgba(212,175,55,0.03); }.prospect-row.rank-3 { border-color: rgba(212,175,55,0.15); background: rgba(212,175,55,0.02); }.rank-cell { display: flex; align-items: center; justify-content: center; }.rank-num { font-family: var(--font-mono); font-size: 13px; font-weight: 700; color: var(--gray-dim); width: 28px; text-align: center; }.rank-num.top3 { color: var(--gold); font-size: 15px; }.name-cell { padding-right: 12px; }.fighter-name { font-family: var(--font-display); font-size: 20px; letter-spacing: 0.8px; line-height: 1.1; color: var(--white); display: block; }.fighter-meta { font-size: 11px; font-weight: 700; color: var(--gray-dim); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }.fighter-meta .sep { margin: 0 5px; opacity: 0.4; }.record-cell { font-family: var(--font-mono); font-size: 14px; font-weight: 700; color: var(--white); text-align: center; }.wc-cell { font-size: 12px; font-weight: 700; color: var(--gray); text-align: center; }.wc-pill {
-      display: inline-block; padding: 3px 10px; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.03);
-      font-size: 11px; white-space: nowrap;
-    }.stat-cell { text-align: center; }.stat-val { font-family: var(--font-mono); font-size: 14px; font-weight: 700; display: block; }.stat-val.perfect { color: var(--green); }.stat-val.high { color: var(--gold); }.stat-val.mid { color: var(--white); }.stat-val.low { color: var(--gray); }.stat-sub { font-size: 10px; font-weight: 700; color: var(--gray-dim); text-transform: uppercase; letter-spacing: 0.5px; }.score-cell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }.score-ring-mini { width: 52px; height: 52px; position: relative; flex-shrink: 0; }.score-ring-mini svg { width: 52px; height: 52px; transform: rotate(-90deg); }.score-ring-mini .ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 5; }.score-ring-mini .ring-fill { fill: none; stroke-width: 5; stroke-linecap: round; stroke-dasharray: 132; stroke-dashoffset: 132; }.score-num-mini {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-mono); font-size: 13px; font-weight: 700;
-    }.summary-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 36px; }.summary-box {
-      padding: 20px; border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.06);
-      background: var(--charcoal); text-align: center;
-    }.summary-box .num { font-family: var(--font-mono); font-size: 26px; font-weight: 700; color: var(--gold); display: block; margin-bottom: 4px; }.summary-box .desc { font-size: 11px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }.benchmark-strip {
-      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-      padding: 14px 18px; margin-bottom: 24px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(212,175,55,0.18);
-      background: rgba(212,175,55,0.04);
-      font-size: 13px; color: var(--gray); line-height: 1.5;
-    }.benchmark-strip strong { color: var(--gold); font-family: var(--font-mono); }.tier-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--gray); }.legend-dot { width: 10px; height: 10px; border-radius: 50%; }.prospect-row.hidden { display: none; }
-
-    /* full-board CTA */.access-card {
-      margin-top: 40px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(212,175,55,0.25);
-      background: linear-gradient(160deg, rgba(212,175,55,0.08), rgba(28,46,74,0.5));
-      padding: 36px; text-align: center;
-    }.access-card h2 { font-family: var(--font-display); font-size: clamp(26px, 4vw, 38px); letter-spacing: 2px; margin-bottom: 10px; }.access-card p { font-size: 15px; color: var(--gray); max-width: 56ch; margin: 0 auto 22px; line-height: 1.65; }.access-form { display: flex; gap: 10px; max-width: 620px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }.access-form input[type=email] {
-      flex: 1 1 240px; padding: 14px 16px;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,0.12);
-      background: var(--midnight-deep); color: var(--white);
-      font-size: 15px; font-weight: 600; font-family: var(--font-body); outline: none;
-    }.access-form input[type=email]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }.access-form select {
-      flex: 0 1 170px; padding: 14px 12px;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,0.12);
-      background: var(--midnight-deep); color: var(--white);
-      font-size: 14px; font-weight: 600; font-family: var(--font-body); outline: none;
-    }.access-form button {
-      flex: 0 0 auto; padding: 14px 26px;
-      border-radius: var(--radius-sm); border: none; cursor: pointer;
-      background: var(--gold); color: var(--midnight-deep);
-      font-family: var(--font-display); font-size: 18px; letter-spacing: 1.5px;
-      box-shadow: 0 6px 20px rgba(212,175,55,0.25); transition: all 0.2s;
-    }.access-form button:hover { transform: translateY(-2px); }.access-micro { font-size: 12px; color: var(--gray-dim); margin-top: 12px; }.access-status { font-size: 14px; font-weight: 700; margin-top: 14px; display: none; }.access-status.ok { display: block; color: var(--green); }.access-status.err { display: block; color: var(--red); }.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }.reveal.visible { opacity: 1; transform: translateY(0); }
-
-    footer { padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: var(--gray-dim); }.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-
-    @media (max-width: 900px) {.lb-header { display: none; }.summary-row { grid-template-columns: 1fr 1fr; }
-      
-    }
-    @media (max-width: 640px) {.hero { padding: 40px 0 28px; }
-      section { padding: 36px 0 48px; }.access-card { padding: 26px 18px; }
-    }
-    @media (prefers-reduced-motion: reduce) {.reveal { opacity: 1; transform: none; transition: none; }.bg-orb, .bg-octagon { animation: none; }
-    }.access-notes-wrap { margin: 14px auto 0; text-align: left; max-width: 560px; }.access-notes-wrap label { display:block; font-size:13px; font-weight:700; color:var(--gray); margin-bottom:6px; }.access-notes-wrap input {
-      width:100%; padding:12px 14px; border-radius:var(--radius-sm);
-      border:1px solid rgba(212,175,55,0.25); background:rgba(255,255,255,0.04);
-      color:var(--white); font-family:var(--font-body); font-size:15px;
-    }.access-notes-wrap input:focus { outline:2px solid var(--gold); outline-offset:2px; border-color:var(--gold); }
-
-    /* --- mobile nav: scrollable strip, never hidden --- */
-    @media (max-width: 900px) {.topbar-inner { gap: 10px; }.brand-sub { display: none; }.brand-text { font-size: 18px; }.nav-links {
-        gap: 18px; overflow-x: auto; flex: 1; justify-content: flex-end;
-        -webkit-overflow-scrolling: touch; scrollbar-width: none;
-        mask-image: linear-gradient(to right, transparent 0, #000 14px);
-        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14px);
-      }.nav-links::-webkit-scrollbar { display: none; }.nav-links a { display: inline-block !important; white-space: nowrap; font-size: 12px; }.nav-links a.nav-cta { position: sticky; right: 0; }
-    }
-    @media (max-width: 520px) {.brand-text { font-size: 16px; }.nav-links { gap: 14px; }
-    }
-
-    /* --- keep the evidence visible on mobile --- */
-    @media (max-width: 900px) {.prospect-row { grid-template-columns: 34px 1fr auto; grid-template-rows: auto auto auto; }.name-cell   { grid-column: 2; grid-row: 1; }.record-cell { grid-column: 2; grid-row: 2; text-align: left; font-size: 12px; color: var(--gray); }.score-cell  { grid-column: 3; grid-row: 1 / 4; }.wc-cell     { grid-column: 2; grid-row: 3; text-align: left; display: block;
-                     font-size: 11px; color: var(--gray-dim); letter-spacing: 0.4px; }.stat-cell   { display: none; }.wc-cell { max-width: 58%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }.stat-cell.stat-fr {
-        display: block; grid-column: 2; grid-row: 3; justify-self: end;
-        font-family: var(--font-mono); font-size: 11px; text-align: right; white-space: nowrap;
-      }
-      /* the row already carries a "Finish Rate" header on desktop; on mobile use a short prefix */.stat-cell.stat-fr .stat-sub, .stat-cell.stat-fr .stat-label { display: none; }.stat-cell.stat-fr .stat-val { font-size: 11px; }.stat-cell.stat-fr::before { content: 'FIN '; color: var(--gray-dim); font-size: 9px; letter-spacing: 0.5px; }
-    }
-
-    /* nav must not wrap once a 6th item exists */.nav-links a { white-space: nowrap; }.brand-text { white-space: nowrap; }
-    @media (max-width: 1100px) { .nav-links { gap: 20px; } }
-
-    /* Tap targets: text links default to ~14-19px tall, which is a small target on a
-       phone. Pad them out vertically without changing how they look. */
-    @media (max-width: 900px) {.nav-links a { padding: 9px 0; }.receipt-body a, .outcome a, .footnote a, .m-section a, .verify a { display: inline-block; padding: 9px 0; }.filter-chip { min-height: 38px; }
-    }
-    .dt { width:100%; border-collapse:separate; border-spacing:0 8px; }
-    .dt th { font-size:10px; font-weight:900; color:var(--gray-dim); text-transform:uppercase; letter-spacing:1px; text-align:left; padding:6px 14px; }
-    .dt th.num, .dt td.num { text-align:center; }
-    .dt td { padding:14px; background:rgba(28,46,74,0.3); border-top:1px solid rgba(255,255,255,0.04); border-bottom:1px solid rgba(255,255,255,0.04); vertical-align:middle; }
-    .dt td:first-child { border-left:1px solid rgba(255,255,255,0.04); border-radius:var(--radius) 0 0 var(--radius); }
-    .dt td:last-child { border-right:1px solid rgba(255,255,255,0.04); border-radius:0 var(--radius) var(--radius) 0; }
-    .dt tr:hover td { background:rgba(28,46,74,0.55); }
-    .fname { font-weight:700; font-size:16px; }
-    .fmeta { font-size:12px; color:var(--gray); margin-top:2px; }
-    .rec { font-family:var(--font-mono); font-weight:700; }
-    .sc { font-family:var(--font-mono); font-weight:700; font-size:17px; }
-    .sc.one { color:#27AE60; } .sc.dw { color:#5DADE2; }
-    .sys-head { display:block; font-size:9px; color:var(--gray-dim); letter-spacing:0.5px; text-transform:none; font-weight:700; }
-    .note { font-size:12px; color:var(--gray); max-width:30ch; line-height:1.45; }
-    .note.warn::before { content:"⚑ "; color:var(--gold); }
-    .table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
-    .fine { font-size:13px; color:var(--gray); max-width:72ch; line-height:1.7; margin-top:28px; }
-    .fine li { margin:6px 0 6px 18px; }
-    .fine strong { color:var(--white); }
-    @media (max-width: 760px) {
-      .dt thead { display:none; }
-      .dt, .dt tbody, .dt tr, .dt td { display:block; width:100%; }
-      .dt tr { margin-bottom:12px; border:1px solid rgba(255,255,255,0.06); border-radius:var(--radius); overflow:hidden; }
-      .dt td { border:none !important; border-radius:0 !important; padding:8px 14px; }
-      .dt td.num { text-align:left; }
-      .dt td.num::before { content:attr(data-label) ": "; font-size:11px; color:var(--gray-dim); font-weight:700; }
-      .nav-links { gap:14px; }
+    .board-head { background: var(--panel); border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 700; color: var(--muted); }
+    .board-head .num, .fighter .num { text-align: right; }
+    .fighter { border-bottom: 1px solid var(--line-soft); }
+    .fighter:last-child { border-bottom: 0; }
+    .fighter > summary { cursor: pointer; list-style: none; }
+    .fighter > summary::-webkit-details-marker { display: none; }
+    .fighter > summary:hover { background: rgba(255,255,255,0.02); }
+    .fighter[open] > summary { background: var(--panel); }
+    .rank { color: var(--dim); font-size: 14px; }
+    .who b { display: block; font-size: 17px; }
+    .who span { font-size: 13px; color: var(--dim); }
+    .rec { font-family: var(--font-display); font-size: 24px; letter-spacing: 0.5px; }
+    .div { font-size: 14px; color: var(--muted); }
+    .sc { font-family: var(--font-display); font-size: 30px; line-height: 1; }
+    .sc.one { color: var(--one); }
+    .sc.dwcs { color: var(--dwcs); }
+    .chev { width: 18px; height: 18px; color: var(--dim); transition: transform 0.2s; justify-self: end; }
+    .fighter[open] .chev { transform: rotate(180deg); }
+    .detail { padding: 6px 18px 24px 66px; background: var(--panel); }
+    .detail .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .detail .facts { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line-soft); font-size: 14px; color: var(--muted); }
+    .detail .facts p { max-width: 70ch; }
+    .who .flag { display: block; color: var(--neg); font-size: 12.5px; font-weight: 700; margin-top: 2px; }
+    .fighter { scroll-margin-top: 80px; }
+    .notes-list { display: grid; gap: 14px; align-content: start; }
+    .notes-list p { color: var(--muted); font-size: 15px; }
+    @media (max-width: 860px) {
+      .board-head { display: none; }
+      .fighter > summary { grid-template-columns: minmax(0, 1fr) auto auto 20px; gap: 6px 14px; }
+      .fighter > summary .rank, .fighter > summary .div, .fighter > summary .rec { display: none; }
+      .who span.mob { display: inline; }
+      .sc { font-size: 26px; }
+      .sc::before { content: attr(data-sys); display: block; font: 700 11px var(--font-body); letter-spacing: 0.3px; }
+      .detail { padding: 6px 16px 22px; }
+      .detail .pair { grid-template-columns: 1fr; gap: 22px; }
     }
   </style>
 </head>
-</head>
 <body>
-
-  <div class="page-ornaments" aria-hidden="true">
-    <div class="bg-orb orb-tl"></div>
-    <div class="bg-octagon oct-br"></div>
-    <div class="bg-orb orb-br"></div>
-    <div class="bg-octagon oct-tl"></div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Champion Ascendant home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M10 2h12l8 8v12l-8 8H10l-8-8V10z" fill="none" stroke="#E2B53F" stroke-width="2"/><path d="M10 22v-4M16 22v-8M22 22V10" stroke="#E2B53F" stroke-width="3" stroke-linecap="round"/></svg>
+      <span class="brand-name">Champion Ascendant</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#calculator">Calculator</a>
+      <a href="/both" aria-current="page">Board</a>
+      <a href="/receipts">Off the Board</a>
+      <a href="/methodology">Method</a>
+      <a href="/build">How it's built</a>
+      <a class="gh" href="https://github.com/Dethrone1/champion-ascendant-demo"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+    </nav>
   </div>
+</header>
 
-  <div class="topbar">
-    <div class="wrap">
-      <div class="topbar-inner">
-        <a href="index.html" style="text-decoration:none;">
-          <div class="brand">
-            <div class="brand-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#1C2E4A" stroke-width="2.5" stroke-linecap="round"><path d="M12 2L15 9H21L16 14L18 21L12 17L6 21L8 14L3 9H9L12 2Z"/></svg>
-            </div>
-            <div>
-              <div class="brand-text">CHAMPION ASCENDANT</div>
-              <div class="brand-sub">The Ascent System</div>
-            </div>
-          </div>
-        </a>
-        <nav class="nav-links">
-          <a href="index.html#calculator">Calculator</a>
-          <a href="both.html" class="active">Both Systems</a>
-          <a href="receipts.html">Off the Board</a>
-          <a href="methodology.html">Method</a>
-        </nav>
-      </div>
+<main id="main">
+<section class="page-head">
+  <div class="wrap">
+    <h1 class="display">The board</h1>
+    <p class="lede">Unsigned fighters who score <strong>85 or higher on both</strong> ONE ASCENT and DWCS ASCENT.
+      The two scores sit side by side and are never added, averaged or combined. Open any fighter to see where every point comes from.</p>
+    <div class="meta">
+      <span class="tag one"><span class="dot"></span>ONE ASCENT v3.9, in validation</span>
+      <span class="tag dwcs"><span class="dot"></span>DWCS ASCENT v3.0</span>
+      <span class="tag">Scored 27 Oct 2026</span>
+      <span class="tag">Records checked 24 Oct 2026</span>
     </div>
   </div>
+</section>
 
-
-  <header class="hero">
-    <div class="wrap">
-      <h1>BOTH <span class="gold">SYSTEMS</span></h1>
-      <p class="hero-sub">
-        Unsigned fighters who score <strong>85 or higher on both the ONE ASCENT Score and the DWCS ASCENT Score</strong>.
-        The two products use different formulas and different datasets. Their scores are shown side by side and are <strong>never added, averaged, or combined</strong>.
-      </p>
-      <div class="hero-badges">
-        <span class="hero-badge">ONE ASCENT v3.8.1</span>
-        <span class="hero-badge">DWCS ASCENT v3.0</span>
-        <span class="hero-badge">Scored 24 Oct 2026</span>
+<section class="block">
+  <div class="wrap">
+    <div class="controls">
+      <div class="group" role="group" aria-label="Filter by division">
+        <button class="chip" type="button" data-filter="all" aria-pressed="true">All</button>
+        <button class="chip" type="button" data-filter="men" aria-pressed="false">Men</button>
+        <button class="chip" type="button" data-filter="women" aria-pressed="false">Women</button>
+        <select id="division" aria-label="Division"><option value="">Any division</option></select>
+      </div>
+      <div class="group">
+        <label for="sort">Sort by</label>
+        <select id="sort">
+          <option value="ONE">ONE ASCENT</option>
+          <option value="DWCS">DWCS ASCENT</option>
+          <option value="age">Youngest first</option>
+          <option value="wins">Most wins</option>
+        </select>
+        <button class="chip" type="button" id="csv">Download CSV</button>
       </div>
     </div>
-  </header>
+    <p class="count" id="count" aria-live="polite"></p>
 
-  <div class="wrap"><div class="divider"></div></div>
-
-  <section id="both">
-    <div class="wrap">
-      <div class="section-label">Cleared 85 on both systems</div>
-      <h2 class="section-title">12 fighters</h2>
-      <p class="section-desc">Listed by ONE ASCENT score. Records re-checked against Tapology and Sherdog on 24 Oct 2026. Where a title win could not be confirmed, it was scored as zero, so these are conservative scores. Fighters inactive for more than 12 months are left off.</p>
-      <div class="table-scroll">
-      <table class="dt">
-        <thead><tr>
-          <th>Fighter</th><th>Record</th><th>Division</th>
-          <th class="num">ONE<span class="sys-head">ASCENT v3.8.1</span></th>
-          <th class="num">DWCS<span class="sys-head">ASCENT v3.0</span></th>
-          <th>Notes</th>
-        </tr></thead>
-        <tbody>
-        <tr>
-          <td><div class="fname">Gian Maurente</div><div class="fmeta">Uruguay · Age 23 · LFA</div></td>
-          <td class="rec">9-2-0</td>
-          <td>Lightweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">98.1</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">96.5</span></td>
-          <td><div class="note">Title count: 2 confirmed (SFH).</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Eduardo Dutra</div><div class="fmeta">Brazil · Age 22 · LFA</div></td>
-          <td class="rec">9-0-0</td>
-          <td>Featherweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">97.2</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">95.1</span></td>
-          <td><div class="note">Won at LFA 241, 11 Sep 2026.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Wendrio Chaves</div><div class="fmeta">Brazil · Age 21 · LFA</div></td>
-          <td class="rec">6-0-0</td>
-          <td>Flyweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">102.5</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">96.4</span></td>
-          <td><div class="note warn">Only 5 of 6 wins itemized in public records; one LFA bout.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Thalyta Silva</div><div class="fmeta">Brazil · Age 27 · LFA</div></td>
-          <td class="rec">5-0-0</td>
-          <td>W. Bantamweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">94.4</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">93.6</span></td>
-          <td><div class="note">Won at LFA 241, 11 Sep 2026.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Gabi McComb</div><div class="fmeta">Brazil · Age 29 · 559 Fights</div></td>
-          <td class="rec">5-0-0</td>
-          <td>W. Flyweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">93.1</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">92.2</span></td>
-          <td><div class="note">Won vacant 559 Fights title, 27 Sep 2026.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Kevin Navarro</div><div class="fmeta">Peru · Age 27 · Inka FC</div></td>
-          <td class="rec">12-0-0</td>
-          <td>Bantamweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">90.6</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">97.3</span></td>
-          <td><div class="note warn">12 finishes in 12 wins. No title fights confirmed, so none counted. Last fight Jan 2026.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Kaisar Zhaugashar</div><div class="fmeta">Kazakhstan · Age — · Octagon League</div></td>
-          <td class="rec">8-0-0</td>
-          <td>Bantamweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">90.6</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">91.4</span></td>
-          <td><div class="note warn">Record differs between sources (Sherdog 8-0). No title fights counted.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Qosim Sardorov</div><div class="fmeta">Tajikistan · Age 25 · Pancrase</div></td>
-          <td class="rec">7-0-0</td>
-          <td>Middleweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">89.3</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">85.9</span></td>
-          <td><div class="note warn">Sherdog shows 7-0 (board had 8-0). No title fights confirmed, so none counted.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Richard Martins</div><div class="fmeta">Brazil · Age 26–27 · LFA</div></td>
-          <td class="rec">11-1-0</td>
-          <td>Welterweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">88.9</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">~96</span></td>
-          <td><div class="note warn">Exact DOB not found; age band is the same either way for ONE.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Ullubiy Amirzhanov</div><div class="fmeta">Russia · Age 23 · UAE Warriors</div></td>
-          <td class="rec">7-0-0</td>
-          <td>Bantamweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">86.9</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">95.0</span></td>
-          <td><div class="note">All seven wins by stoppage.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Nicolas Bojaca</div><div class="fmeta">Colombia · Age 28 · LUX Fight League</div></td>
-          <td class="rec">6-0-0</td>
-          <td>Flyweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">86.5</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">91.9</span></td>
-          <td><div class="note">Six wins, all KO/TKO.</div></td>
-        </tr>
-        <tr>
-          <td><div class="fname">Busurman Zhumagul</div><div class="fmeta">Kyrgyzstan · Age 21 · CFFC</div></td>
-          <td class="rec">5-0-0</td>
-          <td>Welterweight</td>
-          <td class="num" data-label="ONE ASCENT v3.8.1"><span class="sc one">87.1</span></td>
-          <td class="num" data-label="DWCS ASCENT v3.0"><span class="sc dw">87.8</span></td>
-          <td><div class="note">Reigning CFFC welterweight champion.</div></td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="board" id="board">
+      <div class="board-head" aria-hidden="true">
+        <span>#</span><span>Fighter</span><span>Record</span><span>Division</span>
+        <span class="num" style="color:var(--one)">ONE</span><span class="num" style="color:var(--dwcs)">DWCS</span><span></span>
       </div>
-
-      <div class="fine">
-        <p><strong>What this is.</strong> A shortlist from the fighters already on the ONE and DWCS boards, not a census of every unsigned fighter. A fighter who was never added to either board cannot appear here.</p>
-        <ul>
-          <li><strong>ONE ASCENT v3.8.1</strong> is in validation. It benchmarks a fighter against ONE Championship signings since 2023. The retired ONE board ran v3.7.1.</li>
-          <li><strong>DWCS ASCENT v3.0</strong> benchmarks a fighter against the measured profile of Contender Series invitees. It does not predict who wins on fight night or who gets a contract. It replaced v2.8.5 on 24 Oct 2026 after scoring better against actual invite outcomes (AUC 0.686 vs 0.628).</li>
-          <li><strong>Known bias.</strong> Both formulas give LFA heavy credit, because LFA genuinely feeds both promotions. Six of the twelve names are LFA fighters, and part of that overlap comes from the formulas, not only the fighters.</li>
-          <li><strong>Just missed:</strong> Laura Vasconcelos (ONE 90.7, DWCS 93.3, but inactive since May 2025; booked for LFA 246), Ieuan Davies (ONE 83.2), Murad Guseinov (ONE 79.5).</li>
-          <li>Corrections are logged publicly on <a href="receipts.html">Off the Board</a>. No silent edits.</li>
-        </ul>
-      </div>
+      <noscript><p style="padding:18px" class="muted">The board needs JavaScript. The raw data is at <a href="/static/both_systems.json">/static/both_systems.json</a>.</p></noscript>
     </div>
-  </section>
+  </div>
+</section>
 
-  <div class="wrap"><div class="divider"></div></div>
-
-    <footer>
-    <div class="wrap">
-      <div class="footer-inner">
-        <div>© <span id="yr"></span> Champion Ascendant · championascendant.com</div>
-        <div style="display:flex;gap:20px;">
-          <a href="index.html">Calculator</a>
-          <span style="color:var(--gray-dim)">Data: Tapology · Sherdog · onefc.com</span>
-        </div>
-      </div>
+<section class="block">
+  <div class="wrap grid-2">
+    <div class="notes-list">
+      <h2 class="display">What this list is</h2>
+      <p><strong>A shortlist, not a census.</strong> It's drawn from fighters already on the ONE and DWCS boards. A fighter who was never added to either board can't appear here. Fighters inactive for more than 12 months are left off.</p>
+      <p><strong>Conservative inputs.</strong> Where a title win couldn't be confirmed in fight records, it was scored as zero. Flagged fighters have a record detail still being checked; the flag says what.</p>
+      <p><strong>ONE ASCENT v3.9 is in validation.</strong> It benchmarks a fighter against ONE Championship's MMA signings since 2023. <strong>DWCS ASCENT v3.0</strong> benchmarks against Contender Series invitees. Neither predicts who gets signed, who wins, or who gets a contract.</p>
+      <p><strong>Known bias.</strong> Both formulas give LFA heavy credit, because LFA genuinely feeds both promotions. Five of the eleven names fight in LFA, and part of that overlap comes from the formulas, not only the fighters.</p>
     </div>
-  </footer>
-  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
+    <div class="notes-list">
+      <h2 class="display">Changes on 27 Oct</h2>
+      <p>Logged here and on <a href="/receipts">Off the Board</a>. No silent edits.</p>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Fighter</th><th>Change</th></tr></thead>
+          <tbody>
+            <tr><td>All</td><td>ONE scores moved from v3.8.1 to v3.9 (promotion points now set by each promotion's share of ONE signings). Nine scores unchanged.</td></tr>
+            <tr><td>Kevin Navarro</td><td>ONE 90.6 to 91.6 (v3.9 promotion region).</td></tr>
+            <tr><td>Qosim Sardorov</td><td>ONE 89.3 to 91.3 (v3.9 Pancrase points).</td></tr>
+            <tr><td>Richard Martins</td><td>DWCS shown as "~96" on 24 Oct. The exact v3.0 score is 87.1. Still clears 85.</td></tr>
+            <tr id="held-row"><td>Kaisar Zhaugashar</td><td>Held off the list until his record is verified.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="held"></p>
+      <p id="missed"></p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div>
+      <p style="color:var(--muted);margin-bottom:8px"><strong>Champion Ascendant</strong></p>
+      <p>A benchmark, not a prediction. ASCENT describes how closely a fighter matches the record profile of real signings and invites. It doesn't say who will get signed.</p>
+      <p style="margin-top:10px">&copy; <span data-year>2026</span> Champion Ascendant. Conceived and directed by Chris, built with AI tools.</p>
+    </div>
+    <div>
+      <h4>Site</h4>
+      <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/receipts">Off the Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
+    </div>
+    <div>
+      <h4>Sources</h4>
+      <ul><li>Tapology (records of truth)</li><li>Sherdog</li><li>FightMatrix division finish rates</li><li>onefc.com, ufc.com</li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo">Source code on GitHub</a></li></ul>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/ascent_tables.js"></script>
+<script src="/static/ascent.js"></script>
+<script src="/static/site.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var state = { filter: 'all', division: '', sort: 'ONE' };
+  var DIV_ORDER = ['Flyweight', 'Bantamweight', 'Featherweight', 'Lightweight', 'Welterweight', 'Middleweight', 'Light Heavyweight', 'Heavyweight',
+    "Women's Strawweight", "Women's Flyweight", "Women's Bantamweight", "Women's Featherweight"];
+  var CHEV = '<svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>';
+  function slug(n) { return n.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
+  var fighters = [];
+
+  function row(f, i) {
+    var id = slug(f.name), rec = f.wins + '-' + f.losses + '-' + f.draws;
+    return '<details class="fighter" id="' + id + '"><summary>'
+      + '<span class="rank">' + (i + 1) + '</span>'
+      + '<span class="who"><b>' + CA.esc(f.name) + '</b><span>' + CA.esc(f.country) + ', age ' + CA.esc(f.ageLabel) + ', ' + CA.esc(f.promotionName)
+      + '<span class="mob" hidden>, ' + rec + ', ' + CA.esc(f.division) + '</span></span>'
+      + (f.flag ? '<span class="flag">Record detail being checked</span>' : '') + '</span>'
+      + '<span class="rec">' + rec + '</span>'
+      + '<span class="div">' + CA.esc(f.division) + '</span>'
+      + '<span class="sc one num" data-sys="ONE">' + f.one.score.toFixed(1) + '</span>'
+      + '<span class="sc dwcs num" data-sys="DWCS">' + f.dwcs.score.toFixed(1) + '</span>'
+      + CHEV + '</summary>'
+      + '<div class="detail"><div class="pair">' + CA.anatomy(f.one, { notes: true }) + CA.anatomy(f.dwcs, { notes: true }) + '</div>'
+      + '<div class="facts"><p>' + CA.esc(f.notes) + '</p>'
+      + '<span>' + (f.lastFight ? 'Last fight ' + CA.esc(f.lastFight) : 'Last fight date on Tapology') + '</span>'
+      + '<a href="' + CA.esc(f.tapology) + '" rel="noopener">Verify on Tapology</a>'
+      + '<a href="/?fighter=' + encodeURIComponent(f.name) + '#calculator">Adjust in the calculator</a></div></div></details>';
+  }
+
+  function render() {
+    var list = fighters.filter(function (f) {
+      var women = f.division.indexOf("Women's") === 0;
+      if (state.filter === 'men' && women) return false;
+      if (state.filter === 'women' && !women) return false;
+      return !state.division || f.division === state.division;
+    });
+    list.sort(function (a, b) {
+      if (state.sort === 'DWCS') return b.dwcs.score - a.dwcs.score;
+      if (state.sort === 'age') return a.age - b.age || b.one.score - a.one.score;
+      if (state.sort === 'wins') return b.wins - a.wins || b.one.score - a.one.score;
+      return b.one.score - a.one.score;
+    });
+    var head = $('board').querySelector('.board-head').outerHTML;
+    $('board').innerHTML = head + (list.length ? list.map(row).join('')
+      : '<p style="padding:18px" class="muted">No fighters match. Try another division.</p>');
+    $('count').textContent = list.length + (list.length === 1 ? ' fighter' : ' fighters') + (state.sort === 'DWCS' ? ', listed by DWCS ASCENT' : state.sort === 'ONE' ? ', listed by ONE ASCENT' : '');
+    document.querySelectorAll('.who .mob').forEach(function (el) { el.hidden = !window.matchMedia('(max-width: 860px)').matches; });
+  }
+
+  function openFromHash() {
+    var el = location.hash && document.getElementById(location.hash.slice(1));
+    if (el && el.tagName === 'DETAILS') { el.open = true; el.scrollIntoView({ block: 'start' }); }
+  }
+
+  document.querySelectorAll('[data-filter]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      state.filter = b.dataset.filter;
+      document.querySelectorAll('[data-filter]').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      render();
+    });
+  });
+  $('division').addEventListener('change', function () { state.division = this.value; render(); });
+  $('sort').addEventListener('change', function () { state.sort = this.value; render(); });
+  $('csv').addEventListener('click', function () {
+    var cols = ['name', 'country', 'age', 'division', 'record', 'finishRate', 'winStreak', 'titleWins', 'promotion', 'ONE ASCENT v3.9', 'DWCS ASCENT v3.0', 'notes', 'tapology'];
+    var lines = [cols.join(',')].concat(fighters.map(function (f) {
+      return [f.name, f.country, f.ageLabel, f.division, f.wins + '-' + f.losses + '-' + f.draws, f.finishRate, f.winStreak, f.titleWins,
+        f.promotionName, f.one.score, f.dwcs.score, f.notes, f.tapology].map(function (v) { return '"' + String(v).replace(/"/g, '""') + '"'; }).join(',');
+    }));
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([lines.join('\n')], { type: 'text/csv' }));
+    a.download = 'ascent-board-2026-10-27.csv'; a.click();
+  });
+
+  fetch('/static/both_systems.json').then(function (r) { return r.json(); }).then(function (data) {
+    fighters = data.fighters.map(function (f) {
+      f.one = ASCENT.scoreONE(CA.forONE(f));
+      f.dwcs = ASCENT.scoreDWCS(CA.forDWCS(f));
+      if (Math.abs(f.one.score - f.expected.ONE) > 0.05 || Math.abs(f.dwcs.score - f.expected.DWCS) > 0.05) {
+        console.error('Published score differs from the formula for', f.name);
+      }
+      return f;
+    });
+    var divs = {}; fighters.forEach(function (f) { divs[f.division] = 1; });
+    $('division').innerHTML += DIV_ORDER.filter(function (d) { return divs[d]; }).map(function (d) { return '<option>' + CA.esc(d) + '</option>'; }).join('');
+    $('held').innerHTML = data.held.map(function (h) { return '<strong>Held: ' + CA.esc(h.name) + '.</strong> ' + CA.esc(h.reason); }).join(' ');
+    $('missed').innerHTML = '<strong>Just missed:</strong> ' + data.justMissed.map(function (m) { return CA.esc(m.name) + ' (' + CA.esc(m.why) + ')'; }).join('; ') + '.';
+    render();
+    openFromHash();
+  }).catch(function () {
+    $('count').textContent = 'The board data didn\'t load. Refresh to try again.';
+  });
+  window.addEventListener('hashchange', openFromHash);
+})();
+</script>
 </body>
 </html>

@@ -8,7 +8,7 @@ PAGES_DIR = Path(__file__).parent / "templates"
 STATIC_DIR = Path(__file__).parent / "static"
 
 # Live pages. Each is reachable at /name and /name.html.
-PAGES = {"index", "both", "receipts", "methodology"}
+PAGES = {"index", "both", "receipts", "methodology", "build"}
 
 # Retired pages (removed 24 Oct 2026) point to the page that replaced them,
 # so old links and shared URLs keep working.

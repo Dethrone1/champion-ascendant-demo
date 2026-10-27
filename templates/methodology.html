@@ -3,495 +3,276 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Champion Ascendant — Method</title>
-  <meta name="description" content="How the ASCENT scores are built: data sources, weight derivation, the Excel-Python parity gate, what broke and how it was caught, and what the score does not claim."/>
-
+  <title>Method — how the ASCENT scores are built</title>
+  <meta name="description" content="How ONE ASCENT v3.9 and DWCS ASCENT v3.0 are built: data sources, the formulas, how they were validated, what broke, and what the scores do not claim."/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Champion Ascendant"/>
-  <meta property="og:title" content="ASCENT — Method"/>
-  <meta property="og:description" content="Two deterministic scoring formulas, versioned and reproducible. Sources, weights, validation, and stated limits."/>
-  <meta property="og:url" content="https://championascendant.com/receipts.html"/>
+  <meta property="og:title" content="Method — how the ASCENT scores are built"/>
+  <meta property="og:description" content="How ONE ASCENT v3.9 and DWCS ASCENT v3.0 are built: data sources, the formulas, how they were validated, what broke, and what the scores do not claim."/>
+  <meta property="og:url" content="https://championascendant.com/methodology"/>
   <meta property="og:image" content="https://championascendant.com/og-card.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="ASCENT — Method"/>
-  <meta name="twitter:description" content="Sources, weights, the parity gate, and what the score does not claim."/>
   <meta name="twitter:image" content="https://championascendant.com/og-card.png"/>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0D1626"/>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=Bebas+Neue&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/site.css"/>
   <style>
-    :root {
-      --midnight: #1C2E4A;
-      --midnight-deep: #0F1B2D;
-      --gold: #D4AF37;
-      --charcoal: #2C2C2C;
-      --white: #F0F0F0;
-      --gray: #A0A8B4;
-      --gray-dim: #6A7280;
-      --red: #C0392B;
-      --green: #27AE60;
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-body: 'Source Sans 3', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --max: 1000px;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    html, body { overflow-x: hidden; }
-    body { font-family: var(--font-body); background: var(--midnight-deep); color: var(--white); line-height: 1.6; -webkit-font-smoothing: antialiased; }
-    a { color: var(--gold); text-decoration: none; }
-    a:hover { text-decoration: underline; }.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }.page-ornaments { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }.bg-orb {
-      position: absolute; width: 480px; height: 480px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.18), rgba(212,175,55,0.05) 50%, transparent 72%);
-      border: 1px solid rgba(212,175,55,0.18); opacity: 0.6;
-    }.orb-tl { left: -200px; top: -180px; }.orb-br { right: -180px; bottom: -160px; opacity: 0.35; }.topbar { position: sticky; top: 0; z-index: 50; background: rgba(15,27,45,0.92); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(212,175,55,0.1); }.topbar-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }.brand { display: flex; align-items: center; gap: 12px; }.brand-icon { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), rgba(212,175,55,0.5)); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 16px rgba(212,175,55,0.25); }.brand-icon svg { width: 20px; height: 20px; }.brand-text { font-family: var(--font-display); font-size: 22px; letter-spacing: 1.5px; }.brand-sub { font-size: 10px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }.nav-links { display: flex; gap: 28px; align-items: center; }.nav-links a { font-size: 13px; font-weight: 700; color: var(--gray); transition: color 0.2s; }.nav-links a:hover { color: var(--gold); text-decoration: none; }.nav-links a.active { color: var(--gold); }.nav-cta { padding: 8px 18px; border-radius: 999px; background: var(--gold); color: var(--midnight-deep) !important; font-weight: 900 !important; }.nav-cta:hover { text-decoration: none !important; filter: brightness(1.08); }.hero { padding: 64px 0 40px; text-align: center; }.hero h1 { font-family: var(--font-display); font-size: clamp(44px, 7vw, 72px); letter-spacing: 3px; line-height: 1; margin-bottom: 18px; }.hero h1 .gold { color: var(--gold); }.hero-sub { font-size: 17px; color: var(--gray); max-width: 62ch; margin: 0 auto; line-height: 1.7; }.hero-sub strong { color: var(--white); }
-
-    section { padding: 40px 0 56px; position: relative; }.section-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 900; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }.section-label::before { content: ""; width: 28px; height: 2px; background: var(--gold); }.section-title { font-family: var(--font-display); font-size: clamp(26px, 4vw, 40px); letter-spacing: 2px; margin-bottom: 8px; }.section-desc { font-size: 15px; color: var(--gray); max-width: 68ch; line-height: 1.65; margin-bottom: 28px; }.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15), transparent); }.receipt {
-      display: grid; grid-template-columns: 110px 1fr auto;
-      gap: 20px; align-items: start;
-      padding: 22px 24px; margin-bottom: 12px;
-      border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.05);
-      background: rgba(28,46,74,0.35);
-      transition: border-color 0.2s;
-    }.receipt:hover { border-color: rgba(212,175,55,0.25); }.receipt-date { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--gray-dim); padding-top: 4px; }.receipt-body .fighter-name { font-family: var(--font-display); font-size: 24px; letter-spacing: 1px; }.receipt-body .outcome { font-size: 14px; color: var(--gray); line-height: 1.6; margin-top: 4px; max-width: 60ch; }.receipt-body .outcome strong { color: var(--white); }.receipt-body .verify { font-size: 12px; margin-top: 6px; }.receipt-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }.score-chip {
-      font-family: var(--font-mono); font-size: 15px; font-weight: 700;
-      padding: 6px 14px; border-radius: 999px;
-      border: 1px solid rgba(212,175,55,0.3); color: var(--gold);
-      background: rgba(212,175,55,0.07); white-space: nowrap;
-    }.score-chip small { font-size: 10px; color: var(--gray-dim); font-family: var(--font-body); font-weight: 700; }.dest-pill {
-      font-size: 11px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;
-      padding: 5px 12px; border-radius: 999px; white-space: nowrap;
-    }.dest-ufc { background: rgba(192,57,43,0.15); color: #E74C3C; border: 1px solid rgba(192,57,43,0.35); }.dest-one { background: rgba(39,174,96,0.12); color: var(--green); border: 1px solid rgba(39,174,96,0.35); }.dest-pipe { background: rgba(212,175,55,0.1); color: var(--gold); border: 1px solid rgba(212,175,55,0.3); }.method-box { padding: 24px 28px; border-radius: var(--radius); border: 1px solid rgba(212,175,55,0.15); background: rgba(212,175,55,0.03); margin-top: 32px; }.method-box h3 { font-family: var(--font-display); font-size: 22px; letter-spacing: 1.5px; margin-bottom: 8px; }.method-box p { font-size: 14px; color: var(--gray); line-height: 1.65; }.access-card { margin-top: 44px; border-radius: var(--radius); border: 1px solid rgba(212,175,55,0.25); background: linear-gradient(160deg, rgba(212,175,55,0.08), rgba(28,46,74,0.5)); padding: 36px; text-align: center; }.access-card h2 { font-family: var(--font-display); font-size: clamp(26px, 4vw, 38px); letter-spacing: 2px; margin-bottom: 10px; }.access-card p { font-size: 15px; color: var(--gray); max-width: 54ch; margin: 0 auto 22px; line-height: 1.65; }.access-form { display: flex; gap: 10px; max-width: 620px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }.access-form input[type=email] { flex: 1 1 240px; padding: 14px 16px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.12); background: var(--midnight-deep); color: var(--white); font-size: 15px; font-weight: 600; font-family: var(--font-body); outline: none; }.access-form input[type=email]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }.access-form select { flex: 0 1 170px; padding: 14px 12px; border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.12); background: var(--midnight-deep); color: var(--white); font-size: 14px; font-weight: 600; font-family: var(--font-body); outline: none; }.access-form button { flex: 0 0 auto; padding: 14px 26px; border-radius: var(--radius-sm); border: none; cursor: pointer; background: var(--gold); color: var(--midnight-deep); font-family: var(--font-display); font-size: 18px; letter-spacing: 1.5px; box-shadow: 0 6px 20px rgba(212,175,55,0.25); transition: all 0.2s; }.access-form button:hover { transform: translateY(-2px); }.access-micro { font-size: 12px; color: var(--gray-dim); margin-top: 12px; }.access-status { font-size: 14px; font-weight: 700; margin-top: 14px; display: none; }.access-status.ok { display: block; color: var(--green); }.access-status.err { display: block; color: var(--red); }
-
-    footer { padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: var(--gray-dim); }.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-
-    @media (max-width: 720px) {.receipt { grid-template-columns: 1fr; gap: 10px; }.receipt-meta { flex-direction: row; align-items: center; }.access-card { padding: 26px 18px; }
-    }.access-notes-wrap { margin: 14px auto 0; text-align: left; max-width: 560px; }.access-notes-wrap label { display:block; font-size:13px; font-weight:700; color:var(--gray); margin-bottom:6px; }.access-notes-wrap input {
-      width:100%; padding:12px 14px; border-radius:var(--radius-sm);
-      border:1px solid rgba(212,175,55,0.25); background:rgba(255,255,255,0.04);
-      color:var(--white); font-family:var(--font-body); font-size:15px;
-    }.access-notes-wrap input:focus { outline:2px solid var(--gold); outline-offset:2px; border-color:var(--gold); }
-
-    /* --- mobile nav: scrollable strip, never hidden --- */
-    @media (max-width: 900px) {.topbar-inner { gap: 10px; }.brand-sub { display: none; }.brand-text { font-size: 18px; }.nav-links {
-        gap: 18px; overflow-x: auto; flex: 1; justify-content: flex-end;
-        -webkit-overflow-scrolling: touch; scrollbar-width: none;
-        mask-image: linear-gradient(to right, transparent 0, #000 14px);
-        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14px);
-      }.nav-links::-webkit-scrollbar { display: none; }.nav-links a { display: inline-block !important; white-space: nowrap; font-size: 12px; }.nav-links a.nav-cta { position: sticky; right: 0; }
-    }
-    @media (max-width: 520px) {.brand-text { font-size: 16px; }.nav-links { gap: 14px; }
-    }.m-section { margin: 0 0 52px; }.m-eyebrow { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 2px;
-                 color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }.m-section h2 { font-family: var(--font-display); font-size: 30px; letter-spacing: 1.5px;
-                    margin-bottom: 14px; line-height: 1.1; }.m-section p { color: var(--gray); margin-bottom: 14px; max-width: 74ch; }.m-section strong { color: var(--white); }.pipeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 26px 0 30px; }.pipe-step { background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.16);
-                 border-radius: var(--radius-sm); padding: 14px 12px; position: relative; }.pipe-step .n { font-family: var(--font-mono); font-size: 10px; color: var(--gold); font-weight: 700; }.pipe-step h4 { font-size: 13px; margin: 6px 0 5px; letter-spacing: 0.3px; }.pipe-step p { font-size: 11.5px; color: var(--gray-dim); margin: 0; line-height: 1.45; }.pipe-step.gate { border-color: rgba(212,175,55,0.55); background: rgba(212,175,55,0.06); }.formula-box { background: var(--midnight-deep); border: 1px solid rgba(212,175,55,0.2);
-                   border-radius: var(--radius-sm); padding: 20px 22px; margin: 18px 0 22px;
-                   font-family: var(--font-mono); font-size: 13px; line-height: 1.9; overflow-x: auto;
-                   white-space: pre; }.formula-box .op { color: var(--gold); }.formula-box .cm { color: var(--gray-dim); }.wtable { width: 100%; border-collapse: collapse; margin: 16px 0 8px; font-size: 14px; }.wtable th { text-align: left; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 1px;
-                 text-transform: uppercase; color: var(--gray-dim); padding: 8px 10px;
-                 border-bottom: 1px solid rgba(212,175,55,0.22); font-weight: 700; }.wtable td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.06);
-                 color: var(--gray); vertical-align: top; }.wtable td:first-child { color: var(--white); font-weight: 600; white-space: nowrap; }.wtable td.pts { font-family: var(--font-mono); color: var(--gold); white-space: nowrap; }.note { border-left: 3px solid var(--gold); background: rgba(212,175,55,0.05);
-            padding: 14px 18px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin: 18px 0; }.note p { margin: 0; color: var(--gray); font-size: 14.5px; }.note.warn { border-left-color: var(--red); background: rgba(192,57,43,0.07); }.broke { display: grid; gap: 12px; margin: 18px 0 6px; }.broke-item { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07);
-                  border-radius: var(--radius-sm); padding: 15px 17px; }.broke-item h4 { font-size: 14.5px; margin-bottom: 5px; color: var(--white); }.broke-item p { font-size: 13.5px; margin: 0; color: var(--gray); }.broke-item .tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 1px;
-                       color: var(--red); font-weight: 700; text-transform: uppercase; }.vgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 18px 0; }.vcard { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-             border-radius: var(--radius-sm); padding: 16px; }.vcard .v { font-family: var(--font-mono); font-size: 12px; color: var(--gold); font-weight: 700; }.vcard .s { font-size: 11px; color: var(--gray-dim); text-transform: uppercase;
-                letter-spacing: 1px; margin: 6px 0 8px; font-weight: 700; }.vcard p { font-size: 12.5px; margin: 0; color: var(--gray); }.m-divider { height: 1px; background: linear-gradient(90deg, rgba(212,175,55,0.35), transparent); margin: 8px 0 44px; }
-    @media (max-width: 900px) {.pipeline { grid-template-columns: 1fr 1fr; }.vgrid { grid-template-columns: 1fr; }.m-section h2 { font-size: 25px; }
-    }
-
-    /* nav must not wrap once a 6th item exists */.nav-links a { white-space: nowrap; }.brand-text { white-space: nowrap; }
-    @media (max-width: 1100px) { .nav-links { gap: 20px; } }
-
-    /* Weights/limits tables: 3 narrow columns turn the explanation column into a
-       3-words-per-line ribbon on a phone. Stack each row into a card instead. */
-    @media (max-width: 760px) {.wtable, .wtable tbody, .wtable tr, .wtable td { display: block; width: 100%; }.wtable thead { display: none; }.wtable { border-collapse: separate; }.wtable tr {
-        background: rgba(255,255,255,0.025);
-        border: 1px solid rgba(255,255,255,0.08);
-        border-radius: var(--radius-sm);
-        padding: 13px 15px 14px;
-        margin-bottom: 10px;
-      }.wtable td { border-bottom: none; padding: 0; }.wtable td:first-child {
-        font-family: var(--font-body); font-size: 15px; font-weight: 700;
-        color: var(--white); white-space: normal; margin-bottom: 2px;
-      }.wtable td.pts {
-        font-family: var(--font-mono); font-size: 11.5px; color: var(--gold);
-        letter-spacing: 0.5px; margin-bottom: 7px;
-      }.wtable td:last-child { font-size: 13.5px; line-height: 1.55; color: var(--gray); }
-      /* two-column tables (Limitation / Detail) have no .pts cell */.wtable tr td:nth-child(2):not(.pts) { font-size: 13.5px; line-height: 1.55; color: var(--gray); }
-    }
-    @media (max-width: 900px) {
-      /* Code block scrolls sideways on a phone. The gold fade on the right edge is
-         the only signal that there is more to see, so keep it. */.formula-box {
-        font-size: 10px; padding: 14px 12px;
-        background-color: var(--midnight-deep);
-        background-image: radial-gradient(farthest-side at 100% 50%,
-                          rgba(212,175,55,0.30), rgba(212,175,55,0));
-        background-repeat: no-repeat;
-        background-size: 18px 100%;
-        background-position: right center;
-        background-attachment: scroll;
-      }
-    }
-
-    /* Tap targets: text links default to ~14-19px tall, which is a small target on a
-       phone. Pad them out vertically without changing how they look. */
-    @media (max-width: 900px) {.nav-links a { padding: 9px 0; }.receipt-body a, .outcome a, .footnote a, .m-section a, .verify a { display: inline-block; padding: 9px 0; }.filter-chip { min-height: 38px; }
-    }.mono { font-family: var(--font-mono); font-size: 0.92em; color: var(--gold); }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+    .toc a { font-size: 14px; font-weight: 600; color: var(--muted); text-decoration: none; border: 1px solid var(--line); padding: 6px 12px; border-radius: 999px; }
+    .toc a:hover { color: var(--text); }
+    .prose p { color: var(--muted); margin-bottom: 14px; font-size: 16.5px; }
+    .prose p strong { color: var(--text); }
+    .steps { list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 8px 0 20px; }
+    .steps li { counter-increment: s; background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r); padding: 18px; }
+    .steps li::before { content: counter(s); display: block; font-family: var(--font-display); font-size: 30px; color: var(--one); line-height: 1; margin-bottom: 10px; }
+    .steps h3 { font-size: 16px; }
+    .steps p { font-size: 14px; color: var(--muted); }
+    .formula h3 { display: flex; align-items: center; gap: 10px; margin-top: 30px; }
+    .formula table td:first-child { font-weight: 700; white-space: nowrap; }
+    .formula table td:nth-child(2) { white-space: nowrap; color: var(--muted); }
+    .formula table td p { font-size: 14.5px; color: var(--muted); }
+    .versions { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin: 20px 0; }
+    .versions .panel { padding: 18px; }
+    .versions .v { font-family: var(--font-display); font-size: 30px; line-height: 1; }
+    .versions .s { font-size: 13px; font-weight: 700; color: var(--text); margin: 6px 0; }
+    .failures { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .failures .panel .kind { font-size: 13px; font-weight: 700; color: var(--neg); }
+    @media (max-width: 960px) { .steps { grid-template-columns: 1fr 1fr; } .versions { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 620px) { .steps, .versions, .failures { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
-
-  <div class="page-ornaments" aria-hidden="true">
-    <div class="bg-orb orb-tl"></div>
-    <div class="bg-orb orb-br"></div>
-  </div>
-
-  <div class="topbar">
-    <div class="wrap">
-      <div class="topbar-inner">
-        <a href="index.html" style="text-decoration:none;">
-          <div class="brand">
-            <div class="brand-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#1C2E4A" stroke-width="2.5" stroke-linecap="round"><path d="M12 2L15 9H21L16 14L18 21L12 17L6 21L8 14L3 9H9L12 2Z"/></svg>
-            </div>
-            <div>
-              <div class="brand-text">CHAMPION ASCENDANT</div>
-              <div class="brand-sub">The Ascent System</div>
-            </div>
-          </div>
-        </a>
-        <nav class="nav-links">
-          <a href="index.html#calculator">Calculator</a>
-          <a href="index.html#factors">Factors</a>
-          <a href="both.html">Both Systems</a>
-          <a href="#" class="active">Off the Board</a>
-          <a href="methodology.html" class="active">Method</a>
-        </nav>
-      </div>
-    </div>
-  </div>
-
-  <header class="hero">
-    <div class="wrap">
-      <h1>HOW THE SCORE <span class="gold">IS BUILT</span></h1>
-      <p class="hero-sub">
-        Two formulas, one for each pathway, each built on its own set of verified outcomes.
-        There's no model in here and nothing is fitted. It's arithmetic you can redo by hand if you want to.
-        Nothing goes on the site until the spreadsheet and the Python script land on the same number.
-      </p>
-    </div>
-  </header>
-
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
   <div class="wrap">
-
-    <section class="m-section reveal">
-      <div class="m-eyebrow">The problem</div>
-      <h2>SCOUTING RUNS ON OPINION</h2>
-      <div class="m-divider"></div>
-      <p>
-        Ask why a regional fighter deserves a shot and you get adjectives back. Exciting. Durable. Ready.
-        Whoever is saying it usually has a stake in the answer. And there's no way to hold two of those claims
-        up against each other when the fighters are on different continents beating different people.
-      </p>
-      <p>
-        So I built a number instead. It only uses things anyone can look up: win rate, finish rate adjusted
-        for division, which promotion he fights for, his age, whether he's won title fights. Those get measured
-        against the profile of the fighters who <strong>actually</strong> got signed or invited.
-        A good matchmaker will still beat it. What it does is treat every fighter the same way and show the arithmetic.
-      </p>
-    </section>
-
-    <section class="m-section reveal">
-      <div class="m-eyebrow">Pipeline</div>
-      <h2>SOURCE TO PUBLISHED SCORE</h2>
-      <div class="m-divider"></div>
-      <div class="pipeline">
-        <div class="pipe-step">
-          <div class="n">01</div><h4>Collect</h4>
-          <p>Records pulled per fighter from Tapology, the canonical source. Sherdog secondary for gaps.</p>
-        </div>
-        <div class="pipe-step">
-          <div class="n">02</div><h4>Verify</h4>
-          <p>Every record cross-checked. Promotion names resolved to canonical codes against a 90-row registry.</p>
-        </div>
-        <div class="pipe-step">
-          <div class="n">03</div><h4>Score</h4>
-          <p>Python reference implementation. Formula version is stored alongside every score.</p>
-        </div>
-        <div class="pipe-step gate">
-          <div class="n">04</div><h4>Parity gate</h4>
-          <p>The workbook recomputes independently. Any disagreement blocks publication until resolved.</p>
-        </div>
-        <div class="pipe-step">
-          <div class="n">05</div><h4>Publish</h4>
-          <p>Board updates. Corrections go on the public log with a date, never silently.</p>
-        </div>
-      </div>
-      <div class="note">
-        <p>
-          <strong>Step 4 is the one that saves me.</strong> The workbook and the script read the same lookup
-          tables but work the numbers out separately, so if either one has drifted they stop agreeing.
-          Right now every scored row reproduces on both boards. One mismatch and nothing publishes
-          until I've found out why.
-        </p>
-      </div>
-    </section>
-
-    <section class="m-section reveal">
-      <div class="m-eyebrow">The formulas</div>
-      <h2>TWO SCORES, NEVER COMBINED</h2>
-      <div class="m-divider"></div>
-      <p>
-        ONE and the Contender Series are looking for different fighters, so they get separate formulas built
-        on separate data. A ONE score and a DWCS score aren't the same unit. I don't average them, I don't merge
-        the boards, and they never share a column. A fair number of the rules on this project exist only to stop
-        that happening by accident.
-      </p>
-
-      <div class="formula-box">
-<span class="cm">// ONE ASCENT v3.7.1 &mdash; calibrated on 37 verified signings, 2023&ndash;present</span>
-Score <span class="op">=</span> MIN(100, Base80 <span class="op">+</span> PromoPoints <span class="op">+</span> OriginFit <span class="op">+</span> AgeMod <span class="op">+</span> TitleBonus)
-  Base80    <span class="op">=</span> 100 <span class="op">&times;</span> (0.65 <span class="op">&times;</span> FR_norm <span class="op">+</span> 0.15 <span class="op">&times;</span> WinRate)
-  FR_norm   <span class="op">=</span> MIN(100, FinishRate <span class="op">/</span> DivisionAvg <span class="op">&times;</span> 70.9)
-
-<span class="cm">// DWCS ASCENT v2.8.5 &mdash; calibrated on 165 verified invitees, Seasons 9&ndash;10</span>
-Score <span class="op">=</span> MAX(0, FR<sub>45</sub> <span class="op">+</span> Win<sub>15</sub> <span class="op">+</span> Streak <span class="op">+</span> Promo <span class="op">+</span> AgeMod <span class="op">+</span> Title <span class="op">+</span> Stack)
-  <span class="cm">// deliberately uncapped &mdash; see "caps discard information" below</span>
-      </div>
-
-      <table class="wtable">
-        <thead><tr><th>Component</th><th>Weight</th><th>Why it's there</th></tr></thead>
-        <tbody>
-          <tr><td>Finish rate</td><td class="pts">45 / 80 pts</td>
-              <td>The strongest signal in both datasets by some distance. Normalized against global division
-                  finish rates (FightMatrix, N=261,967 fights) rather than against the invitee pool. Invitees are
-                  already selected for finishing, so normalizing by them would shove every score up toward the ceiling.</td></tr>
-          <tr><td>Win rate</td><td class="pts">15 pts</td>
-              <td>Matters, but it isn't allowed to run the score. I removed a sub-80% penalty in v2.8.5 because
-                  win rate was already getting counted four different ways, and the step thresholds hit a guy at
-                  78.6% three points harder than one at 80.0%.</td></tr>
-          <tr><td>Promotion</td><td class="pts">3&ndash;15 pts</td>
-              <td>Based on each promotion's measured share of verified invitees rather than its reputation.
-                  LFA on its own produced 21% of Season 9 invitees. Unlisted regional shows score 3 instead of 0,
-                  since a fighter nobody has seen yet is a longer shot but not a dead end.</td></tr>
-          <tr><td>Age</td><td class="pts">&minus;8 to +6</td>
-              <td>Derived from the age distribution of actual invitees, not hand-set. See the caveat below.</td></tr>
-          <tr><td>Win streak</td><td class="pts">0&ndash;15 pts</td>
-              <td>Square-root curve. This one scores <strong>below chance</strong> against the DWCS invite
-                  target (AUC 0.485). It does earn its keep when you point it at contract outcomes instead.
-                  I've left it in and flagged it rather than dropping it quietly.</td></tr>
-          <tr><td>Title fights</td><td class="pts">uncapped</td>
-              <td>Promotion-gated curve. A belt at a ranked feeder counts for more than a belt at a show that
-                  has never sent anyone up.</td></tr>
-        </tbody>
-      </table>
-
-      <div class="note warn">
-        <p>
-          <strong>The age term punishes young fighters.</strong> Contender Series invitees bunch up between 27
-          and 30, so a 27-year-old picks up 6 points and a 22-year-old drops 6. That's right if what you're
-          describing is <em>who actually gets invited</em>, and it feels wrong on something called a prospect board.
-          I'm flagging it up front because anyone who runs into it on their own is going to assume the formula is broken.
-        </p>
-      </div>
-    </section>
-
-    <section class="m-section reveal">
-      <div class="m-eyebrow">Validation</div>
-      <h2>WHAT COUNTS AS A HIT</h2>
-      <div class="m-divider"></div>
-      <p>
-        This score describes an invite profile, so the thing it has to be judged against is
-        <strong>the invitation</strong>. Not whether the fighter wins once he's on the show. A guy can get
-        invited and lose in ninety seconds and the score was still right about the only thing it claimed.
-        Fight results test something the formula never set out to measure.
-      </p>
-      <p>
-        That raises the bar rather than lowering it. An invitation only counts as evidence if the score was
-        locked and dated <em>before</em> that booking became public.
-      </p>
-      <div class="vgrid">
-        <div class="vcard">
-          <div class="v">v2.7.1</div><div class="s">Frozen</div>
-          <p>Locked before the Season 10 premiere and not edited since. Good for calibration. Not a prospective test, for the reason below.</p>
-        </div>
-        <div class="vcard">
-          <div class="v">v2.8.5</div><div class="s">Retired from public pages &mdash; 24 Oct 2026</div>
-          <p>Win-rate penalty removed, title curve promotion-gated, age derived from invitee share, cap removed.</p>
-        </div>
-        <div class="vcard">
-          <div class="v">v3.0</div><div class="s">Live &mdash; Both Systems page</div>
-          <p>Redundant bonuses deleted, loss bands reshaped. Published 24 Oct 2026 after it outscored v2.8.5 against actual invite outcomes (AUC 0.686 vs 0.628).</p>
-        </div>
-      </div>
-      <p>
-        <strong>What the frozen column does show.</strong> Scored across the whole Season 10 field, v2.7.1
-        produced a mean of <strong>70.9</strong> against <strong>72.0</strong> for Season 9. About a point apart
-        on a season the weights weren't built from. That's a calibration result: the formula describes an invitee
-        field consistently from one year to the next. It's worth having and it doesn't depend on pre-registration,
-        because nothing about it is a prediction.
-      </p>
-
-      <div class="note warn">
-        <p>
-          <strong>What it doesn't show, and I got this wrong at first.</strong> Five fighters from the prospect board turned up on the Season 10 roster. That reads like a hit rate several
-          times the base rate, and I was ready to write it up that way.
-          <br/><br/>
-          Then I checked the dates. Every prospect carries a <span class="mono">Date Scored</span> of
-          <strong>2026-07-31</strong>, and 52 of the 63 Season 10 fighters were public by 29 July. All five sit in
-          episodes 1, 2 and 7, announced well before the freeze, and their
-          <span class="mono">Invited / Outcome</span> field already read &ldquo;DWCS S10&rdquo; when they were scored.
-          I wasn't picking them. I was scoring people I already knew the answer for.
-          <br/><br/>
-          So <strong>that is not a hit rate.</strong> Clean prospective invitation calls right now: <strong>zero</strong>.
-        </p>
-      </div>
-
-      <p>
-        The fix is slow rather than complicated. Season 10 isn't fully booked, so the board as it stands today is
-        frozen and dated against the slots nobody has seen. Any board fighter appearing in a booking announced after
-        that timestamp is a real call, and if none do, that goes on the record too. Season 11 gets the clean version:
-        board frozen before any casting news, denominator fixed in advance, then count.
-      </p>
-    </section>
-
-    <section class="m-section reveal">
-      <div class="m-eyebrow">Failure log</div>
-      <h2>WHAT BROKE, AND HOW IT WAS CAUGHT</h2>
-      <div class="m-divider"></div>
-      <p>
-        Every one of these got caught by a check I'd built for that exact purpose. I'm listing them because a
-        methodology page with no failures on it isn't worth much.
-      </p>
-      <div class="broke">
-        <div class="broke-item">
-          <span class="tag">Leakage</span>
-          <h4>A column that had seen the answers</h4>
-          <p>An experimental variant hit AUC 0.72 against contract outcomes. It looked great until I remembered
-             I'd tuned it after those outcomes were already visible. I deleted the column instead of publishing it.
-             When a number that good turns up that easily, usually something is wrong with how you got there.</p>
-        </div>
-        <div class="broke-item">
-          <span class="tag">Contamination</span>
-          <h4>Post-signing data in the calibration set</h4>
-          <p>A fighter has to be scored on the record he had <em>the day he signed</em>. Anything after that date
-             leaks the answer back into the inputs. The same rule covers showcase appearances: one fight on a big
-             card doesn't make that promotion his home, and counting it that way inflates his pipeline score.</p>
-        </div>
-        <div class="broke-item">
-          <span class="tag">Silent drift</span>
-          <h4>Stored values that stopped matching the formula</h4>
-          <p>The ONE workbook had its component scores typed in as plain numbers instead of formulas. Over time
-             they stopped matching the script: 26 rows with stale promotion points, 13 with stale age and title
-             values, 5 with stale Base80. Every component is a live formula now, all of them pulling from one
-             shared lookup table, so it can't quietly come apart again.</p>
-        </div>
-        <div class="broke-item">
-          <span class="tag">Name matching</span>
-          <h4>Full names where the table keys on codes</h4>
-          <p>Looking promotions up by their display name instead of the short code quietly dropped most fighters
-             to the unlisted default and moved scores by as much as 12 points. It's the reason the promotion
-             registry runs to 90 rows and lists every alias I've come across. The parity check caught this one
-             within about a minute.</p>
-        </div>
-        <div class="broke-item">
-          <span class="tag">Documentation</span>
-          <h4>Comments that contradicted the code</h4>
-          <p>A docstring claimed the age modifier ran +3/+6/+8/+16/+12. The function actually returned
-             &minus;6/&minus;4/&minus;2/+6/+2. Roughly ten points between what the comment said and what the code
-             did. The code was the correct one, so I rewrote the comment to match it.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="m-section reveal">
-      <div class="m-eyebrow">Design decisions</div>
-      <h2>CAPS DISCARD INFORMATION</h2>
-      <div class="m-divider"></div>
-      <p>
-        I took out three caps: one on the total, one on the title bonus, one on win streak. All three were
-        squashing genuinely different fighters into the same number at the top end. Take a guy who's undefeated,
-        finishes everyone he beats, and holds a belt at a promotion the UFC actually pulls from. Under a cap he
-        comes out looking identical to someone who has one of those three going for him. That's a real difference
-        and the cap was throwing it in the bin.
-      </p>
-      <p>
-        So DWCS scores run uncapped and a few of them go past 100. Above 100 just means several parts of the
-        profile are elite at once. The display scale is anchored so the invitee median sits around the middle of
-        the range instead of everyone piling up against a ceiling. Same idea as OPS+ in baseball.
-      </p>
-      <p>
-        I've also cut things that turned out to be doing nothing. A "perfect finisher" bonus was arithmetically
-        redundant with the finish-rate term already sitting in the formula, so it came out. Age bands went from
-        two-year steps down to three wide ones after the finer version tested worse.
-      </p>
-    </section>
-
-    <section class="m-section reveal">
-      <div class="m-eyebrow">Limits</div>
-      <h2>WHAT THIS DOES NOT CLAIM</h2>
-      <div class="m-divider"></div>
-      <div class="note warn">
-        <p>
-          <strong>There's no control group.</strong> I have the fighters who got signed or invited. I don't have
-          the ones who got looked at and passed over, because nobody publishes that list. So every weight in here
-          is describing <em>what an invitee looks like</em>. None of them describe <em>what separates an invitee
-          from someone who got turned down</em>. That's the gap between a benchmark and a prediction, and it's why
-          the word "predicts" doesn't show up anywhere on this site.
-        </p>
-      </div>
-      <table class="wtable">
-        <thead><tr><th>Limitation</th><th>Detail</th></tr></thead>
-        <tbody>
-          <tr><td>Small samples</td>
-              <td>Both formulas are calibrated on small samples. On the Season 9 promotion tiers, two invitees are enough
-                  to move a promotion a whole tier. That boundary is noise and it's written up as noise in the source.</td></tr>
-          <tr><td>Partial leakage</td>
-              <td>The age bands include Season 10 fighters, which means the Season 10 pre-registration is clean
-                  on every component except that one. Worth knowing before you read too much into it.</td></tr>
-          <tr><td>Selection circularity</td>
-              <td>The public boards score well above the invitee median, but I built those boards by selecting on
-                  the same things the score measures. The gap comes from how the board was assembled. It isn't
-                  evidence that the formula beats real matchmakers.</td></tr>
-          <tr><td>Not an outcome model</td>
-              <td>The score says nothing at all about who wins on fight night. Season 9 winners and losers came
-                  out effectively even.</td></tr>
-          <tr><td>Confounded age signal</td>
-              <td>Invitee age share is confounded by the underlying population, since there are simply more
-                  27 to 30 year olds competing in the first place. The term also ignores conversion rate completely.</td></tr>
-        </tbody>
-      </table>
-      <p>
-        Season 10 results come in through autumn 2026. That's the first real prospective test this thing gets,
-        and the frozen v2.7.1 column is what I'll be marking it against. However it turns out, that column stays
-        exactly as it is.
-      </p>
-    </section>
-
+    <a class="brand" href="/" aria-label="Champion Ascendant home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M10 2h12l8 8v12l-8 8H10l-8-8V10z" fill="none" stroke="#E2B53F" stroke-width="2"/><path d="M10 22v-4M16 22v-8M22 22V10" stroke="#E2B53F" stroke-width="3" stroke-linecap="round"/></svg>
+      <span class="brand-name">Champion Ascendant</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#calculator">Calculator</a>
+      <a href="/both">Board</a>
+      <a href="/receipts">Off the Board</a>
+      <a href="/methodology" aria-current="page">Method</a>
+      <a href="/build">How it's built</a>
+      <a class="gh" href="https://github.com/Dethrone1/champion-ascendant-demo"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+    </nav>
   </div>
+</header>
 
-  <footer>
-    <div class="wrap">
-      <div class="footer-inner">
-        <div>© <span id="yr"></span> Champion Ascendant · championascendant.com</div>
-        <div style="display:flex;gap:20px;">
-          <a href="index.html">Calculator</a>
-          <a href="both.html">Both Systems</a>
-          <span style="color:var(--gray-dim)">Every entry verifiable · Tapology · Sherdog</span>
-        </div>
+<main id="main">
+<section class="page-head">
+  <div class="wrap">
+    <h1 class="display">How the score is built</h1>
+    <p class="lede">Two formulas, one for each pathway, each built on its own set of real outcomes. There's no trained model and nothing hidden.
+      It's arithmetic you can redo by hand, and the code is public.</p>
+    <nav class="toc" aria-label="On this page">
+      <a href="#problem">The problem</a><a href="#pipeline">Pipeline</a><a href="#one">ONE ASCENT</a><a href="#dwcs">DWCS ASCENT</a>
+      <a href="#validation">Validation</a><a href="#failures">What broke</a><a href="#limits">Limits</a>
+    </nav>
+  </div>
+</section>
+
+<section class="block" id="problem">
+  <div class="wrap grid-2">
+    <div><h2 class="display">Scouting runs on opinion</h2></div>
+    <div class="prose">
+      <p>Ask why a regional fighter deserves a shot and you get adjectives back. Exciting. Durable. Ready.
+        Whoever is saying it usually has a stake in the answer, and there's no way to hold two of those claims
+        up against each other when the fighters are on different continents beating different people.</p>
+      <p>So I built a number instead. It only uses things anyone can look up: record, finish rate adjusted for division,
+        which promotion he fights for, his age, whether he's won title fights. Those get measured against the profile of
+        the fighters who <strong>actually</strong> got signed or invited.</p>
+      <p>A good matchmaker will still beat it. What it does is treat every fighter the same way and show the arithmetic.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="pipeline">
+  <div class="wrap">
+    <div class="block-intro"><h2 class="display">From record to published score</h2></div>
+    <ol class="steps">
+      <li><h3>Collect</h3><p>Fight lists pulled per fighter from Sherdog, then confirmed on Tapology.</p></li>
+      <li><h3>Verify</h3><p>Where the two disagree, Tapology wins and the other value is noted. Promotions resolve to fixed codes.</p></li>
+      <li><h3>Score</h3><p>The Python formulas are the source of truth. The version is stored next to every score.</p></li>
+      <li><h3>Test</h3><p>Every published score is recomputed from its inputs, and the website's calculator is checked against the Python.</p></li>
+      <li><h3>Publish</h3><p>The board updates. Any change to a published number is logged with a date on Off the Board.</p></li>
+    </ol>
+    <p class="muted" style="max-width:72ch">The test step replaced an older check where a spreadsheet had to agree with the script. The spreadsheet still exists for working the data,
+      but the code is what publishes, and the code is what gets tested. Details are on <a href="/build">How it's built</a>.</p>
+  </div>
+</section>
+
+<section class="block formula" id="one">
+  <div class="wrap">
+    <div class="block-intro">
+      <h2 class="display">ONE ASCENT v3.9</h2>
+      <p>Benchmarks an unsigned fighter against the fighters ONE Championship has signed to MMA contracts since 2023,
+        scored on their record <strong>on the day they signed</strong>. Nothing after signing is used, and the formula is never tuned on how signees did once they joined ONE.
+        v3.9 is in validation: published on the board, with further changes held for an end-of-year review.</p>
+    </div>
+<pre class="code"><span class="c">// ONE ASCENT v3.9 · floored at 0, no upper cap</span>
+<span class="k">Score</span>     = Base80 + Promotion + PromotionRegion + Origin + Age + Title + Undefeated
+<span class="k">Base80</span>    = 0.65 × FR_norm + 0.15 × WinRate
+<span class="k">FR_shrunk</span> = (FinishRate × Wins + 5 × DivisionAvg) / (Wins + 5)
+<span class="k">FR_norm</span>   = min(100, FR_shrunk / DivisionAvg × 73)</pre>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Part</th><th>Points</th><th>Why it's there</th></tr></thead>
+        <tbody>
+          <tr><td>Finish rate</td><td>up to 65</td><td><p>The strongest signal in the signing data. Two adjustments: it's <strong>shrunk</strong> toward the division average as if the fighter had five more fights at that average, so a 3-0 record can't max out on three lucky finishes; then it's <strong>normalized</strong> by the global finish rate for his division (FightMatrix), because a heavyweight finishing 80% is ordinary and a women's strawweight doing it is exceptional.</p></td></tr>
+          <tr><td>Win rate</td><td>up to 15</td><td><p>Counts, but doesn't run the score. ONE signs finishers.</p></td></tr>
+          <tr><td>Promotion</td><td>0 to 12</td><td><p>Set by the promotion's share of ONE's MMA signings since 2023, in steps of 4, 6, 8, 10 and 12. The cutoffs are shares, not counts, so the tiers keep working as more signings come in. Right now ONE Friday Fights and LFA are at 12, Pancrase and Shooto at 8, ACA and Hardcore MMA at 6. A promotion with no signings scores 0.</p></td></tr>
+          <tr><td>Promotion region</td><td>0 to 2</td><td><p>Share of signings by the promotion's home region: 15% and up earns 2, 10% earns 1, 5% earns 0.5. Southeast Asia and East Asia lead. Kept separate from the promotion points because the two barely correlate (+0.16).</p></td></tr>
+          <tr><td>Origin region</td><td>2 to 6</td><td><p>Each region's real share of signings by where the fighter is from. East Asia and South America earn 6; North America, Central Asia, the Middle East and Eastern Europe earn 4; everywhere else 2. Real shares, not anyone's idea of marketability.</p></td></tr>
+          <tr><td>Age</td><td>−4 to +3</td><td><p>23 and under +3, 24 to 27 +2, 28 to 30 neutral, 31 to 33 −2, 34 and over −4. Promotions invest in longer runways. Not a claim about ability. No age on record scores 0.</p></td></tr>
+          <tr><td>Title wins</td><td>3 + 1 per title</td><td><p>Pro titles only, uncapped. One title is +4, two is +5.</p></td></tr>
+          <tr><td>Undefeated</td><td>+5</td><td><p>No losses and at least five wins. Draws don't break it.</p></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">The source of truth is <a href="https://github.com/Dethrone1/champion-ascendant-demo/blob/main/scoring/one_ascent_v3_9.py">scoring/one_ascent_v3_9.py</a>. A plain-English rule sheet covers the data rules: main promotion is the promotion of the most recent fight, a fighter needs at least four pro fights and an exact date of birth to be listed, and fighters signed or booked with the UFC, ONE, PFL, RIZIN or KSW are off the board.</div>
+  </div>
+</section>
+
+<section class="block formula" id="dwcs">
+  <div class="wrap">
+    <div class="block-intro">
+      <h2 class="display">DWCS ASCENT v3.0</h2>
+      <p>Benchmarks a fighter against the measured profile of Contender Series invitees from Seasons 9 and 10. The target is the <strong>invitation</strong>.
+        Not the fight result, and not the contract.</p>
+    </div>
+<pre class="code"><span class="c">// DWCS ASCENT v3.0 · uncapped</span>
+<span class="t">Raw</span>     = 45 × FR_norm / 109.9 + 6 × Win% + LossBand + Streak + Promotion + Age + Title + Elite + HotStreak
+<span class="t">FR_norm</span> = min(FinishRate / DivisionAvg, 1.55) × 70.9
+<span class="t">Streak</span>  = 5.5 × √wins_in_a_row − 4.5
+<span class="t">Title</span>   = (1.5 + Promotion / 3) × √title_wins
+<span class="t">Score</span>   = 0.9104 × Raw + 19.98      <span class="c">// invitee median lands at 78, 97th percentile at 100</span></pre>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Part</th><th>Points</th><th>Why it's there</th></tr></thead>
+        <tbody>
+          <tr><td>Finish rate</td><td>up to 45</td><td><p>The strongest single signal against invites (AUC 0.637). Normalized against global division finish rates rather than the invitee pool: invitees are already selected for finishing, so normalizing by them would push everyone toward the ceiling. The ratio caps at 1.55× instead of clamping at 100, so the top of the board still ranks.</p></td></tr>
+          <tr><td>Win rate</td><td>up to 6</td><td><p>Cut from 15 in v3.0. Every invitee wins, so a continuous percentage can't separate a group selected on winning.</p></td></tr>
+          <tr><td>Loss band</td><td>8, 7, 2, 0</td><td><p>Replaced the undefeated bonus. Among invitees, zero and one loss are nearly the same; the drop comes at two.</p></td></tr>
+          <tr><td>Win streak</td><td>square root</td><td><p>Scores <strong>below chance</strong> against invites (AUC 0.485). It looked like the strongest variable when tested against contracts, which was the wrong target. Its weight was not raised.</p></td></tr>
+          <tr><td>Promotion</td><td>3 to 15</td><td><p>Each promotion's share of verified Season 9 invitees. LFA alone produced about a fifth. Unlisted regional shows score 3, not 0: a longer shot, not a dead end. At this sample size two invitees move a promotion a whole tier, so read tiers as ordinal.</p></td></tr>
+          <tr><td>Age</td><td>−3 to +3</td><td><p>26 to 29 earns 3, 23 to 25 and 30 to 31 are neutral, everyone else loses 3. Invite share says older, outcomes say younger; when two signals disagree, near-flat is the honest answer.</p></td></tr>
+          <tr><td>Title wins</td><td>uncapped</td><td><p>Scaled by the promotion's tier, with diminishing returns per belt. A belt at a show that sends fighters to the UFC counts for more.</p></td></tr>
+          <tr><td>Bonuses</td><td>+4, +3</td><td><p>Elite finish rate (normalized 85 or more) and a win streak of seven or more.</p></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout dwcs"><strong>The age term still leans against very young fighters.</strong> A 22-year-old loses 3 points that a 27-year-old gains.
+      That's right if what you're describing is who actually gets invited, and it feels wrong on something called a prospect board. Flagged here so nobody runs into it and assumes the formula is broken.</div>
+  </div>
+</section>
+
+<section class="block" id="validation">
+  <div class="wrap">
+    <div class="block-intro">
+      <h2 class="display">What counts as a hit</h2>
+      <p>The DWCS score describes an invite profile, so it has to be judged against the invitation, not whether the fighter wins once he's on the show.
+        A fighter can get invited and lose in ninety seconds and the score was still right about the only thing it claimed.
+        That raises the bar: an invitation only counts as evidence if the score was locked and dated <strong>before</strong> the booking was public.</p>
+    </div>
+    <div class="versions">
+      <div class="panel"><div class="v" style="color:var(--dwcs)">v2.7.1</div><div class="s">Frozen</div><p>Locked before the Season 10 premiere and never edited. Used for calibration, and for the results table on Off the Board.</p></div>
+      <div class="panel"><div class="v" style="color:var(--dwcs)">v2.8.5</div><div class="s">Retired 24 Oct 2026</div><p>Win-rate penalty removed, title curve tied to promotion tier, age taken from invitee share.</p></div>
+      <div class="panel"><div class="v" style="color:var(--dwcs)">v3.0</div><div class="s">Live</div><p>Redundant bonuses deleted, loss bands reshaped. Replaced v2.8.5 after scoring better against real invites: AUC 0.686 vs 0.628.</p></div>
+      <div class="panel"><div class="v" style="color:var(--one)">ONE v3.9</div><div class="s">In validation</div><p>Promotion points from signing share, region bonus, undefeated bonus, no cap. Further changes wait for the end-of-year review.</p></div>
+    </div>
+    <div class="grid-2">
+      <div class="prose">
+        <p><strong>What the frozen column shows.</strong> Across the whole Season 10 field, v2.7.1 averaged 70.9 against 72.0 for Season 9.
+          About a point apart on a season the weights weren't built from. That's a calibration result: the formula describes an invitee field consistently
+          from one year to the next. It doesn't depend on pre-registration, because nothing about it is a prediction.</p>
+      </div>
+      <div class="prose">
+        <p><strong>What it doesn't show, and I got this wrong at first.</strong> Five board fighters turned up on the Season 10 roster, which reads like a hit rate
+          several times the base rate. Then I checked the dates. Most of the roster was public before the board was scored, and all five were already booked.
+          I wasn't picking them; I was scoring people I already knew the answer for. <strong>Clean prospective calls: zero.</strong>
+          Season 11 gets the clean version: board frozen and published before any casting news.</p>
       </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <script>
-    document.getElementById('yr').textContent = new Date().getFullYear();
+<section class="block" id="failures">
+  <div class="wrap">
+    <div class="block-intro">
+      <h2 class="display">What broke, and how it was caught</h2>
+      <p>A methodology page with no failures on it isn't worth much.</p>
+    </div>
+    <div class="failures">
+      <div class="panel"><span class="kind">Leakage</span><h3>A column that had seen the answers</h3><p>An experimental variant hit AUC 0.72 against contract outcomes. It looked great until I remembered I'd tuned it after those outcomes were visible. I deleted the column instead of publishing it.</p></div>
+      <div class="panel"><span class="kind">Contamination</span><h3>Post-signing data in the calibration set</h3><p>A fighter has to be scored on the record he had the day he signed. One showcase fight on a big card doesn't make that promotion his home either; counting it that way inflates his promotion points.</p></div>
+      <div class="panel"><span class="kind">Silent drift</span><h3>Stored values that stopped matching the formula</h3><p>The ONE workbook had component scores typed in as numbers instead of formulas. Over time 26 rows had stale promotion points and 13 had stale age and title values. Every component is a live formula now, reading one shared lookup table.</p></div>
+      <div class="panel"><span class="kind">Name matching</span><h3>Full names where the table keys on codes</h3><p>Looking promotions up by display name instead of code quietly dropped most fighters to the unlisted default and moved scores by up to 12 points. Promotion codes are now fixed keys, with the readable name kept separately.</p></div>
+      <div class="panel"><span class="kind">Documentation</span><h3>Comments that contradicted the code</h3><p>A docstring described an age modifier roughly ten points away from what the function returned. The code was right, so the comment was rewritten to match it.</p></div>
+      <div class="panel"><span class="kind">Deployment</span><h3>A calculator that shipped broken</h3><p>A page update on 24 Oct lost most of the calculator's script, and nothing checked the live page. It's rebuilt from a shared scoring file, and a test now runs it against the Python on more than 8,000 inputs.</p></div>
+    </div>
+  </div>
+</section>
 
-    /* Early access form — same setup as the other pages.
-       Paste your Formspree endpoint below; until then it falls back to email. */
-  </script>
+<section class="block">
+  <div class="wrap grid-2">
+    <div><h2 class="display">Caps discard information</h2></div>
+    <div class="prose">
+      <p>Both formulas run uncapped. Take a fighter who's undefeated, finishes everyone, and holds a belt at a promotion the UFC actually pulls from.
+        Under a cap he looks identical to someone with only one of those three going for him. That's a real difference, and a cap throws it away.
+        Above 100 just means several parts of the profile are elite at once, the same idea as OPS+ in baseball.</p>
+      <p>I've also cut parts that turned out to be doing nothing. A "perfect finisher" bonus could never fire on its own, because a perfect finish rate already clears the elite threshold, so it came out.</p>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="limits">
+  <div class="wrap">
+    <div class="block-intro">
+      <h2 class="display">What this does not claim</h2>
+      <p><strong>There's no control group.</strong> I have the fighters who got signed or invited. I don't have the ones who were looked at and passed over, because nobody publishes that list.
+        So every weight here describes <strong>what a signee or invitee looks like</strong>, not what separates them from someone who got turned down.
+        That's the gap between a benchmark and a prediction, and it's why the word "predicts" doesn't appear on this site.</p>
+    </div>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Limit</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td><b>Small samples</b></td><td>Both formulas are calibrated on small samples. A couple of signings or invites can move a promotion a whole tier. That boundary is noise and is treated as noise.</td></tr>
+          <tr><td><b>Selection circularity</b></td><td>The board scores well above the invitee median, but it was built by selecting on the same things the score measures. That gap comes from how the board was assembled, not evidence that the formula beats matchmakers.</td></tr>
+          <tr><td><b>Hand-picked board</b></td><td>Board fighters were chosen, not sampled, so they can't be used as a comparison group against signees.</td></tr>
+          <tr><td><b>Not an outcome model</b></td><td>The score says nothing about who wins on fight night. Season 9 winners and losers came out even.</td></tr>
+          <tr><td><b>Partial leakage</b></td><td>DWCS age bands include Season 10 fighters, so the Season 10 freeze is clean on every part except that one.</td></tr>
+          <tr><td><b>Confounded age signal</b></td><td>There are simply more 27 to 30 year olds competing, which inflates their invite share. The term ignores conversion rate.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap">
+    <div>
+      <p style="color:var(--muted);margin-bottom:8px"><strong>Champion Ascendant</strong></p>
+      <p>A benchmark, not a prediction. ASCENT describes how closely a fighter matches the record profile of real signings and invites. It doesn't say who will get signed.</p>
+      <p style="margin-top:10px">&copy; <span data-year>2026</span> Champion Ascendant. Conceived and directed by Chris, built with AI tools.</p>
+    </div>
+    <div>
+      <h4>Site</h4>
+      <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/receipts">Off the Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
+    </div>
+    <div>
+      <h4>Sources</h4>
+      <ul><li>Tapology (records of truth)</li><li>Sherdog</li><li>FightMatrix division finish rates</li><li>onefc.com, ufc.com</li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo">Source code on GitHub</a></li></ul>
+    </div>
+  </div>
+</footer>
+
+<script src="/static/site.js"></script>
 </body>
 </html>

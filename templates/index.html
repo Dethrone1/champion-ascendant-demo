@@ -3,1002 +3,409 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Champion Ascendant — The ASCENT Scoring System</title>
-  <meta name="description" content="ASCENT benchmarks unsigned MMA fighters against the measured profile of fighters ONE Championship signed and the Contender Series invited. Two separate deterministic formulas, both auditable."/>
-
-  <!-- Open Graph / social previews (important for IG DM links) -->
+  <title>Champion Ascendant — ASCENT scores for unsigned MMA fighters</title>
+  <meta name="description" content="ASCENT scores unsigned MMA fighters against the records of fighters ONE Championship signed and the Contender Series invited. Two separate formulas, every point shown, every published score reproduced by tests."/>
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Champion Ascendant"/>
-  <meta property="og:title" content="The ASCENT Score — Signing Readiness for Unsigned MMA Fighters"/>
-  <meta property="og:description" content="A 0–100 benchmark built on verified ONE Championship signings and DWCS outcomes. No black boxes — every score breaks down into visible parts."/>
+  <meta property="og:title" content="Champion Ascendant — the ASCENT score"/>
+  <meta property="og:description" content="Unsigned MMA fighters, scored against who actually got signed. Two formulas, never combined. Every point shown."/>
   <meta property="og:url" content="https://championascendant.com/"/>
   <meta property="og:image" content="https://championascendant.com/og-card.png"/>
   <meta name="twitter:card" content="summary_large_image"/>
-  <meta name="twitter:title" content="The ASCENT Score — Champion Ascendant"/>
-  <meta name="twitter:description" content="Score unsigned MMA fighters 0–100 on signing readiness. ONE Championship and DWCS pathways."/>
   <meta name="twitter:image" content="https://championascendant.com/og-card.png"/>
-  <!-- TODO: create og-card.png (1200x630) — a score-card mockup works best -->
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0D1626"/>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..800&family=Bebas+Neue&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="/static/site.css"/>
   <style>
-    :root {
-      --midnight: #1C2E4A;
-      --midnight-deep: #0F1B2D;
-      --gold: #D4AF37;
-      --gold-dim: rgba(212,175,55,0.15);
-      --gold-glow: rgba(212,175,55,0.3);
-      --charcoal: #2C2C2C;
-      --charcoal-light: #3A3A3A;
-      --white: #F0F0F0;
-      --gray: #A0A8B4;
-      --gray-dim: #6A7280;
-      --red: #C0392B;
-      --amber: #E67E22;
-      --green: #27AE60;
-      --font-display: 'Bebas Neue', sans-serif;
-      --font-body: 'Source Sans 3', system-ui, sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --radius: 12px;
-      --radius-sm: 8px;
-      --max: 1100px;
+    .hero { padding: 64px 0 72px; border-bottom: 1px solid var(--line-soft); }
+    .hero .wrap { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+    .hero h1 { margin-bottom: 22px; }
+    .hero .lede { margin-bottom: 30px; }
+    .hero .systems { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 26px; font-size: 14px; color: var(--dim); }
+
+    .tape { background: var(--panel); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 26px 26px 22px; }
+    .tape-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding-bottom: 18px; margin-bottom: 20px; border-bottom: 1px solid var(--line-soft); }
+    .tape-name { font-family: var(--font-display); font-size: 40px; line-height: 0.95; }
+    .tape-meta { font-size: 14px; color: var(--muted); margin-top: 6px; }
+    .tape-record { font-family: var(--font-display); font-size: 40px; line-height: 0.95; text-align: right; }
+    .tape-record small { display: block; font-family: var(--font-body); font-size: 12px; color: var(--dim); }
+    .tape .anatomy + .anatomy { margin-top: 20px; }
+    .tape-foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line-soft); font-size: 13px; color: var(--dim); }
+
+    .audience h3 a { color: var(--text); text-decoration: none; }
+    .audience h3 a:hover { color: var(--one); }
+    .audience .panel { display: flex; flex-direction: column; gap: 8px; }
+    .audience .panel .go { margin-top: auto; padding-top: 10px; font-weight: 700; font-size: 15px; }
+
+    /* calculator */
+    .calc { display: grid; grid-template-columns: 1fr 1.05fr; gap: 28px; align-items: start; }
+    .form { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 24px; }
+    .form fieldset { border: 0; padding: 0; margin: 0 0 20px; }
+    .form legend { font-size: 15px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .row.three { grid-template-columns: repeat(3, 1fr); }
+    .row.two { grid-template-columns: 1fr 1fr; }
+    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 5px; font-weight: 600; }
+    .field input, .field select {
+      width: 100%; padding: 10px 12px; font: 600 15px var(--font-body); color: var(--text);
+      background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-sm);
     }
+    .field input:focus, .field select:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px rgba(244,214,122,0.18); }
+    .field.bad input { border-color: var(--neg); }
+    .field .hint { font-size: 12px; color: var(--dim); margin-top: 4px; }
+    .preset { display: flex; gap: 10px; align-items: end; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--line-soft); }
+    .preset .field { flex: 1; }
+    .form-msg { font-size: 14px; color: var(--neg); min-height: 1.4em; }
+    .results { display: grid; gap: 16px; position: sticky; top: 84px; }
+    .result { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 22px; }
+    .result.one { border-top: 3px solid var(--one); }
+    .result.dwcs { border-top: 3px solid var(--dwcs); }
+    .result .empty { color: var(--dim); font-size: 15px; }
+    .result-note { font-size: 13px; color: var(--dim); margin-top: 12px; }
+    .apart { font-size: 13px; color: var(--dim); text-align: center; }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    html, body { overflow-x: hidden; }
+    .factor-tables { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .factor-tables h3 { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+    .factor-tables td:first-child { font-weight: 700; white-space: nowrap; }
+    .factor-tables td.pts { white-space: nowrap; color: var(--muted); }
+    .factor-tables td p { font-size: 14px; color: var(--muted); }
 
-    body {
-      font-family: var(--font-body);
-      background: var(--midnight-deep);
-      color: var(--white);
-      line-height: 1.6;
-      -webkit-font-smoothing: antialiased;
+    @media (max-width: 960px) {
+      .hero .wrap, .calc, .factor-tables { grid-template-columns: 1fr; }
+      .results { position: static; }
     }
-
-    a { color: var(--gold); text-decoration: none; }
-    a:hover { text-decoration: underline; }.wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
-
-    /* bg shapes */.page-ornaments { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }.bg-orb {
-      position: absolute; width: 480px; height: 480px; border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, rgba(212,175,55,0.18), rgba(212,175,55,0.05) 50%, transparent 72%);
-      border: 1px solid rgba(212,175,55,0.18); opacity: 0.7;
-      animation: orbPulse 5s ease-in-out infinite;
-    }.bg-orb::after { content: ""; position: absolute; inset: 30px; border-radius: 50%; border: 1px dashed rgba(255,255,255,0.08); }
-    @keyframes orbPulse {
-      0%,100% { transform: translate3d(0,0,0) scale(1); opacity: 0.55; }
-      50% { transform: translate3d(10px,6px,0) scale(1.04); opacity: 0.75; }
-    }.bg-octagon {
-      position: absolute; width: 520px; height: 520px;
-      clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-      background: radial-gradient(circle at 35% 35%, rgba(192,57,43,0.14), rgba(212,175,55,0.06) 50%, transparent 72%);
-      border: 1px solid rgba(212,175,55,0.12); opacity: 0.65; transform: rotate(12deg);
-      animation: octaFloat 8s ease-in-out infinite;
+    @media (max-width: 520px) {
+      .row { grid-template-columns: 1fr 1fr; }
+      .row.three { grid-template-columns: 1fr 1fr; }
+      .tape { padding: 20px 18px; }
+      .tape-name, .tape-record { font-size: 32px; }
     }
-    @keyframes octaFloat {
-      0%,100% { transform: rotate(12deg) translate3d(0,0,0); }
-      50% { transform: rotate(12deg) translate3d(-12px,14px,0); }
-    }.orb-tl { left: -200px; top: -200px; }.oct-br { right: -220px; bottom: -260px; }.orb-br { right: -160px; bottom: 30%; width: 380px; height: 380px; opacity: 0.4; }.oct-tl { left: -240px; top: 40%; opacity: 0.4; width: 440px; height: 440px; }
-
-    /* nav */.topbar {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(15,27,45,0.92); backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(212,175,55,0.1);
-    }.topbar-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }.brand { display: flex; align-items: center; gap: 12px; }.brand-icon {
-      width: 38px; height: 38px; border-radius: 10px;
-      background: linear-gradient(135deg, var(--gold), rgba(212,175,55,0.5));
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(212,175,55,0.25);
-    }.brand-icon svg { width: 20px; height: 20px; }.brand-text { font-family: var(--font-display); font-size: 22px; letter-spacing: 1.5px; }.brand-sub { font-size: 10px; font-weight: 700; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }.nav-links { display: flex; gap: 28px; align-items: center; }.nav-links a { font-size: 13px; font-weight: 700; color: var(--gray); letter-spacing: 0.3px; transition: color 0.2s; }.nav-links a:hover { color: var(--gold); text-decoration: none; }.nav-cta {
-      padding: 8px 18px; border-radius: 999px;
-      background: var(--gold); color: var(--midnight-deep) !important;
-      font-weight: 900 !important;
-    }.nav-cta:hover { text-decoration: none !important; filter: brightness(1.08); }.hero { padding: 80px 0 60px; text-align: center; position: relative; }.hero h1 { font-family: var(--font-display); font-size: clamp(48px, 7vw, 80px); letter-spacing: 3px; line-height: 1; margin-bottom: 20px; }.hero h1 .gold { color: var(--gold); }.hero-sub { font-size: 18px; color: var(--gray); max-width: 60ch; margin: 0 auto 32px; line-height: 1.7; }.hero-sub strong { color: var(--white); font-weight: 700; }.hero-badges { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-bottom: 30px; }.hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      padding: 8px 16px; border-radius: 999px;
-      border: 1px solid rgba(212,175,55,0.2); background: rgba(212,175,55,0.06);
-      font-size: 13px; font-weight: 700; color: var(--gold);
-    }.hero-cta-row { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }.btn-primary {
-      display: inline-block; padding: 14px 30px; border-radius: var(--radius-sm);
-      background: var(--gold); color: var(--midnight-deep);
-      font-family: var(--font-display); font-size: 20px; letter-spacing: 2px;
-      box-shadow: 0 6px 20px rgba(212,175,55,0.25); transition: all 0.2s;
-    }.btn-primary:hover { transform: translateY(-2px); text-decoration: none; box-shadow: 0 10px 30px rgba(212,175,55,0.35); }.btn-ghost {
-      display: inline-block; padding: 14px 30px; border-radius: var(--radius-sm);
-      border: 1px solid rgba(212,175,55,0.35); color: var(--gold);
-      font-family: var(--font-display); font-size: 20px; letter-spacing: 2px; transition: all 0.2s;
-    }.btn-ghost:hover { background: rgba(212,175,55,0.08); text-decoration: none; }
-
-    section { padding: 64px 0; position: relative; }.section-label {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 900; color: var(--gold);
-      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px;
-    }.section-label::before { content: ""; width: 28px; height: 2px; background: var(--gold); }.section-title { font-family: var(--font-display); font-size: clamp(30px, 4vw, 48px); letter-spacing: 2px; line-height: 1.1; margin-bottom: 16px; }.section-desc { font-size: 16px; color: var(--gray); max-width: 62ch; line-height: 1.65; margin-bottom: 36px; }.divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.15), transparent); }
-
-    /* pathway tabs */.pathway-tabs {
-      display: flex; gap: 0; margin-bottom: 32px;
-      border-radius: var(--radius); overflow: hidden;
-      border: 1px solid rgba(212,175,55,0.15); width: fit-content;
-    }.pathway-tab {
-      padding: 14px 32px; font-family: var(--font-display);
-      font-size: 20px; letter-spacing: 2px; cursor: pointer;
-      background: var(--charcoal); color: var(--gray);
-      border: none; transition: all 0.2s;
-      display: flex; align-items: center; gap: 10px;
-    }.pathway-tab .tab-icon { width: 20px; height: 20px; display: inline-flex; }.pathway-tab.active { background: var(--gold); color: var(--midnight-deep); }.pathway-tab:not(.active):hover { background: var(--charcoal-light); color: var(--white); }.pathway-panel { display: none; }.pathway-panel.active { display: block; }.calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }.calc-inputs {
-      background: var(--charcoal);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: var(--radius); padding: 28px;
-    }.calc-inputs h3 { font-family: var(--font-display); font-size: 24px; letter-spacing: 1.5px; margin-bottom: 20px; color: var(--gold); }.field { margin-bottom: 16px; }.field label {
-      display: block; font-size: 12px; font-weight: 900;
-      color: var(--gray); text-transform: uppercase;
-      letter-spacing: 0.8px; margin-bottom: 6px;
-    }.field input, .field select {
-      width: 100%; padding: 12px 14px;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,0.08);
-      background: var(--midnight); color: var(--white);
-      font-size: 15px; font-weight: 600;
-      font-family: var(--font-body); outline: none;
-      transition: all 0.2s;
-    }.field input:focus, .field select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }.field input::placeholder { color: var(--gray-dim); }.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }.field .hint { font-size: 11px; color: var(--gray-dim); margin-top: 3px; }.field .error-hint { font-size: 11px; color: var(--red); margin-top: 3px; display: none; }.field.has-error input, .field.has-error select { border-color: var(--red); }.field.has-error .error-hint { display: block; }.field.has-error .hint { display: none; }.calc-btn {
-      width: 100%; padding: 14px;
-      border-radius: var(--radius-sm);
-      background: var(--gold); color: var(--midnight-deep);
-      font-family: var(--font-display); font-size: 20px;
-      letter-spacing: 2px; border: none; cursor: pointer;
-      margin-top: 8px; transition: all 0.2s;
-      box-shadow: 0 6px 20px rgba(212,175,55,0.25);
-    }.calc-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.35); }
-
-    /* result panel */.result-card {
-      background: var(--charcoal);
-      border: 1px solid rgba(212,175,55,0.15);
-      border-radius: var(--radius); padding: 28px;
-      position: sticky; top: 80px;
-    }.result-placeholder { text-align: center; padding: 48px 20px; color: var(--gray-dim); font-size: 15px; }.result-placeholder .placeholder-icon { font-size: 48px; margin-bottom: 12px; opacity: 0.4; }.result-score-row { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }.score-ring-wrap { width: 100px; height: 100px; position: relative; flex-shrink: 0; }.score-ring-wrap svg { width: 100px; height: 100px; transform: rotate(-90deg); }.score-ring-wrap .ring-bg { fill: none; stroke: rgba(255,255,255,0.06); stroke-width: 7; }.score-ring-wrap .ring-fill {
-      fill: none; stroke: var(--gold); stroke-width: 7;
-      stroke-linecap: round; stroke-dasharray: 263; stroke-dashoffset: 263;
-      transition: stroke-dashoffset 1s ease;
-    }.score-number {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-family: var(--font-mono); font-size: 28px; font-weight: 700; color: var(--gold);
-    }.score-meta strong { display: block; font-size: 18px; font-weight: 900; margin-bottom: 2px; }.score-meta .tier { font-size: 13px; color: var(--gray); font-weight: 700; }.benchmark-note {
-      margin-top: 14px; padding: 10px 14px; border-radius: var(--radius-sm);
-      background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.12);
-      font-size: 12px; color: var(--gray); line-height: 1.5;
-    }.benchmark-note strong { color: var(--gold); }.breakdown-list { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }.breakdown-row {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 10px 14px; border-radius: var(--radius-sm);
-      background: rgba(255,255,255,0.02);
-      border: 1px solid rgba(255,255,255,0.04); font-size: 13px;
-    }.breakdown-row .bl { color: var(--gray); font-weight: 600; }.breakdown-row .bv { font-family: var(--font-mono); font-weight: 700; font-size: 13px; }.bv.positive { color: var(--green); }.bv.negative { color: var(--red); }.bv.neutral { color: var(--white); }.factors-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }.factor-card {
-      padding: 24px; border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.06);
-      background: var(--charcoal); transition: border-color 0.2s;
-    }.factor-card:hover { border-color: rgba(212,175,55,0.2); }.factor-card .factor-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }.factor-card .factor-weight {
-      font-family: var(--font-mono); font-size: 12px; font-weight: 700;
-      padding: 3px 8px; border-radius: 999px;
-      background: rgba(212,175,55,0.12); color: var(--gold);
-    }.factor-card h4 { font-size: 15px; font-weight: 900; }.factor-card p { font-size: 13px; color: var(--gray); line-height: 1.55; }.method-box {
-      padding: 28px; border-radius: var(--radius);
-      border: 1px solid rgba(212,175,55,0.15);
-      background: rgba(212,175,55,0.03);
-    }.method-box h3 { font-family: var(--font-display); font-size: 24px; letter-spacing: 1.5px; margin-bottom: 10px; }.method-box p { font-size: 14px; color: var(--gray); line-height: 1.65; max-width: 72ch; }.source-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }.source-tag {
-      padding: 5px 12px; border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.02);
-      font-size: 12px; font-weight: 700; color: var(--gray);
-    }.stat-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }.stat-box {
-      padding: 20px; border-radius: var(--radius);
-      border: 1px solid rgba(255,255,255,0.06);
-      background: var(--charcoal); text-align: center;
-    }.stat-box .num { font-family: var(--font-mono); font-size: 26px; font-weight: 700; color: var(--gold); display: block; margin-bottom: 4px; }.stat-box .desc { font-size: 11px; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; }
-
-    /* discovery / access section */.access-card {
-      border-radius: var(--radius);
-      border: 1px solid rgba(212,175,55,0.25);
-      background: linear-gradient(160deg, rgba(212,175,55,0.08), rgba(28,46,74,0.5));
-      padding: 40px; text-align: center;
-    }.access-card h2 { font-family: var(--font-display); font-size: clamp(28px, 4vw, 42px); letter-spacing: 2px; margin-bottom: 12px; }.access-card p { font-size: 15px; color: var(--gray); max-width: 56ch; margin: 0 auto 24px; line-height: 1.65; }.access-form { display: flex; gap: 10px; max-width: 620px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }.access-form input[type=email] {
-      flex: 1 1 240px; padding: 14px 16px;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,0.12);
-      background: var(--midnight-deep); color: var(--white);
-      font-size: 15px; font-weight: 600; font-family: var(--font-body); outline: none;
-    }.access-form input[type=email]:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(212,175,55,0.15); }.access-form select {
-      flex: 0 1 170px; padding: 14px 12px;
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,0.12);
-      background: var(--midnight-deep); color: var(--white);
-      font-size: 14px; font-weight: 600; font-family: var(--font-body); outline: none;
-    }.access-form button {
-      flex: 0 0 auto; padding: 14px 26px;
-      border-radius: var(--radius-sm); border: none; cursor: pointer;
-      background: var(--gold); color: var(--midnight-deep);
-      font-family: var(--font-display); font-size: 18px; letter-spacing: 1.5px;
-      box-shadow: 0 6px 20px rgba(212,175,55,0.25); transition: all 0.2s;
-    }.access-form button:hover { transform: translateY(-2px); }.access-micro { font-size: 12px; color: var(--gray-dim); margin-top: 12px; }.access-status { font-size: 14px; font-weight: 700; margin-top: 14px; display: none; }.access-status.ok { display: block; color: var(--green); }.access-status.err { display: block; color: var(--red); }
-
-    footer { padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.04); font-size: 12px; color: var(--gray-dim); }.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-
-    /* sticky mobile CTA */.sticky-cta {
-      display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
-      padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
-      background: rgba(15,27,45,0.96); backdrop-filter: blur(10px);
-      border-top: 1px solid rgba(212,175,55,0.25);
-    }.sticky-cta a {
-      display: block; text-align: center; padding: 12px;
-      border-radius: var(--radius-sm); background: var(--gold);
-      color: var(--midnight-deep); font-family: var(--font-display);
-      font-size: 18px; letter-spacing: 1.5px;
-    }.sticky-cta a:hover { text-decoration: none; }.js-on .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s ease, transform 0.5s ease; }.js-on .reveal.visible { opacity: 1; transform: translateY(0); }
-
-    @media (max-width: 900px) {.calc-layout { grid-template-columns: 1fr; }.factors-grid { grid-template-columns: 1fr; }.stat-row { grid-template-columns: 1fr 1fr; }.result-card { position: static; }.sticky-cta { display: block; }
-      body { padding-bottom: 0; }
-    }
-    @media (max-width: 640px) {.hero { padding: 48px 0 36px; }
-      section { padding: 48px 0; }.pathway-tab { padding: 12px 20px; font-size: 16px; }.field-row { grid-template-columns: 1fr; }.access-card { padding: 28px 20px; }
-    }
-    @media (prefers-reduced-motion: reduce) {.reveal { opacity: 1; transform: none; transition: none; }.bg-orb, .bg-octagon { animation: none; }
-    }.access-notes-wrap { margin: 14px auto 0; text-align: left; max-width: 560px; }.access-notes-wrap label { display:block; font-size:13px; font-weight:700; color:var(--gray); margin-bottom:6px; }.access-notes-wrap input {
-      width:100%; padding:12px 14px; border-radius:var(--radius-sm);
-      border:1px solid rgba(212,175,55,0.25); background:rgba(255,255,255,0.04);
-      color:var(--white); font-family:var(--font-body); font-size:15px;
-    }.access-notes-wrap input:focus { outline:2px solid var(--gold); outline-offset:2px; border-color:var(--gold); }
-
-    /* --- mobile nav: scrollable strip, never hidden --- */
-    @media (max-width: 900px) {.topbar-inner { gap: 10px; }.brand-sub { display: none; }.brand-text { font-size: 18px; }.nav-links {
-        gap: 18px; overflow-x: auto; flex: 1; justify-content: flex-end;
-        -webkit-overflow-scrolling: touch; scrollbar-width: none;
-        mask-image: linear-gradient(to right, transparent 0, #000 14px);
-        -webkit-mask-image: linear-gradient(to right, transparent 0, #000 14px);
-      }.nav-links::-webkit-scrollbar { display: none; }.nav-links a { display: inline-block !important; white-space: nowrap; font-size: 12px; }.nav-links a.nav-cta { position: sticky; right: 0; }
-    }
-    @media (max-width: 520px) {.brand-text { font-size: 16px; }.nav-links { gap: 14px; }
-    }
-
-    /* nav must not wrap once a 6th item exists */.nav-links a { white-space: nowrap; }.brand-text { white-space: nowrap; }
-    @media (max-width: 1100px) { .nav-links { gap: 20px; } }
-
-    /* Tap targets: text links default to ~14-19px tall, which is a small target on a
-       phone. Pad them out vertically without changing how they look. */
-    @media (max-width: 900px) {.nav-links a { padding: 9px 0; }.receipt-body a, .outcome a, .footnote a, .m-section a, .verify a { display: inline-block; padding: 9px 0; }.filter-chip { min-height: 38px; }
-    }.access-mail {
-      display: inline-block; margin: 22px auto 0; padding: 15px 30px;
-      background: var(--gold); color: var(--midnight-deep);
-      font-family: var(--font-mono); font-size: 15px; font-weight: 700; letter-spacing: 0.5px;
-      border-radius: var(--radius-sm); text-decoration: none; word-break: break-all;
-    }.access-mail:hover { filter: brightness(1.08); }
-    @media (max-width: 520px) { .access-mail { font-size: 13px; padding: 14px 20px; } }
   </style>
 </head>
 <body>
-
-  <div class="page-ornaments" aria-hidden="true">
-    <div class="bg-orb orb-tl"></div>
-    <div class="bg-octagon oct-br"></div>
-    <div class="bg-orb orb-br"></div>
-    <div class="bg-octagon oct-tl"></div>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="Champion Ascendant home">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M10 2h12l8 8v12l-8 8H10l-8-8V10z" fill="none" stroke="#E2B53F" stroke-width="2"/><path d="M10 22v-4M16 22v-8M22 22V10" stroke="#E2B53F" stroke-width="3" stroke-linecap="round"/></svg>
+      <span class="brand-name">Champion Ascendant</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <a href="/#calculator">Calculator</a>
+      <a href="/both">Board</a>
+      <a href="/receipts">Off the Board</a>
+      <a href="/methodology">Method</a>
+      <a href="/build">How it's built</a>
+      <a class="gh" href="https://github.com/Dethrone1/champion-ascendant-demo"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</a>
+    </nav>
   </div>
+</header>
 
-  <div class="topbar">
+<main id="main">
+  <section class="hero">
     <div class="wrap">
-      <div class="topbar-inner">
-        <div class="brand">
-          <div class="brand-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#1C2E4A" stroke-width="2.5" stroke-linecap="round"><path d="M12 2L15 9H21L16 14L18 21L12 17L6 21L8 14L3 9H9L12 2Z"/></svg>
-          </div>
-          <div>
-            <div class="brand-text">CHAMPION ASCENDANT</div>
-            <div class="brand-sub">The Ascent System</div>
-          </div>
-        </div>
-        <nav class="nav-links">
-          <a href="#calculator">Calculator</a>
-          <a href="#factors">Factors</a>
-          <a href="#data">Data</a>
-          <a href="both.html">Both Systems</a>
-          <a href="receipts.html">Off the Board</a>
-          <a href="methodology.html">Method</a>
-        </nav>
-      </div>
-    </div>
-  </div>
-
-  <header class="hero">
-    <div class="wrap">
-      <h1>THE <span class="gold">ASCENT</span> SCORE</h1>
-      <p class="hero-sub">
-        Professional fighters get signed on somebody's opinion. ASCENT scores them instead, ranking an unsigned
-        fighter against the measured profile of the people who actually got picked. It uses only what anyone can
-        look up: win rate, how often he finishes fights, who he's been fighting for, his age.
-        <br/><br/>
-        There are two separate systems, because there are two main routes into the sport's top tier.
-        <strong>ONE Championship</strong> is a major promotion that signs fighters directly.
-        The <strong>Contender Series</strong> is the UFC's televised tryout show. They look for different things,
-        so they get different formulas built on different data, and the two are never mixed.
-      </p>
-      <div class="hero-badges">
-        <span class="hero-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
-          Deterministic
-        </span>
-        <span class="hero-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12,2 22,8.5 22,15.5 12,22 2,15.5 2,8.5"/></svg>
-          Verified records
-        </span>
-        <span class="hero-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          No Black Boxes
-        </span>
-      </div>
-      <div class="hero-cta-row">
-        <a class="btn-primary" href="#calculator">SCORE A FIGHTER</a>
-        <a class="btn-ghost" href="methodology.html">HOW IT WORKS</a>
-      </div>
-    </div>
-  </header>
-
-  <div class="wrap"><div class="divider"></div></div>
-
-  <section id="calculator" class="reveal">
-    <div class="wrap">
-      <div class="section-label">Score a Fighter</div>
-      <h2 class="section-title">ASCENT CALCULATOR</h2>
-      <p class="section-desc">
-        Put in a fighter's numbers and you get his ASCENT score with every component listed out. The two pathways
-        run on different formulas, different weights and different data, so a ONE score and a DWCS score aren't
-        the same unit. Don't compare them.
-      </p>
-
-      <div class="pathway-tabs">
-        <button class="pathway-tab active" data-tab="one" onclick="switchTab('one')">
-          <span class="tab-icon"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/></svg></span>
-          ONE CHAMPIONSHIP
-        </button>
-        <button class="pathway-tab" data-tab="dwcs" onclick="switchTab('dwcs')">
-          <span class="tab-icon"><svg viewBox="0 0 20 20" fill="none"><polygon points="10,1 18.5,5.5 18.5,14.5 10,19 1.5,14.5 1.5,5.5" stroke="currentColor" stroke-width="1.5"/></svg></span>
-          DWCS
-        </button>
-      </div>
-
-      <div class="pathway-panel active" id="panel-one">
-        <div class="calc-layout">
-          <div class="calc-inputs">
-            <h3>ONE CHAMPIONSHIP INPUTS</h3>
-            <div class="field-row">
-              <div class="field">
-                <label>Finish Rate (%)</label>
-                <input type="number" id="one-fr" min="0" max="100" step="0.1" placeholder="e.g. 85"/>
-                <div class="hint">% of wins by KO/TKO/Sub</div>
-                <div class="error-hint">Must be 0–100</div>
-              </div>
-              <div class="field">
-                <label>Win Rate (%)</label>
-                <input type="number" id="one-wr" min="0" max="100" step="0.1" placeholder="e.g. 90"/>
-                <div class="hint">Wins / (Wins + Losses) × 100</div>
-                <div class="error-hint">Must be 0–100</div>
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label>Age</label>
-                <input type="number" id="one-age" min="16" max="50" step="1" placeholder="e.g. 26"/>
-                <div class="hint">Current age (16–50)</div>
-                <div class="error-hint">Must be 16–50</div>
-              </div>
-              <div class="field">
-                <label>Title Fight Wins</label>
-                <input type="number" id="one-titles" min="0" max="30" step="1" value="0"/>
-                <div class="hint">Championship wins (uncapped)</div>
-              </div>
-            </div>
-            <div class="field">
-              <label>Weight Class</label>
-              <select id="one-wc">
-                <option value="Flyweight (125)">Flyweight (125)</option>
-                <option value="Bantamweight (135)">Bantamweight (135)</option>
-                <option value="Featherweight (145)">Featherweight (145)</option>
-                <option value="Lightweight (155)" selected>Lightweight (155)</option>
-                <option value="Welterweight (170)">Welterweight (170)</option>
-                <option value="Middleweight (185)">Middleweight (185)</option>
-                <option value="Light Heavyweight (205)">Light Heavyweight (205)</option>
-                <option value="Heavyweight (265)">Heavyweight (265)</option>
-                <option value="Strawweight (115)">Strawweight (115)</option>
-                <option value="Women's Featherweight (145)">W. Featherweight (145)</option>
-                <option value="Women's Bantamweight (135)">W. Bantamweight (135)</option>
-                <option value="Women's Flyweight (125)">W. Flyweight (125)</option>
-                <option value="Women's Strawweight (115)">W. Strawweight (115)</option>
-                <option value="Women's Atomweight (105)">W. Atomweight (105)</option>
-              </select>
-              <div class="hint">Used to normalize finish rate vs. global division average</div>
-            </div>
-            <div class="field">
-              <label>Main Promotion</label>
-              <select id="one-promo">
-                <optgroup label="12 pts (≥12% signing share)">
-                  <option value="ONE_Friday_Fights">ONE Friday Fights</option>
-                  <option value="LFA">LFA</option>
-                </optgroup>
-                <optgroup label="6 pts (≥6% share)">
-                  <option value="Pancrase">Pancrase</option>
-                </optgroup>
-                <optgroup label="4 pts (≥4% share)">
-                  <option value="ACA">ACA</option>
-                  <option value="Shooto">Shooto</option>
-                </optgroup>
-                <optgroup label="2 pts (≥2% share)">
-                  <option value="AMC_Fight_Nights">AMC Fight Nights</option>
-                  <option value="ARES_FC">Ares FC</option>
-                  <option value="Attitude_MMA">Attitude MMA</option>
-                  <option value="BRAVE_CF">BRAVE CF</option>
-                  <option value="Cage_Warriors">Cage Warriors</option>
-                  <option value="Combate_Global">Combate Global</option>
-                  <option value="DEEP">DEEP</option>
-                  <option value="Eagle_FC">Eagle FC</option>
-                  <option value="EFCA">EFCA</option>
-                  <option value="Eternal_MMA">Eternal MMA</option>
-                  <option value="FNG">Fight Night Global</option>
-                  <option value="GTC">Golden Team Championship</option>
-                  <option value="Hardcore_MMA">Hardcore MMA</option>
-                  <option value="Heat">Heat</option>
-                  <option value="Khan_Fight">Khan Fight</option>
-                  <option value="KSW">KSW</option>
-                  <option value="Kunlun_Fight">Kunlun Fight</option>
-                  <option value="Magic_Arena">Magic Arena</option>
-                  <option value="MMA_Sanda_Combat">MMA Sanda Combat</option>
-                  <option value="MMA_Series">MMA Series</option>
-                  <option value="Naiza_FC">Naiza FC</option>
-                  <option value="NFC">NFC</option>
-                  <option value="OLMMA">Octagon League (OLMMA)</option>
-                  <option value="ONE_Warrior_Series">ONE Warrior Series</option>
-                  <option value="Peak_Fighting">Peak Fighting</option>
-                  <option value="RIZIN">RIZIN</option>
-                  <option value="Road_FC">Road FC</option>
-                  <option value="SFH">Samurai Fight House</option>
-                  <option value="SFL">SFL</option>
-                  <option value="Shooto_Brazil">Shooto Brazil</option>
-                  <option value="UFC">UFC</option>
-                  <option value="WEF">World Ertaymash Federation</option>
-                </optgroup>
-                <optgroup label="0 pts (&lt;2% share / development)">
-                  <option value="BFL">BFL</option>
-                  <option value="CFC">CFC</option>
-                  <option value="Fury_FC">Fury FC</option>
-                  <option value="Fusion_FC">Fusion FC</option>
-                  <option value="Hex_Fight_Series">Hex Fight Series</option>
-                  <option value="IMMAF">IMMAF</option>
-                  <option value="JFC">JFC</option>
-                  <option value="MMATC">MMATC</option>
-                  <option value="NAFC">NAFC</option>
-                  <option value="OKMMA">OKMMA</option>
-                  <option value="One_Pride_MMA">One Pride MMA</option>
-                  <option value="Road_To_UFC">Road to UFC</option>
-                  <option value="UAEW">UAE Warriors</option>
-                  <option value="Wu_Lin_Feng">Wu Lin Feng</option>
-                  <option value="Regional_Shows" selected>Regional / Other</option>
-                </optgroup>
-              </select>
-              <div class="hint">Fighter's actual home promotion (most recent regular activity)</div>
-            </div>
-            <div class="field">
-              <label>Country of Origin</label>
-              <select id="one-country">
-                <optgroup label="East Asia (+6 Origin Fit)">
-                  <option value="China">China</option>
-                  <option value="Japan">Japan</option>
-                  <option value="South Korea">South Korea</option>
-                  <option value="Taiwan">Taiwan</option>
-                  <option value="Hong Kong">Hong Kong</option>
-                </optgroup>
-                <optgroup label="South America (+6)">
-                  <option value="Argentina">Argentina</option>
-                  <option value="Bolivia">Bolivia</option>
-                  <option value="Brazil">Brazil</option>
-                  <option value="Chile">Chile</option>
-                  <option value="Colombia">Colombia</option>
-                  <option value="Ecuador">Ecuador</option>
-                  <option value="Paraguay">Paraguay</option>
-                  <option value="Peru">Peru</option>
-                  <option value="Uruguay">Uruguay</option>
-                  <option value="Venezuela">Venezuela</option>
-                </optgroup>
-                <optgroup label="North America (+4)">
-                  <option value="Canada">Canada</option>
-                  <option value="Mexico">Mexico</option>
-                  <option value="USA" selected>USA</option>
-                </optgroup>
-                <optgroup label="Central Asia (+4)">
-                  <option value="Kazakhstan">Kazakhstan</option>
-                  <option value="Kyrgyzstan">Kyrgyzstan</option>
-                  <option value="Mongolia">Mongolia</option>
-                  <option value="Tajikistan">Tajikistan</option>
-                  <option value="Turkmenistan">Turkmenistan</option>
-                  <option value="Uzbekistan">Uzbekistan</option>
-                </optgroup>
-                <optgroup label="Middle East (+4)">
-                  <option value="Bahrain">Bahrain</option>
-                  <option value="Egypt">Egypt</option>
-                  <option value="Iran">Iran</option>
-                  <option value="Iraq">Iraq</option>
-                  <option value="Israel">Israel</option>
-                  <option value="Jordan">Jordan</option>
-                  <option value="Kuwait">Kuwait</option>
-                  <option value="Lebanon">Lebanon</option>
-                  <option value="Oman">Oman</option>
-                  <option value="Qatar">Qatar</option>
-                  <option value="Saudi Arabia">Saudi Arabia</option>
-                  <option value="Syria">Syria</option>
-                  <option value="Turkey">Turkey</option>
-                  <option value="United Arab Emirates">UAE</option>
-                </optgroup>
-                <optgroup label="Eastern Europe (+4)">
-                  <option value="Belarus">Belarus</option>
-                  <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                  <option value="Bulgaria">Bulgaria</option>
-                  <option value="Croatia">Croatia</option>
-                  <option value="Czech Republic">Czech Republic</option>
-                  <option value="Estonia">Estonia</option>
-                  <option value="Hungary">Hungary</option>
-                  <option value="Latvia">Latvia</option>
-                  <option value="Lithuania">Lithuania</option>
-                  <option value="Moldova">Moldova</option>
-                  <option value="Poland">Poland</option>
-                  <option value="Romania">Romania</option>
-                  <option value="Russia">Russia</option>
-                  <option value="Serbia">Serbia</option>
-                  <option value="Slovakia">Slovakia</option>
-                  <option value="Slovenia">Slovenia</option>
-                  <option value="Ukraine">Ukraine</option>
-                </optgroup>
-                <optgroup label="Southeast Asia (+2)">
-                  <option value="Brunei">Brunei</option>
-                  <option value="Cambodia">Cambodia</option>
-                  <option value="Indonesia">Indonesia</option>
-                  <option value="Laos">Laos</option>
-                  <option value="Malaysia">Malaysia</option>
-                  <option value="Myanmar">Myanmar</option>
-                  <option value="Philippines">Philippines</option>
-                  <option value="Singapore">Singapore</option>
-                  <option value="Thailand">Thailand</option>
-                  <option value="Vietnam">Vietnam</option>
-                </optgroup>
-                <optgroup label="Caucasus (+2)">
-                  <option value="Armenia">Armenia</option>
-                  <option value="Azerbaijan">Azerbaijan</option>
-                  <option value="Georgia">Georgia</option>
-                </optgroup>
-                <optgroup label="Africa (+2)">
-                  <option value="Cameroon">Cameroon</option>
-                  <option value="DR Congo">DR Congo</option>
-                  <option value="Ghana">Ghana</option>
-                  <option value="Ivory Coast">Ivory Coast</option>
-                  <option value="Kenya">Kenya</option>
-                  <option value="Morocco">Morocco</option>
-                  <option value="Nigeria">Nigeria</option>
-                  <option value="Senegal">Senegal</option>
-                  <option value="South Africa">South Africa</option>
-                  <option value="Zambia">Zambia</option>
-                  <option value="Zimbabwe">Zimbabwe</option>
-                </optgroup>
-                <optgroup label="Oceania (+2)">
-                  <option value="Australia">Australia</option>
-                  <option value="Fiji">Fiji</option>
-                  <option value="Guam">Guam</option>
-                  <option value="New Zealand">New Zealand</option>
-                  <option value="Samoa">Samoa</option>
-                  <option value="Tonga">Tonga</option>
-                </optgroup>
-                <optgroup label="Western Europe (+2)">
-                  <option value="Austria">Austria</option>
-                  <option value="Belgium">Belgium</option>
-                  <option value="Denmark">Denmark</option>
-                  <option value="England">England</option>
-                  <option value="Finland">Finland</option>
-                  <option value="France">France</option>
-                  <option value="Germany">Germany</option>
-                  <option value="Greece">Greece</option>
-                  <option value="Iceland">Iceland</option>
-                  <option value="Ireland">Ireland</option>
-                  <option value="Italy">Italy</option>
-                  <option value="Netherlands">Netherlands</option>
-                  <option value="Norway">Norway</option>
-                  <option value="Portugal">Portugal</option>
-                  <option value="Scotland">Scotland</option>
-                  <option value="Spain">Spain</option>
-                  <option value="Sweden">Sweden</option>
-                  <option value="Switzerland">Switzerland</option>
-                  <option value="United Kingdom">United Kingdom</option>
-                  <option value="Wales">Wales</option>
-                </optgroup>
-                <optgroup label="South Asia (+2)">
-                  <option value="Afghanistan">Afghanistan</option>
-                  <option value="Bangladesh">Bangladesh</option>
-                  <option value="India">India</option>
-                  <option value="Nepal">Nepal</option>
-                  <option value="Pakistan">Pakistan</option>
-                  <option value="Sri Lanka">Sri Lanka</option>
-                </optgroup>
-                <optgroup label="Other (+2)">
-                  <option value="Other">Other / Unknown</option>
-                </optgroup>
-              </select>
-            </div>
-            <button class="calc-btn" onclick="calcONE()">CALCULATE ASCENT SCORE</button>
-          </div>
-
-          <div class="result-card" id="one-result">
-            <div class="result-placeholder">
-              <div class="placeholder-icon">&#9733;</div>
-              <p>Enter fighter stats and hit calculate<br/>to see the ONE ASCENT score.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="pathway-panel" id="panel-dwcs">
-        <div class="calc-layout">
-          <div class="calc-inputs">
-            <h3>CONTENDER SERIES INPUTS</h3>
-            <div class="field-row">
-              <div class="field">
-                <label>Finish Rate (%)</label>
-                <input type="number" id="dwcs-fr" min="0" max="100" step="0.1" placeholder="e.g. 85"/>
-                <div class="hint">% of wins by KO/TKO/Sub</div>
-                <div class="error-hint">Must be 0–100</div>
-              </div>
-              <div class="field">
-                <label>Win Rate (%)</label>
-                <input type="number" id="dwcs-wr" min="0" max="100" step="0.1" placeholder="e.g. 90"/>
-                <div class="hint">Wins / (Wins + Losses) × 100</div>
-                <div class="error-hint">Must be 0–100</div>
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label>Age</label>
-                <input type="number" id="dwcs-age" min="16" max="50" step="1" placeholder="e.g. 25"/>
-                <div class="hint">Current age (16–50)</div>
-                <div class="error-hint">Must be 16–50</div>
-              </div>
-              <div class="field">
-                <label>Current Win Streak</label>
-                <input type="number" id="dwcs-streak" min="0" max="50" step="1" value="0"/>
-                <div class="hint">Consecutive wins</div>
-              </div>
-            </div>
-            <div class="field-row">
-              <div class="field">
-                <label>Title Fight Wins</label>
-                <input type="number" id="dwcs-titles" min="0" max="30" step="1" value="0"/>
-                <div class="hint">Championship wins (uncapped)</div>
-              </div>
-              <div class="field">
-                <label>Weight Class</label>
-                <select id="dwcs-wc">
-                  <option value="strawweight">Strawweight</option>
-                  <option value="flyweight">Flyweight</option>
-                  <option value="bantamweight">Bantamweight</option>
-                  <option value="featherweight">Featherweight</option>
-                  <option value="lightweight" selected>Lightweight</option>
-                  <option value="welterweight">Welterweight</option>
-                  <option value="middleweight">Middleweight</option>
-                  <option value="light heavyweight">Light Heavyweight</option>
-                  <option value="heavyweight">Heavyweight</option>
-                  <option value="women's atomweight">W. Atomweight</option>
-                  <option value="women's strawweight">W. Strawweight</option>
-                  <option value="women's flyweight">W. Flyweight</option>
-                  <option value="women's bantamweight">W. Bantamweight</option>
-                  <option value="women's featherweight">W. Featherweight</option>
-                </select>
-              </div>
-            </div>
-            <div class="field">
-              <label>Main Promotion</label>
-              <select id="dwcs-promo">
-                <optgroup label="Tier S — 15 pts (&ge;15% of invitees)">
-                  <option value="LFA" selected>LFA (Legacy Fighting Alliance)</option>
-                </optgroup>
-                <optgroup label="Tier A — 11 pts (6&ndash;15%)">
-                  <option value="Cage Warriors">Cage Warriors (Cage Warriors Fighting Championship)</option>
-                  <option value="Fury FC">Fury FC (Fury Fighting Championship)</option>
-                </optgroup>
-                <optgroup label="Tier B — 8 pts (3&ndash;6%)">
-                  <option value="Ares FC">Ares FC (Ares Fighting Championship)</option>
-                  <option value="CFFC">CFFC (Cage Fury Fighting Championships)</option>
-                  <option value="UAE Warriors">UAE Warriors</option>
-                  <option value="UAEW">UAEW (UAE Warriors)</option>
-                </optgroup>
-                <optgroup label="Tier C — 6 pts (2&ndash;3%)">
-                  <option value="Brave CF">Brave CF (Brave Combat Federation)</option>
-                  <option value="CG">CG (Combate Global)</option>
-                  <option value="Combate Global">Combate Global</option>
-                  <option value="FCC">FCC (Full Contact Contender)</option>
-                  <option value="HEX Fight Series">HEX Fight Series</option>
-                  <option value="Jungle Fight">Jungle Fight</option>
-                  <option value="Octagon">Octagon (Octagon League)</option>
-                  <option value="PFL">PFL (Professional Fighters League)</option>
-                  <option value="Tuff-N-Uff">Tuff-N-Uff</option>
-                </optgroup>
-                <optgroup label="Tier D — 4 pts (listed, &lt;2%)">
-                  <option value="ACA">ACA (Absolute Championship Akhmat)</option>
-                  <option value="AMC Fight Nights">AMC Fight Nights</option>
-                  <option value="BFL">BFL (Battlefield Fight League)</option>
-                  <option value="Babilon MMA">Babilon MMA</option>
-                  <option value="CES">CES (Classic Entertainment & Sports MMA)</option>
-                  <option value="Eternal MMA">Eternal MMA</option>
-                  <option value="FNC">FNC (Fight Nation Championship)</option>
-                  <option value="Flex Fights">Flex Fights</option>
-                  <option value="Fury Challenger Series">Fury Challenger Series</option>
-                  <option value="Invicta FC">Invicta FC (Invicta Fighting Championships)</option>
-                  <option value="Island Fights">Island Fights</option>
-                  <option value="KSW">KSW (Konfrontacja Sztuk Walki)</option>
-                  <option value="Lux Fight League">Lux Fight League</option>
-                  <option value="MMA Mexico Fight Night">MMA Mexico Fight Night</option>
-                  <option value="OKTAGON MMA">OKTAGON MMA</option>
-                  <option value="RIZIN">RIZIN (RIZIN Fighting Federation)</option>
-                  <option value="Ring of Combat">Ring of Combat</option>
-                  <option value="Samourai MMA">Samourai MMA</option>
-                  <option value="Shooto">Shooto</option>
-                  <option value="Shooto Brasil">Shooto Brasil</option>
-                  <option value="Titan FC">Titan FC (Titan Fighting Championship)</option>
-                  <option value="Unified MMA">Unified MMA</option>
-                  <option value="XFC">XFC (Xtreme Fighting Championship)</option>
-                </optgroup>
-                <optgroup label="Tier E — 3 pts (unlisted / regional)">
-                  <option value="A1 Combat">A1 Combat (Urijah Faber's A1 Combat)</option>
-                  <option value="ACC">ACC (Apex Combat Championship)</option>
-                  <option value="AFC">AFC (Ares Fighting Championship)</option>
-                  <option value="AFN">AFN</option>
-                  <option value="AKA">AKA (American Kombat Alliance)</option>
-                  <option value="APFC">APFC (Anthony Pettis Fighting Championship)</option>
-                  <option value="ARMADDA">ARMADDA</option>
-                  <option value="BCC">BCC (Brazilian Cage Combat)</option>
-                  <option value="BFC">BFC (Bidang Fighting Championship)</option>
-                  <option value="Brazilian Cage">Brazilian Cage</option>
-                  <option value="Budo Sento Championship">Budo Sento Championship</option>
-                  <option value="CFC">CFC</option>
-                  <option value="CFP">CFP (Curitiba Fight Pro)</option>
-                  <option value="CWFG">CWFG</option>
-                  <option value="Cage Titans">Cage Titans (Cage Titans FC)</option>
-                  <option value="Combat Night">Combat Night</option>
-                  <option value="Copa Ciclon">Copa Ciclon</option>
-                  <option value="Copa Montanha Fight">Copa Montanha Fight</option>
-                  <option value="Demo Fight">Demo Fight</option>
-                  <option value="EXF">EXF (Elite Xtreme Fighting)</option>
-                  <option value="FFL">FFL (Fusion Fight League)</option>
-                  <option value="Fight For It">Fight For It</option>
-                  <option value="Future MMA">Future MMA</option>
-                  <option value="HXMMA">HXMMA (Hexagone MMA)</option>
-                  <option value="Impact Championships">Impact Championships</option>
-                  <option value="Inka MMA">Inka MMA</option>
-                  <option value="LOC">LOC (Legends of Combat)</option>
-                  <option value="Lemina Shooto">Lemina Shooto</option>
-                  <option value="Longsan Fight">Longsan Fight</option>
-                  <option value="MFL">MFL</option>
-                  <option value="MVP">MVP (Most Valuable Promotion)</option>
-                  <option value="Noita de Guarra">Noita de Guarra</option>
-                  <option value="OCL">OCL (Ohio Combat League)</option>
-                  <option value="ONE">ONE (ONE Championship)</option>
-                  <option value="PMW Ultimate Fight">PMW Ultimate Fight</option>
-                  <option value="PSP">PSP</option>
-                  <option value="Paranagua Fight">Paranagua Fight</option>
-                  <option value="Quality Combat">Quality Combat</option>
-                  <option value="RFA">RFA (Real Fight Arena)</option>
-                  <option value="RUF">RUF (RUF Nation)</option>
-                  <option value="Road FC">Road FC (Road Fighting Championship)</option>
-                  <option value="SFH">SFH (Samurai Fight House)</option>
-                  <option value="Shogun Fights">Shogun Fights</option>
-                  <option value="TKO Palmas">TKO Palmas</option>
-                  <option value="Thunder Fight">Thunder Fight</option>
-                  <option value="UNKNOWN">UNKNOWN</option>
-                  <option value="UWC">UWC (Ultimate Warrior Challenge Mexico)</option>
-                  <option value="Ultimate Battle Grounds">Ultimate Battle Grounds</option>
-                  <option value="WCC">WCC (Warriors Combat Championship)</option>
-                  <option value="WOW FC">WOW FC</option>
-                  <option value="XFC Young Guns">XFC Young Guns</option>
-                </optgroup>
-              </select>
-            </div>
-            <button class="calc-btn" onclick="calcDWCS()">CALCULATE ASCENT SCORE</button>
-          </div>
-
-          <div class="result-card" id="dwcs-result">
-            <div class="result-placeholder">
-              <div class="placeholder-icon">&#9733;</div>
-              <p>Enter fighter stats and hit calculate<br/>to see the DWCS ASCENT score.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="wrap"><div class="divider"></div></div>
-
-  <section id="factors" class="reveal">
-    <div class="wrap">
-      <div class="section-label">Why These Factors</div>
-      <h2 class="section-title">WHAT DRIVES THE SCORE</h2>
-      <p class="section-desc">
-        Every component traces back to something measured in the signing or invite data, including the ones that
-        don't work. Full derivation, sources and limits are on the <a href="methodology.html" style="color:var(--gold)">method page</a>.
-      </p>
-
-      <div style="margin-bottom:20px;">
-        <h3 style="font-family:var(--font-display);font-size:22px;letter-spacing:1.5px;color:var(--gold);margin-bottom:14px;">ONE CHAMPIONSHIP ASCENT (v3.7.1)</h3>
-      </div>
-      <div class="factors-grid" style="margin-bottom:40px;">
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">up to 65 pts</span>
-            <h4>Finish Rate (Normalized)</h4>
-          </div>
-          <p>The dominant component. Normalized against global division averages (FightMatrix, all promotions): a heavyweight finishing 80% is average for his division, a strawweight doing it is exceptional. Normalization puts them on one scale.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">up to 15 pts</span>
-            <h4>Win Rate</h4>
-          </div>
-          <p>Winning matters less than how you win. A decision-heavy undefeated record gets credit, just not as much as a finish-heavy one. ONE leans toward exciting.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">0–14 pts</span>
-            <h4>Promotion Pipeline</h4>
-          </div>
-          <p>Calibrated on 2023–present signings. ONE Friday Fights and LFA lead at 12 pts each, Pancrase 6, ACA and Shooto 4. PromotionBase plus an HQ region bonus for where ONE's scouts actually sign from.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">2–6 pts</span>
-            <h4>Origin Region Fit</h4>
-          </div>
-          <p>Each region's actual share of 2023–present signings. East Asia and South America clear 15% (+6). North America, Central Asia, the Middle East and Eastern Europe sit at 8%+ (+4). Everywhere else +2. Real shares, not anyone's idea of "appeal."</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">-4 to +3 pts</span>
-            <h4>Age (Development Runway)</h4>
-          </div>
-          <p>Under 24 gets +3, 24–27 gets +2, 28–30 neutral, 31–33 gets -2, over 34 gets -4. Not a claim about ability. Promotions invest in longer timelines.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">0 or 3+W pts</span>
-            <h4>Title Fight Wins</h4>
-          </div>
-          <p>3 + number of title fight wins, uncapped. One title win is +4, four is +7, none is nothing. Rewards proven form at the top of a fighter's current promotion.</p>
-        </div>
-      </div>
-
-      <div style="margin-bottom:20px;">
-        <h3 style="font-family:var(--font-display);font-size:22px;letter-spacing:1.5px;color:var(--gold);margin-bottom:14px;">DWCS ASCENT (v2.8.5)</h3>
-      </div>
-      <div class="factors-grid">
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">up to 45 pts</span>
-            <h4>Finish Rate (Normalized)</h4>
-          </div>
-          <p>The strongest single component. Normalized against global division finish rates (FightMatrix, N=261,967 fights) rather than the invitee pool, which is already selected for finishing. A heavyweight finishing 80% is average; a women's strawweight doing it is exceptional.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">up to 15 pts</span>
-            <h4>Win Rate</h4>
-          </div>
-          <p>Winning matters but doesn't dominate. The sub-80% penalty was <strong>removed in v2.8.5</strong> because win rate was already counted four ways, and the thresholds punished 78.6% three points harder than 80.0%.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">0–15 pts</span>
-            <h4>Win Streak</h4>
-          </div>
-          <p>A square-root curve, so the first few wins carry the most weight. Against the invite target it scores <strong>below chance</strong> (AUC 0.485). It earns its keep against contract outcomes instead.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">3–15 pts</span>
-            <h4>Promotion Pipeline</h4>
-          </div>
-          <p>Each promotion's measured share of verified Season 9 invitees. LFA alone accounts for 21% (15 pts); Fury FC and Cage Warriors 6% each (11 pts). At this sample size two invitees moves a promotion a whole tier, so treat the tiers as ordinal.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">-8 to +6 pts</span>
-            <h4>Age</h4>
-          </div>
-          <p>Derived from the age distribution of actual invitees. They cluster at <strong>27&ndash;30</strong> (64% of the field), so that band scores highest and fighters under 25 take a penalty. It measures who gets invited, not who has the most career left.</p>
-        </div>
-        <div class="factor-card">
-          <div class="factor-header">
-            <span class="factor-weight">uncapped</span>
-            <h4>Titles &amp; Stack Bonuses</h4>
-          </div>
-          <p>A promotion-gated curve: at a ranked feeder, +5 for the belt, +5 for the first defense, +3 after. Stack bonuses add for undefeated (+5), elite finish rate (+4), perfect finish rate (+3), 7+ streak (+3). Nothing is capped, so scores can pass 100.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="wrap"><div class="divider"></div></div>
-
-  <section id="data" class="reveal">
-    <div class="wrap">
-      <div class="section-label">The Data</div>
-      <h2 class="section-title">BUILT ON VERIFIED OUTCOMES</h2>
-      <p class="section-desc">
-        Every number traces back to actual outcomes, cross-referenced against Tapology, Sherdog, and official promotion records.
-      </p>
-      <div class="stat-row">
-        <div class="stat-box"><span class="num">2023+</span><span class="desc">ONE signings analyzed</span></div>
-        <div class="stat-box"><span class="num">S9–S10</span><span class="desc">Verified DWCS invitee seasons</span></div>
-        <div class="stat-box"><span class="num">2</span><span class="desc">Pathways scored separately</span></div>
-        <div class="stat-box"><span class="num">0–100</span><span class="desc">Reproducible score</span></div>
-      </div>
-      <div class="method-box">
-        <h3>WHERE THE NUMBERS COME FROM</h3>
-        <p>
-          Every fighter is scored off his verified record, and the same inputs always produce the same number.
-          Nothing gets nudged because I like someone.
-          The <a href="methodology.html" style="color:var(--gold)">method page</a> covers the components,
-          how it was validated, and what it can't do.
+      <div>
+        <h1 class="display">Who gets signed, measured.</h1>
+        <p class="lede">
+          ASCENT scores an unsigned MMA fighter against the records of fighters who actually made it:
+          the ones ONE Championship has signed since 2023, and the ones the UFC's Contender Series invited.
+          Every point is shown, and every published score is recomputed by tests on every change.
         </p>
-        <div class="source-tags">
-          <span class="source-tag">Tapology</span>
-          <span class="source-tag">Sherdog</span>
-          <span class="source-tag">Official fight records</span>
-          <span class="source-tag">ONE signings (2023–present)</span>
-          <span class="source-tag">DWCS invitees (S9–S10)</span>
-          <span class="source-tag">FightMatrix division averages</span>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#calculator">Score a fighter</a>
+          <a class="btn btn-ghost" href="/both">See the board</a>
+        </div>
+        <div class="systems">
+          Two formulas, kept apart:
+          <span class="tag one"><span class="dot"></span>ONE ASCENT v3.9</span>
+          <span class="tag dwcs"><span class="dot"></span>DWCS ASCENT v3.0</span>
+        </div>
+      </div>
+
+      <article class="tape" id="featured" aria-live="polite">
+        <noscript><p class="muted">Turn on JavaScript to see a fighter's score broken into its parts, or open the <a href="/both">board</a>.</p></noscript>
+      </article>
+    </div>
+  </section>
+
+  <section class="block audience">
+    <div class="wrap grid-3">
+      <div class="panel">
+        <h3><a href="/both">Shortlist prospects</a></h3>
+        <p>For managers and scouts. Filter unsigned fighters by division, open any one to see why it scores the way it does, and check the record on Tapology.</p>
+        <a class="go" href="/both">Open the board</a>
+      </div>
+      <div class="panel">
+        <h3><a href="/receipts">Check the track record</a></h3>
+        <p>Where board fighters ended up, dated and linked, including the losses and the calls that don't count. Corrections are logged, never made silently.</p>
+        <a class="go" href="/receipts">Read Off the Board</a>
+      </div>
+      <div class="panel">
+        <h3><a href="/build">See how it's built</a></h3>
+        <p>For engineers and hiring teams. Python formulas, a browser port tested against them on 8,000+ inputs, validation against real invite outcomes, and CI on every commit.</p>
+        <a class="go" href="/build">How it's built</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="calculator">
+    <div class="wrap">
+      <div class="block-intro">
+        <h2 class="display">Score a fighter</h2>
+        <p>Enter a pro record. You get the ONE ASCENT and DWCS ASCENT scores separately, each broken into its parts.
+          They're different formulas built on different data, so the two numbers aren't the same unit and shouldn't be compared.</p>
+      </div>
+
+      <div class="calc">
+        <form class="form" id="calc-form" novalidate>
+          <div class="preset">
+            <div class="field">
+              <label for="preset">Start from a board fighter</label>
+              <select id="preset"><option value="">Choose a fighter…</option></select>
+            </div>
+          </div>
+
+          <fieldset>
+            <legend>Record</legend>
+            <div class="row">
+              <div class="field"><label for="w">Wins</label><input id="w" type="number" inputmode="numeric" min="0" max="99" value="8"/></div>
+              <div class="field"><label for="l">Losses</label><input id="l" type="number" inputmode="numeric" min="0" max="99" value="1"/></div>
+              <div class="field"><label for="d">Draws</label><input id="d" type="number" inputmode="numeric" min="0" max="99" value="0"/></div>
+              <div class="field"><label for="fin">Finishes</label><input id="fin" type="number" inputmode="numeric" min="0" max="99" value="6"/></div>
+            </div>
+            <div class="hint" style="font-size:12px;color:var(--dim);margin-top:6px">Finishes are wins by KO, TKO or submission.</div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Fighter</legend>
+            <div class="row three">
+              <div class="field"><label for="age">Age</label><input id="age" type="number" inputmode="numeric" min="16" max="50" value="24"/></div>
+              <div class="field"><label for="titles">Title wins</label><input id="titles" type="number" inputmode="numeric" min="0" max="30" value="0"/></div>
+              <div class="field"><label for="streak">Win streak</label><input id="streak" type="number" inputmode="numeric" min="0" max="99" value="5"/></div>
+            </div>
+            <div class="row two" style="margin-top:10px">
+              <div class="field"><label for="div">Division</label><select id="div"></select></div>
+              <div class="field"><label for="country">Country</label><select id="country"></select></div>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Main promotion <span class="tiny" style="font-weight:500">(most recent fight)</span></legend>
+            <div class="row two">
+              <div class="field"><label for="one-promo"><span style="color:var(--one)">For ONE ASCENT</span></label><select id="one-promo"></select></div>
+              <div class="field"><label for="dwcs-promo"><span style="color:var(--dwcs)">For DWCS ASCENT</span></label><select id="dwcs-promo"></select></div>
+            </div>
+            <div class="hint" style="font-size:12px;color:var(--dim);margin-top:6px">Each formula weighs promotions by its own data, so the lists differ. Win streak and the DWCS promotion only affect DWCS; country only affects ONE.</div>
+          </fieldset>
+          <p class="form-msg" id="form-msg" role="alert"></p>
+        </form>
+
+        <div class="results" aria-live="polite">
+          <div class="result one" id="res-one"><p class="empty">ONE ASCENT appears here.</p></div>
+          <div class="result dwcs" id="res-dwcs"><p class="empty">DWCS ASCENT appears here.</p></div>
+          <p class="apart">Separate formulas, separate data. Never added or averaged.</p>
         </div>
       </div>
     </div>
   </section>
 
-
-  <footer>
+  <section class="block" id="factors">
     <div class="wrap">
-      <div class="footer-inner">
-        <div>&copy; <span id="yr"></span> Champion Ascendant </div>
-        <div style="display:flex;gap:20px;">
-          <a href="both.html">Both Systems</a>
-          <a href="receipts.html">Off the Board</a>
-          <span>Benchmark, not guarantee</span>
+      <div class="block-intro">
+        <h2 class="display">What goes into each score</h2>
+        <p>Every part traces back to something measured in the signing or invite data. The <a href="/methodology">method page</a> covers where each weight came from, what was tested, and what broke.</p>
+      </div>
+      <div class="factor-tables">
+        <div>
+          <h3><span class="tag one"><span class="dot"></span>ONE ASCENT v3.9</span></h3>
+          <div class="table-wrap">
+            <table class="data">
+              <thead><tr><th>Part</th><th>Points</th><th>What it measures</th></tr></thead>
+              <tbody>
+                <tr><td>Finish rate</td><td class="pts">up to 65</td><td><p>Finishes per win, pulled toward the division average for short records, then scaled against that division's global finish rate. The biggest single part.</p></td></tr>
+                <tr><td>Win rate</td><td class="pts">up to 15</td><td><p>Wins over all fights, draws included.</p></td></tr>
+                <tr><td>Promotion</td><td class="pts">0 to 12</td><td><p>The promotion's share of ONE's MMA signings since 2023. ONE Friday Fights and LFA sit at the top.</p></td></tr>
+                <tr><td>Promotion region</td><td class="pts">0 to 2</td><td><p>Share of signings by the promotion's home region.</p></td></tr>
+                <tr><td>Origin region</td><td class="pts">2 to 6</td><td><p>Share of signings by where the fighter is from.</p></td></tr>
+                <tr><td>Age</td><td class="pts">−4 to +3</td><td><p>23 and under gets the most. 34 and over loses 4. Not a claim about ability.</p></td></tr>
+                <tr><td>Title wins</td><td class="pts">3 + 1 each</td><td><p>Pro titles only, uncapped. None scores nothing.</p></td></tr>
+                <tr><td>Undefeated</td><td class="pts">+5</td><td><p>No losses and at least five wins.</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3><span class="tag dwcs"><span class="dot"></span>DWCS ASCENT v3.0</span></h3>
+          <div class="table-wrap">
+            <table class="data">
+              <thead><tr><th>Part</th><th>Points</th><th>What it measures</th></tr></thead>
+              <tbody>
+                <tr><td>Finish rate</td><td class="pts">up to 45</td><td><p>Scaled against the division average, capped at 1.55× so the top of the board still ranks.</p></td></tr>
+                <tr><td>Win rate</td><td class="pts">up to 6</td><td><p>Cut from 15 in v3.0. Every invitee wins, so it barely separates them.</p></td></tr>
+                <tr><td>Loss band</td><td class="pts">0 to 8</td><td><p>Zero and one loss look almost the same among invitees. Two losses drops off sharply.</p></td></tr>
+                <tr><td>Win streak</td><td class="pts">square root</td><td><p>Scores below chance against invites (AUC 0.485), so its weight was not raised.</p></td></tr>
+                <tr><td>Promotion</td><td class="pts">3 to 15</td><td><p>Share of Season 9 invitees. LFA alone produced about a fifth.</p></td></tr>
+                <tr><td>Age</td><td class="pts">−3 to +3</td><td><p>26 to 29 scores highest. Kept flat because two age signals disagreed.</p></td></tr>
+                <tr><td>Title wins</td><td class="pts">uncapped</td><td><p>Scaled by promotion tier, with diminishing returns per belt.</p></td></tr>
+                <tr><td>Bonuses</td><td class="pts">+4, +3</td><td><p>Elite finish rate, and a win streak of seven or more.</p></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="tiny" style="margin-top:10px">The DWCS total is rescaled so the invitee median sits at 78 and the 97th percentile at 100. That changes the units, not the order.</p>
         </div>
       </div>
     </div>
-  </footer>
-'
-        + '<div class="score-meta"><strong>' + pathway + ' ASCENT: ' + score.toFixed(1) + '/100</strong>'
-        + '<div class="tier" style="color:' + tier.color + '">' + tier.label + '</div>'
-        + (rawScore && rawScore > 100 ? '<div class="tier" style="color:var(--gray-dim);margin-top:4px">Uncapped raw: ' + rawScore.toFixed(1) + '</div>' : '')
-        + '</div></div><div class="breakdown-list">';
+  </section>
+</main>
 
-      rows.forEach(r => {
-        html += '<div class="breakdown-row"><span class="bl">' + r[0] + '</span><span class="bv ' + r[2] + '">' + r[1] + '</span></div>';
-      });
+<footer class="site-foot">
+  <div class="wrap">
+    <div>
+      <p style="color:var(--muted);margin-bottom:8px"><strong>Champion Ascendant</strong></p>
+      <p>A benchmark, not a prediction. ASCENT describes how closely a fighter matches the record profile of real signings and invites. It doesn't say who will get signed.</p>
+      <p style="margin-top:10px">&copy; <span data-year>2026</span> Champion Ascendant. Conceived and directed by Chris, built with AI tools.</p>
+    </div>
+    <div>
+      <h4>Site</h4>
+      <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/receipts">Off the Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
+    </div>
+    <div>
+      <h4>Sources</h4>
+      <ul><li>Tapology (records of truth)</li><li>Sherdog</li><li>FightMatrix division finish rates</li><li>onefc.com, ufc.com</li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo">Source code on GitHub</a></li></ul>
+    </div>
+  </div>
+</footer>
 
-      html += '</div>';
-      if (benchmarkHtml) html += '<div class="benchmark-note">' + benchmarkHtml + '</div>';
-      document.getElementById(containerId).innerHTML = html;
+<script src="/static/ascent_tables.js"></script>
+<script src="/static/ascent.js"></script>
+<script src="/static/site.js"></script>
+<script>
+(function () {
+  'use strict';
+  var T = ASCENT.tables, $ = function (id) { return document.getElementById(id); };
+  var FEATURED = 'Kevin Navarro';
+
+  // ---------- option lists, built from the generated tables ----------
+  var DIVISIONS = ['Flyweight', 'Bantamweight', 'Featherweight', 'Lightweight', 'Welterweight', 'Middleweight',
+    'Light Heavyweight', 'Heavyweight', 'Strawweight', "Women's Atomweight", "Women's Strawweight",
+    "Women's Flyweight", "Women's Bantamweight", "Women's Featherweight"];
+  var DESTINATIONS = { UFC: 1, KSW: 1, RIZIN: 1, PFL: 1, Road_To_UFC: 1, 'Brave FC': 1 };
+  var NAMES = { ONE_Friday_Fights: 'ONE Friday Fights', OLMMA: 'Octagon League', SFH: 'Samurai Fight House', FNG: 'Fight Night Global',
+    WEF: 'World Ertaymash Federation', UAEW: 'UAE Warriors', CFN: 'Canggu Fight Night', JCK: 'Jue Cheng King', SFT: 'SFT Combat',
+    GTC: 'Golden Team Championship', EFCA: 'EFC Africa', NFC: 'NFC', Inka: 'Inka FC', BRAVE_CF: 'BRAVE CF', ARES_FC: 'Ares FC',
+    Unknown: 'Regional or not listed' };
+  var NOT_COUNTRIES = /^(American|Argentine|Armenian|Australian|Azerbaijani|Brazilian|British|Canadian|English|Filipino|French|Georgian|Indian|Indonesian|Irish|Italian|Kazakh|Kyrgyz|Kyrgystan|Mexican|Mongolian|Russian|Thai|Turkish|Tajik|Uzbek|Vietnamese|Bosnia and Herzegovnia|Czechia|Democratic Republic of Congo|Great Britain|UK|United States|Korea)$|[\/ ]$|\//;
+
+  function opt(value, label, sel) { return '<option value="' + CA.esc(value) + '"' + (sel ? ' selected' : '') + '>' + CA.esc(label) + '</option>'; }
+
+  $('div').innerHTML = DIVISIONS.map(function (d) { return opt(d, d, d === 'Lightweight'); }).join('');
+
+  var byRegion = {};
+  Object.keys(T.ONE.COUNTRY_REGION).forEach(function (c) {
+    if (NOT_COUNTRIES.test(c) || c !== c.trim()) return;
+    var r = T.ONE.COUNTRY_REGION[c]; (byRegion[r] = byRegion[r] || []).push(c);
+  });
+  $('country').innerHTML = Object.keys(byRegion).sort().map(function (r) {
+    return '<optgroup label="' + r + ' (+' + T.ONE.ORIGIN_FIT[r] + ')">' + byRegion[r].sort().map(function (c) { return opt(c, c, c === 'Brazil'); }).join('') + '</optgroup>';
+  }).join('') + '<optgroup label="Other (+2)">' + opt('', 'Other or unknown') + '</optgroup>';
+
+  var onePts = {};
+  Object.keys(T.ONE.PROMO_POINTS).forEach(function (code) {
+    // Skip destination promotions and duplicate spellings of the same show.
+    if (DESTINATIONS[code] || code === 'Hex' || code === 'Shooto_Brasil') return;
+    var p = T.ONE.PROMO_POINTS[code];
+    (onePts[p] = onePts[p] || []).push(code);
+  });
+  $('one-promo').innerHTML = Object.keys(onePts).map(Number).sort(function (a, b) { return b - a; }).map(function (p) {
+    return '<optgroup label="' + p + ' points">' + onePts[p].map(function (c) {
+      return { c: c, n: NAMES[c] || c.replace(/_/g, ' ') };
+    }).sort(function (a, b) { return a.c === 'Unknown' ? 1 : b.c === 'Unknown' ? -1 : a.n.localeCompare(b.n); })
+      .map(function (x) { return opt(x.c, x.n, x.c === 'LFA'); }).join('') + '</optgroup>';
+  }).join('');
+
+  var dPts = {};
+  Object.keys(T.DWCS.PROMO_TIERS).forEach(function (k) {
+    if (DESTINATIONS[k]) return;
+    var p = T.DWCS.PROMO_TIERS[k]; (dPts[p] = dPts[p] || []).push(k);
+  });
+  $('dwcs-promo').innerHTML = Object.keys(dPts).map(Number).sort(function (a, b) { return b - a; }).map(function (p) {
+    return '<optgroup label="' + p + ' points">' + dPts[p].sort().map(function (k) { return opt(k, k, k === 'LFA'); }).join('') + '</optgroup>';
+  }).join('') + '<optgroup label="' + T.DWCS.UNLISTED_DEFAULT + ' points">' + opt('', 'Regional or not listed') + '</optgroup>';
+
+  // ---------- calculator ----------
+  function num(id) { var v = $(id).value.trim(); return v === '' ? null : Number(v); }
+  function setBad(id, bad) { $(id).parentNode.classList.toggle('bad', !!bad); }
+
+  function read() {
+    var w = num('w'), l = num('l') || 0, d = num('d') || 0, fin = num('fin'), age = num('age');
+    var msg = '';
+    ['w', 'fin', 'age'].forEach(function (id) { setBad(id, false); });
+    if (w === null || w < 1) { msg = 'Enter at least one win.'; setBad('w', true); }
+    else if (fin === null || fin < 0 || fin > w) { msg = 'Finishes must be between 0 and the number of wins.'; setBad('fin', true); }
+    else if (age !== null && (age < 16 || age > 50)) { msg = 'Age must be between 16 and 50.'; setBad('age', true); }
+    if (msg) return { error: msg };
+    return {
+      wins: w, losses: l, draws: d,
+      finishRate: ASCENT.pyRound(100 * fin / w, 1),
+      age: age, titleWins: num('titles') || 0, winStreak: Math.min(num('streak') || 0, w),
+      division: $('div').value, country: $('country').value,
+      onePromotion: $('one-promo').value, dwcsPromotion: $('dwcs-promo').value
+    };
+  }
+
+  function render() {
+    var f = read();
+    $('form-msg').textContent = f.error || '';
+    if (f.error) return;
+    $('res-one').innerHTML = CA.anatomy(ASCENT.scoreONE(CA.forONE(f)), { notes: true })
+      + '<p class="result-note">Benchmarks against ONE Championship signings since 2023.' + (f.age === null ? ' No age entered, so age scores 0.' : '') + '</p>';
+    if (f.age === null) {
+      $('res-dwcs').innerHTML = '<p class="empty">DWCS ASCENT needs an age.</p>';
+    } else {
+      $('res-dwcs').innerHTML = CA.anatomy(ASCENT.scoreDWCS(CA.forDWCS(f)), { notes: true })
+        + '<p class="result-note">Benchmarks against Contender Series invitees. It says nothing about who wins on the show.</p>';
     }
-  
-    document.documentElement.classList.add('js-on');
-    /* Section fade-in. Content is visible without JS as a fallback: the .reveal
-       rule below only hides elements once this script confirms it can unhide them. */
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
 
-  </script>
+  $('calc-form').addEventListener('input', render);
+  $('calc-form').addEventListener('change', render);
+  $('calc-form').addEventListener('submit', function (e) { e.preventDefault(); render(); });
+
+  function load(f) {
+    $('w').value = f.wins; $('l').value = f.losses; $('d').value = f.draws;
+    $('fin').value = Math.round(f.finishRate / 100 * f.wins);
+    $('age').value = f.age; $('titles').value = f.titleWins; $('streak').value = f.winStreak;
+    $('div').value = f.division; $('country').value = f.country;
+    $('one-promo').value = f.onePromotion;
+    $('dwcs-promo').value = T.DWCS.PROMO_TIERS[f.dwcsPromotion] !== undefined ? f.dwcsPromotion : '';
+    render();
+  }
+
+  render();
+
+  // ---------- featured fighter + presets, from the published board ----------
+  fetch('/static/both_systems.json').then(function (r) { return r.json(); }).then(function (board) {
+    var fighters = board.fighters;
+    $('preset').innerHTML += fighters.map(function (f, i) { return opt(i, f.name + ' (' + f.wins + '-' + f.losses + '-' + f.draws + ')'); }).join('');
+    $('preset').addEventListener('change', function () { if (this.value !== '') load(fighters[+this.value]); });
+    var wanted = new URLSearchParams(location.search).get('fighter');
+    fighters.forEach(function (f, i) { if (f.name === wanted) { $('preset').value = i; load(f); } });
+
+    var f = fighters.filter(function (x) { return x.name === FEATURED; })[0] || fighters[0];
+    var one = ASCENT.scoreONE(CA.forONE(f)), dw = ASCENT.scoreDWCS(CA.forDWCS(f));
+    $('featured').innerHTML =
+      '<div class="tape-head"><div><div class="tape-name">' + CA.esc(f.name) + '</div>'
+      + '<div class="tape-meta">' + CA.esc(f.division) + ', ' + CA.esc(f.country) + ', age ' + CA.esc(f.ageLabel) + ', ' + CA.esc(f.promotionName) + '</div></div>'
+      + '<div class="tape-record">' + f.wins + '-' + f.losses + '-' + f.draws + '<small>' + Math.round(f.finishRate) + '% finishes</small></div></div>'
+      + CA.anatomy(one, { legend: false, animate: true }) + CA.anatomy(dw, { legend: false, animate: true })
+      + '<div class="tape-foot"><span>Two formulas, shown side by side, never added.</span><a href="/both#' + encodeURIComponent(f.name.toLowerCase().replace(/ /g, '-')) + '">Full breakdown on the board</a></div>';
+  }).catch(function () {
+    $('featured').innerHTML = '<p class="muted">The board data didn\'t load. <a href="/both">Open the board</a>.</p>';
+  });
+})();
+</script>
 </body>
 </html>

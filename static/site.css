@@ -232,3 +232,21 @@ body::after { /* the UFC's octagon */
   body::after { right: -190px; bottom: -120px; }
 }
 @media (prefers-reduced-motion: reduce) { body::before, body::after { animation: none; opacity: 0.8; } }
+
+/* ---------- headline shine: one sweep on load ---------- */
+h1.display {
+  background: linear-gradient(100deg, var(--text) 0 42%, #F4D67A 50%, var(--text) 58% 100%) 0 0 / 250% 100% no-repeat;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-position: 100% 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  h1.display { animation: shine 1.8s 0.3s ease-out both; }
+  @keyframes shine { from { background-position: 100% 0; } to { background-position: 0 0; } }
+}
+@media (forced-colors: active) { h1.display { color: CanvasText; background: none; } }
+
+/* ---------- board rows: glow on hover ---------- */
+.fighter > summary { transition: background 0.2s, box-shadow 0.2s; }
+.fighter > summary:hover {
+  box-shadow: inset 3px 0 0 var(--one), inset 0 0 40px rgba(226, 181, 63, 0.06), inset -3px 0 0 var(--dwcs);
+}

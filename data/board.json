@@ -165,7 +165,7 @@
       "promotionName": "Cage Warriors",
       "lastFight": "22 Nov 2025",
       "notes": "Five wins, all finishes. Last out: anaconda choke at Cage Warriors 198.",
-      "flag": true,
+      "flag": false,
       "tapology": "https://www.tapology.com/search?term=Jack+Humphries",
       "expected": {
         "ONE": 87.2,

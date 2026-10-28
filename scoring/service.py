@@ -117,9 +117,9 @@ def _groups(parts: Dict[str, float], spec: Dict[str, List[str]]) -> List[Dict[st
             for label, keys in spec.items()]
 
 
-ONE_GROUPS = {"Finishing": ["finish"], "Record": ["win", "unbeaten"], "Promotion": ["promo", "hq"],
+ONE_GROUPS = {"Finish rate": ["finish"], "Record": ["win", "unbeaten"], "Promotion": ["promo", "hq"],
               "Profile": ["origin", "age"], "Titles": ["title"]}
-UFC_GROUPS = {"Baseline": ["anchor"], "Finishing": ["fr", "elite_finisher"],
+UFC_GROUPS = {"Baseline": ["anchor"], "Finish rate": ["fr", "elite_finisher"],
               "Record": ["win_pct", "losses", "streak", "hot_streak"], "Promotion": ["promo"],
               "Profile": ["age"], "Titles": ["title"]}
 

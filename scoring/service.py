@@ -56,6 +56,16 @@ ONE_DISPLAY = {
     "Shooto_Brazil": "Shooto Brasil", "Hex_Fight_Series": "HEX Fight Series", "Mr. Cage": "Mr. Cage",
     "SFT": "SFT Combat", "AMC_Fight_Nights": "AMC Fight Nights",
 }
+# Full names shown next to acronyms in the calculator ("LFA - Legacy Fighting Alliance").
+FULL_NAME = {
+    "ACA": "Absolute Championship Akhmat", "BFL": "Battlefield Fight League", "Brave CF": "Brave Combat Federation",
+    "CES": "Classic Entertainment & Sports", "CFFC": "Cage Fury Fighting Championships", "FCC": "Full Contact Contender",
+    "FNC": "Fight Nation Championship", "IMMAF": "International Mixed Martial Arts Federation",
+    "LFA": "Legacy Fighting Alliance", "RCC": "Russian Cagefighting Championship", "MFN": "Matrix Fight Night",
+    "XFC": "Xtreme Fighting Championships", "Ares FC": "Ares Fighting Championship",
+    "Fury FC": "Fury Fighting Championship", "Invicta FC": "Invicta Fighting Championships",
+    "Titan FC": "Titan Fighting Championship", "Road FC": "Road Fighting Championship",
+}
 # ONE code -> DWCS name where the two lists spell the same promotion differently.
 SAME_PROMOTION = {"UAEW": "UAE Warriors", "OLMMA": "Octagon", "Shooto_Brazil": "Shooto Brasil"}
 
@@ -222,4 +232,5 @@ def _same_ufc_promo(a: str, b: str) -> bool:
 
 def options() -> Dict:
     return {"divisions": [{"value": d, "label": division_label(d)} for d in DIVISIONS], "countries": countries(),
-            "promotions": [{"id": p["id"], "name": p["name"]} for p in promotions()]}
+            "promotions": [{"id": p["id"], "name": f"{p['name']} - {FULL_NAME[p['name']]}" if p["name"] in FULL_NAME else p["name"]}
+                           for p in promotions()]}

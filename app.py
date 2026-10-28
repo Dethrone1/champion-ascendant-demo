@@ -26,6 +26,12 @@ def home():
     return serve_page("index")
 
 
+@app.route("/robots.txt")
+def robots():
+    # Let search engines and link-preview crawlers (Instagram, iMessage, Slack) read the site.
+    return app.response_class("User-agent: *\nAllow: /\n", mimetype="text/plain")
+
+
 @app.route("/og-card.png")
 def og_card():
     return send_from_directory(STATIC_DIR, "og-card.png")

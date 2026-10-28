@@ -4,7 +4,7 @@ import re
 
 from app import app, PAGES, RETIRED
 
-STATIC = ["/static/site.css", "/static/site.js", "/static/favicon.svg", "/og-card.png"]
+STATIC = ["/static/site.css", "/static/site.js", "/static/favicon.svg", "/og-card.png", "/robots.txt"]
 
 
 def visible_text(html):
@@ -71,3 +71,12 @@ def test_page_scripts_parse():
             assert r.returncode == 0, f"{name} script {i}: {r.stderr.strip()[:300]}"
     r = subprocess.run([node, "--check", "static/site.js"], capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
+
+
+def test_link_preview_tags():
+    """Instagram and others need an absolute image URL with its size to show a preview."""
+    for name, html in pages():
+        for tag in ('property="og:image" content="https://www.championascendant.com/og-card.png"',
+                    'property="og:image:width" content="1200"', 'property="og:image:height" content="630"'):
+            assert tag in html, f"{name}: missing {tag}"
+    assert "Disallow: /" not in app.test_client().get("/robots.txt").get_data(as_text=True)

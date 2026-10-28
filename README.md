@@ -51,7 +51,3 @@ Then open http://localhost:5000
 ## Stack
 
 Python, Flask, JavaScript, HTML and CSS, pytest, GitHub Actions, Railway. Data work in Excel and pandas.
-
-## Credits
-
-Conceived and directed by me, built using AI tools.

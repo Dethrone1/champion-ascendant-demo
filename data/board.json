@@ -10,22 +10,22 @@
       "age": 22,
       "ageLabel": "22",
       "division": "Featherweight",
-      "wins": 9,
+      "wins": 8,
       "losses": 0,
       "draws": 0,
-      "finishRate": 88.9,
-      "winStreak": 9,
+      "finishRate": 87.5,
+      "winStreak": 8,
       "titleWins": 0,
       "onePromotion": "LFA",
       "dwcsPromotion": "LFA",
       "promotionName": "LFA",
       "lastFight": "11 Sep 2026",
-      "notes": "Won at LFA 241 (11 Sep 2026).",
-      "flag": true,
+      "notes": "8-0 with 7 finishes.",
+      "flag": false,
       "tapology": "https://www.tapology.com/fightcenter/fighters/329113-eduardo-dutra-dudu",
       "expected": {
-        "ONE": 97.2,
-        "DWCS": 95.1
+        "ONE": 96.3,
+        "DWCS": 93.7
       }
     },
     {
@@ -128,7 +128,7 @@
       "name": "Richard Martins",
       "country": "Brazil",
       "age": 27,
-      "ageLabel": "26–27",
+      "ageLabel": "27",
       "division": "Welterweight",
       "wins": 11,
       "losses": 1,
@@ -140,7 +140,7 @@
       "dwcsPromotion": "LFA",
       "promotionName": "LFA",
       "lastFight": "Mar 2026",
-      "notes": "No exact date of birth found; ages 26 and 27 score the same.",
+      "notes": "11-1 with 10 finishes.",
       "flag": false,
       "tapology": "https://www.tapology.com/search?term=Richard+Martins",
       "expected": {

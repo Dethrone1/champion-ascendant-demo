@@ -131,8 +131,8 @@
         <p class="form-msg" id="form-msg" role="alert"></p>
       </form>
       <div class="results" aria-live="polite">
-        <div class="result one" id="res-one"><p class="empty">ONE ASCENT appears here.</p></div>
-        <div class="result ufc" id="res-ufc"><p class="empty">DWCS/UFC ASCENT appears here.</p></div>
+        <div class="result one holo" id="res-one"><p class="empty">ONE ASCENT appears here.</p></div>
+        <div class="result ufc holo" id="res-ufc"><p class="empty">DWCS/UFC ASCENT appears here.</p></div>
       </div>
     </div>
   </div>
@@ -169,8 +169,10 @@
       <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
     </div>
     <div>
-      <h4>Records from</h4>
-      <ul><li>Tapology</li><li>Sherdog</li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo">Code on GitHub</a></li></ul>
+      <h4>Follow</h4>
+      <ul><li><a href="https://www.instagram.com/championascendant" rel="noopener">Instagram</a></li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo" rel="noopener">GitHub</a></li></ul>
+      <h4 style="margin-top:18px">Records from</h4>
+      <ul><li>Tapology</li><li>Sherdog</li></ul>
     </div>
   </div>
 </footer>
@@ -204,7 +206,7 @@
 
   Promise.all([CA.api('/api/options'), CA.api('/api/board')]).then(function (res) {
     var o = res[0], board = res[1];
-    $('division').innerHTML = o.divisions.map(function (d) { return opt(d, d, d === 'Lightweight'); }).join('');
+    $('division').innerHTML = o.divisions.map(function (d) { return opt(d.value, d.label, d.value === 'Lightweight'); }).join('');
     $('country').innerHTML = o.countries.map(function (c) { return opt(c, c, c === 'Brazil'); }).join('') + opt('', 'Other or unknown');
     $('promotion').innerHTML = o.promotions.map(function (p) { return opt(p.id, p.name, p.id === 'lfa'); }).join('');
     fighters = board.fighters;
@@ -217,7 +219,7 @@
 
     var f = fighters.filter(function (x) { return x.name === 'Kevin Navarro'; })[0] || fighters[0];
     $('featured').innerHTML = '<div class="tape-head"><div><div class="tape-name">' + CA.esc(f.name) + '</div>'
-      + '<div class="tape-meta">' + CA.esc(f.division) + ', ' + CA.esc(f.country) + ', age ' + CA.esc(f.age) + '</div></div>'
+      + '<div class="tape-meta">' + CA.esc(f.divisionLabel) + ', ' + CA.esc(f.country) + ', age ' + CA.esc(f.age) + '</div></div>'
       + '<div class="tape-record">' + CA.esc(f.record) + '</div></div>'
       + CA.anatomy(f.one, 'one', { legend: false, animate: true, count: true }) + CA.anatomy(f.ufc, 'ufc', { legend: false, animate: true, count: true })
       + '<div class="tape-foot"><a href="/both#' + f.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '">See why he scores this way</a></div>';

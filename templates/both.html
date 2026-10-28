@@ -152,8 +152,10 @@
       <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
     </div>
     <div>
-      <h4>Records from</h4>
-      <ul><li>Tapology</li><li>Sherdog</li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo">Code on GitHub</a></li></ul>
+      <h4>Follow</h4>
+      <ul><li><a href="https://www.instagram.com/championascendant" rel="noopener">Instagram</a></li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo" rel="noopener">GitHub</a></li></ul>
+      <h4 style="margin-top:18px">Records from</h4>
+      <ul><li>Tapology</li><li>Sherdog</li></ul>
     </div>
   </div>
 </footer>
@@ -174,10 +176,10 @@
     return '<details class="fighter" id="' + slug(f.name) + '"><summary>'
       + '<span class="rank">' + (i + 1) + '</span>'
       + '<span class="who"><b>' + CA.esc(f.name) + '</b><span>' + CA.esc(f.country) + ', age ' + CA.esc(f.age) + ', ' + CA.esc(f.promotion)
-      + '<span class="mob">, ' + f.record + ', ' + CA.esc(f.division) + '</span></span>'
+      + '<span class="mob">, ' + f.record + ', ' + CA.esc(f.divisionLabel) + '</span></span>'
       + (f.checking ? '<span class="flag">Record being verified</span>' : '') + '</span>'
       + '<span class="rec">' + f.record + '</span>'
-      + '<span class="div">' + CA.esc(f.division) + '</span>'
+      + '<span class="div">' + CA.esc(f.divisionLabel) + '</span>'
       + '<span class="sc one num" data-sys="ONE"' + (firstRender ? ' data-count="' + f.one.score.toFixed(1) + '"' : '') + '>' + f.one.score.toFixed(1) + '</span>'
       + '<span class="sc dwcs num" data-sys="UFC"' + (firstRender ? ' data-count="' + f.ufc.score.toFixed(1) + '"' : '') + '>' + f.ufc.score.toFixed(1) + '</span>'
       + CHEV + '</summary>'
@@ -233,8 +235,8 @@
   head = $('board').querySelector('.board-head').outerHTML;
   CA.api('/api/board').then(function (data) {
     fighters = data.fighters;
-    var divs = {}; fighters.forEach(function (f) { divs[f.division] = 1; });
-    $('division').innerHTML += DIV_ORDER.filter(function (d) { return divs[d]; }).map(function (d) { return '<option>' + CA.esc(d) + '</option>'; }).join('');
+    var divs = {}; fighters.forEach(function (f) { divs[f.division] = f.divisionLabel; });
+    $('division').innerHTML += DIV_ORDER.filter(function (d) { return divs[d]; }).map(function (d) { return '<option value="' + CA.esc(d) + '">' + CA.esc(divs[d]) + '</option>'; }).join('');
     render(); openFromHash();
   }).catch(function () { $('count').textContent = 'The board didn\'t load. Refresh to try again.'; });
   window.addEventListener('hashchange', openFromHash);

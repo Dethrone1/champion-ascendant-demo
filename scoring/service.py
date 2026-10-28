@@ -33,8 +33,17 @@ UFC_NAME = "DWCS/UFC ASCENT"
 DIVISIONS = [
     "Flyweight", "Bantamweight", "Featherweight", "Lightweight", "Welterweight", "Middleweight",
     "Light Heavyweight", "Heavyweight", "Strawweight", "Women's Atomweight", "Women's Strawweight",
-    "Women's Flyweight", "Women's Bantamweight", "Women's Featherweight",
+    "Women's Flyweight", "Women's Bantamweight",
 ]
+WEIGHT_LIMIT = {  # pounds, UFC division names
+    "Strawweight": 115, "Flyweight": 125, "Bantamweight": 135, "Featherweight": 145, "Lightweight": 155,
+    "Welterweight": 170, "Middleweight": 185, "Light Heavyweight": 205, "Heavyweight": 265,
+    "Women's Atomweight": 105, "Women's Strawweight": 115, "Women's Flyweight": 125, "Women's Bantamweight": 135,
+}
+
+
+def division_label(d: str) -> str:
+    return f"{d} ({WEIGHT_LIMIT[d]})" if d in WEIGHT_LIMIT else d
 
 # Promotions that sign fighters away from both pathways; not offered as a fighter's current home.
 DESTINATIONS = {"UFC", "ONE", "KSW", "RIZIN", "PFL", "Road_To_UFC", "Brave FC", "Shooto_Brasil", "Hex"}
@@ -190,6 +199,7 @@ def board() -> Dict:
         pid = (exact or close or [{"id": "other"}])[0]["id"]
         fighters.append({
             "name": f["name"], "country": f["country"], "age": f["ageLabel"], "division": f["division"],
+            "divisionLabel": division_label(f["division"]),
             "record": f"{f['wins']}-{f['losses']}-{f['draws']}", "wins": f["wins"],
             "finishes": round(f["finishRate"] / 100 * f["wins"]), "promotion": f["promotionName"],
             "lastFight": f.get("lastFight"), "notes": f["notes"], "checking": f.get("flag", False),
@@ -211,5 +221,5 @@ def _same_ufc_promo(a: str, b: str) -> bool:
 
 
 def options() -> Dict:
-    return {"divisions": DIVISIONS, "countries": countries(),
+    return {"divisions": [{"value": d, "label": division_label(d)} for d in DIVISIONS], "countries": countries(),
             "promotions": [{"id": p["id"], "name": p["name"]} for p in promotions()]}

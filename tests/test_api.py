@@ -35,7 +35,8 @@ def test_bad_input_is_rejected_with_a_message():
 def test_options_and_board():
     c = app.test_client()
     o = c.get("/api/options").get_json()
-    assert "Lightweight" in o["divisions"] and o["countries"] and o["promotions"]
+    assert {"value": "Lightweight", "label": "Lightweight (155)"} in o["divisions"] and o["countries"] and o["promotions"]
+    assert all("Featherweight" not in d["value"] or not d["value"].startswith("Women") for d in o["divisions"])
     assert all(set(p) == {"id", "name"} for p in o["promotions"]), "options must not expose formula data"
     b = c.get("/api/board").get_json()
     assert b["fighters"] and all("expected" not in f for f in b["fighters"])

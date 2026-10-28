@@ -292,12 +292,12 @@ h1.display {
 .btn:active { transform: translateY(1px) scale(0.98); }
 
 /* ---------- featured card: slow gold-to-teal border ---------- */
-.tape { position: relative; }
+.tape { position: relative; isolation: isolate; }
 .tape::before {
   content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
   background: conic-gradient(from var(--angle, 0deg), var(--one), transparent 30%, var(--dwcs) 50%, transparent 80%, var(--one));
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.8;
+  -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.8; z-index: -1;
 }
 @property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
 @media (prefers-reduced-motion: no-preference) {

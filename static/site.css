@@ -258,12 +258,11 @@ h1.display {
   content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit;
   opacity: 0; transition: opacity 0.3s ease;
   background:
-    radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.28), transparent 42%),
-    linear-gradient(115deg, rgba(255,0,170,0.18), rgba(0,229,255,0.18) 25%, rgba(140,255,120,0.16) 45%,
-      rgba(255,230,90,0.18) 65%, rgba(170,90,255,0.18) 85%);
-  background-size: 100% 100%, 300% 300%;
-  background-position: center, calc(var(--mx) * 1.5) calc(var(--my) * 1.5);
-  mix-blend-mode: color-dodge;
+    radial-gradient(circle at var(--mx) var(--my), rgba(255, 255, 255, 0.16), transparent 45%),
+    linear-gradient(115deg, transparent 20%, rgba(226, 181, 63, 0.16) 40%, rgba(59, 183, 196, 0.14) 60%, transparent 80%);
+  background-size: 100% 100%, 250% 250%;
+  background-position: center, calc(var(--mx) * 1.2) calc(var(--my) * 1.2);
+  mix-blend-mode: screen;
 }
 .holo:hover::after { opacity: 1; }
 .holo:hover { box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08); }
@@ -278,7 +277,8 @@ h1.display {
   transition: background-size 0.3s ease, color 0.2s;
   padding-bottom: 2px;
 }
-.site-foot a:hover, .tape-foot a:hover, .facts a:hover { background-size: 100% 1px; text-decoration: none; color: var(--text); }
+.site-foot a:hover, .facts a:hover { background-size: 100% 1px; text-decoration: none; color: var(--text); }
+.tape-foot a:hover { background-size: 100% 1px; text-decoration: none; }
 .nav a:not(.gh) { position: relative; }
 .nav a:not(.gh)::after {
   content: ""; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 2px;
@@ -315,3 +315,18 @@ h1.display {
 html { scrollbar-color: var(--line) var(--bg); scrollbar-width: thin; }
 .field input, .field select { transition: border-color 0.2s, box-shadow 0.2s; }
 .chip { transition: color 0.2s, background 0.2s, border-color 0.2s; }
+
+/* ---------- touch screens: no hover-only effects that would stick after a tap ---------- */
+@media (hover: none) {
+  .holo::after { display: none; }
+  .holo:hover { transform: none; box-shadow: none; }
+  .btn-primary::before { display: none; }
+  .fighter > summary:hover { box-shadow: none; }
+}
+
+/* ---------- comfortable tap targets on phones and tablets ---------- */
+@media (max-width: 960px), (hover: none) {
+  .site-foot ul { gap: 0; }
+  .site-foot li a, .tape-foot a, .facts a { display: inline-block; padding: 11px 0; background-position: 0 calc(100% - 9px); }
+  .brand { padding: 7px 0; }
+}

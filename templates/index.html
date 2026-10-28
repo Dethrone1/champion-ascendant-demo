@@ -32,34 +32,14 @@
     .tape .anatomy + .anatomy { margin-top: 18px; }
     .tape-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 14px; }
 
-    .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
-    .form { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 24px; display: grid; gap: 14px; }
-    .row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .row.three { grid-template-columns: repeat(3, 1fr); }
-    .row.two { grid-template-columns: 1fr 1fr; }
-    .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 5px; font-weight: 600; }
-    .field input, .field select {
-      width: 100%; padding: 10px 12px; font: 600 15px var(--font-body); color: var(--text);
-      background-color: var(--bg); border: 1px solid var(--line); border-radius: var(--r-sm);
-    }
-    .field input:focus, .field select:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px rgba(244,214,122,0.18); }
-    .form-msg { font-size: 14px; color: var(--neg); min-height: 1.3em; }
-    .results { display: grid; gap: 16px; }
-    .result { background: var(--panel); border: 1px solid var(--line-soft); border-radius: var(--r-lg); padding: 22px; }
-    .result.one { border-top: 3px solid var(--one); }
-    .result.ufc { border-top: 3px solid var(--dwcs); }
-    .result .empty { color: var(--dim); font-size: 15px; }
-
     .factors { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     .factors .panel h3 { margin-bottom: 4px; }
     .factors .panel h3.one { color: var(--one); }
     .factors .panel h3.ufc { color: var(--dwcs); }
     .factors ul { list-style: none; margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
 
-    @media (max-width: 960px) { .hero .wrap, .calc, .factors { grid-template-columns: 1fr; } }
+    @media (max-width: 960px) { .hero .wrap, .factors { grid-template-columns: 1fr; } }
     @media (max-width: 520px) {
-      .row, .row.three { grid-template-columns: 1fr 1fr; }
-      .row.two { grid-template-columns: 1fr; }
       .tape { padding: 20px 18px; }
       .tape-name, .tape-record { font-size: 32px; }
     }
@@ -74,7 +54,7 @@
       <span class="brand-name">Champion Ascendant</span>
     </a>
     <nav class="nav" aria-label="Main">
-      <a href="/#calculator">Calculator</a>
+      <a href="/calculator">Calculator</a>
       <a href="/both">Board</a>
       <a href="/methodology">Method</a>
       <a href="/build">How it's built</a>
@@ -91,51 +71,13 @@
       <p class="lede">Champion Ascendant scores unsigned MMA fighters against the fighters who actually got signed.
         One score for ONE Championship, one for the UFC.</p>
       <div class="btn-row">
-        <a class="btn btn-primary" href="#calculator">Score a fighter</a>
+        <a class="btn btn-primary" href="/calculator">Score a fighter</a>
         <a class="btn btn-ghost" href="/both">See the board</a>
       </div>
     </div>
     <article class="tape" id="featured" aria-live="polite">
       <noscript><p class="muted">Turn on JavaScript to see scores, or open the <a href="/both">board</a>.</p></noscript>
     </article>
-  </div>
-</section>
-
-<section class="block" id="calculator">
-  <div class="wrap">
-    <div class="block-intro">
-      <h2 class="display">Score a fighter</h2>
-      <p>Enter a pro record. The two scores are separate and shouldn't be compared with each other.</p>
-    </div>
-    <div class="calc">
-      <form class="form" id="calc-form" novalidate>
-        <div class="field">
-          <label for="preset">Or start from a board fighter</label>
-          <select id="preset"><option value="">Choose a fighter…</option></select>
-        </div>
-        <div class="row">
-          <div class="field"><label for="wins">Wins</label><input id="wins" type="number" inputmode="numeric" min="1" max="99" value="8"/></div>
-          <div class="field"><label for="losses">Losses</label><input id="losses" type="number" inputmode="numeric" min="0" max="99" value="1"/></div>
-          <div class="field"><label for="draws">Draws</label><input id="draws" type="number" inputmode="numeric" min="0" max="99" value="0"/></div>
-          <div class="field"><label for="finishes">Finishes</label><input id="finishes" type="number" inputmode="numeric" min="0" max="99" value="6" title="Wins by KO, TKO or submission"/></div>
-        </div>
-        <div class="row three">
-          <div class="field"><label for="age">Age</label><input id="age" type="number" inputmode="numeric" min="16" max="50" value="24"/></div>
-          <div class="field"><label for="title_wins">Title wins</label><input id="title_wins" type="number" inputmode="numeric" min="0" max="30" value="0"/></div>
-          <div class="field"><label for="win_streak">Win streak</label><input id="win_streak" type="number" inputmode="numeric" min="0" max="99" value="5"/></div>
-        </div>
-        <div class="row two">
-          <div class="field"><label for="division">Division</label><select id="division"></select></div>
-          <div class="field"><label for="country">Country</label><select id="country"></select></div>
-        </div>
-        <div class="field"><label for="promotion">Promotion (most recent fight)</label><select id="promotion"></select></div>
-        <p class="form-msg" id="form-msg" role="alert"></p>
-      </form>
-      <div class="results" aria-live="polite">
-        <div class="result one" id="res-one"><p class="empty">ONE ASCENT appears here.</p></div>
-        <div class="result ufc" id="res-ufc"><p class="empty">DWCS/UFC ASCENT appears here.</p></div>
-      </div>
-    </div>
   </div>
 </section>
 
@@ -167,7 +109,7 @@
     </div>
     <div>
       <h4>Site</h4>
-      <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
+      <ul><li><a href="/calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
     </div>
     <div>
       <h4>Follow</h4>
@@ -183,42 +125,8 @@
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-  var FIELDS = ['wins', 'losses', 'draws', 'finishes', 'age', 'title_wins', 'win_streak', 'division', 'country', 'promotion'];
-  var timer, seq = 0, fighters = [], scored = false;
-  function opt(v, label, sel) { return '<option value="' + CA.esc(v) + '"' + (sel ? ' selected' : '') + '>' + CA.esc(label) + '</option>'; }
-
-  function score() {
-    var body = {}; FIELDS.forEach(function (k) { body[k] = $(k).value; });
-    var mine = ++seq;
-    CA.api('/api/score', body).then(function (r) {
-      if (mine !== seq) return;
-      $('form-msg').textContent = '';
-      var first = !scored; scored = true;
-      $('res-one').innerHTML = CA.anatomy(r.one, 'one', { count: first });
-      $('res-ufc').innerHTML = r.ufc ? CA.anatomy(r.ufc, 'ufc', { count: first }) : '<p class="empty">DWCS/UFC ASCENT needs an age.</p>';
-      if (first) CA.countUp($('calculator'));
-    }).catch(function (e) { if (mine === seq) $('form-msg').textContent = e.message; });
-  }
-  function later() { clearTimeout(timer); timer = setTimeout(score, 200); }
-  $('calc-form').addEventListener('input', later);
-  $('calc-form').addEventListener('submit', function (e) { e.preventDefault(); score(); });
-
-  function load(c) { FIELDS.forEach(function (k) { $(k).value = c[k] == null ? '' : c[k]; }); score(); }
-
-  Promise.all([CA.api('/api/options'), CA.api('/api/board')]).then(function (res) {
-    var o = res[0], board = res[1];
-    $('division').innerHTML = o.divisions.map(function (d) { return opt(d.value, d.label, d.value === 'Lightweight'); }).join('');
-    $('country').innerHTML = o.countries.map(function (c) { return opt(c, c, c === 'Brazil'); }).join('') + opt('', 'Other or unknown');
-    $('promotion').innerHTML = o.promotions.map(function (p) { return opt(p.id, p.name, p.id === 'lfa'); }).join('');
-    fighters = board.fighters;
-    $('preset').innerHTML += fighters.map(function (f, i) { return opt(i, f.name + ' (' + f.record + ')'); }).join('');
-    $('preset').addEventListener('change', function () { if (this.value !== '') load(fighters[+this.value].calculator); });
-
-    var wanted = new URLSearchParams(location.search).get('fighter'), loaded = false;
-    fighters.forEach(function (f, i) { if (f.name === wanted) { $('preset').value = i; load(f.calculator); loaded = true; } });
-    if (!loaded) score();
-
-    var f = fighters.filter(function (x) { return x.name === 'Kevin Navarro'; })[0] || fighters[0];
+  CA.api('/api/board').then(function (board) {
+    var f = board.fighters.filter(function (x) { return x.name === 'Kevin Navarro'; })[0] || board.fighters[0];
     $('featured').innerHTML = '<div class="tape-head"><div><div class="tape-name">' + CA.esc(f.name) + '</div>'
       + '<div class="tape-meta">' + CA.esc(f.divisionLabel) + ', ' + CA.esc(f.country) + ', age ' + CA.esc(f.age) + '</div></div>'
       + '<div class="tape-record">' + CA.esc(f.record) + '</div></div>'
@@ -226,7 +134,7 @@
       + '<div class="tape-foot"><a href="/both#' + f.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '">See why he scores this way</a></div>';
     CA.countUp($('featured'));
   }).catch(function () {
-    $('form-msg').textContent = 'Scores didn\'t load. Refresh to try again.';
+    $('featured').innerHTML = '<p class="muted">Scores didn\'t load. <a href="/both">Open the board</a>.</p>';
   });
 })();
 </script>

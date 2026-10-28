@@ -87,7 +87,7 @@
       <span class="brand-name">Champion Ascendant</span>
     </a>
     <nav class="nav" aria-label="Main">
-      <a href="/#calculator">Calculator</a>
+      <a href="/calculator">Calculator</a>
       <a href="/both" aria-current="page">Board</a>
       <a href="/methodology">Method</a>
       <a href="/build">How it's built</a>
@@ -155,7 +155,7 @@
     </div>
     <div>
       <h4>Site</h4>
-      <ul><li><a href="/#calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
+      <ul><li><a href="/calculator">Calculator</a></li><li><a href="/both">Board</a></li><li><a href="/methodology">Method</a></li><li><a href="/build">How it's built</a></li></ul>
     </div>
     <div>
       <h4>Follow</h4>
@@ -192,7 +192,7 @@
       + '<div class="detail"><div class="pair">' + CA.anatomy(f.one, 'one') + CA.anatomy(f.ufc, 'ufc') + '</div>'
       + '<div class="facts"><p>' + CA.esc(f.notes) + '</p>'
       + '<a href="' + CA.esc(f.tapology) + '" rel="noopener">Tapology record</a>'
-      + '<a href="/?fighter=' + encodeURIComponent(f.name) + '#calculator">Try changes in the calculator</a></div></div></details>';
+      + '<a href="/calculator?fighter=' + encodeURIComponent(f.name) + '">Try changes in the calculator</a></div></div></details>';
   }
 
   function render() {

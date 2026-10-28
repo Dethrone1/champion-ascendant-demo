@@ -77,7 +77,7 @@
 <header class="site-head">
   <div class="wrap">
     <a class="brand" href="/" aria-label="Champion Ascendant home">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M10 2h12l8 8v12l-8 8H10l-8-8V10z" fill="none" stroke="#E2B53F" stroke-width="2"/><path d="M10 22v-4M16 22v-8M22 22V10" stroke="#E2B53F" stroke-width="3" stroke-linecap="round"/></svg>
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="44" fill="none" stroke="#E2B53F" stroke-width="7"/><path d="M33.4 12h33.2L88 33.4v33.2L66.6 88H33.4L12 66.6V33.4z" fill="none" stroke="#3BB7C4" stroke-width="7"/><path d="M50 30l14 16H54v22h-8V46H36z" fill="#EDF0F4"/></svg>
       <span class="brand-name">Champion Ascendant</span>
     </a>
     <nav class="nav" aria-label="Main">
@@ -168,7 +168,7 @@
     "Women's Strawweight", "Women's Flyweight", "Women's Bantamweight", "Women's Featherweight"];
   var CHEV = '<svg class="chev" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 8l5 5 5-5"/></svg>';
   function slug(n) { return n.toLowerCase().replace(/[^a-z0-9]+/g, '-'); }
-  var fighters = [], head;
+  var fighters = [], head, firstRender = true;
 
   function row(f, i) {
     return '<details class="fighter" id="' + slug(f.name) + '"><summary>'
@@ -178,8 +178,8 @@
       + (f.checking ? '<span class="flag">Record being verified</span>' : '') + '</span>'
       + '<span class="rec">' + f.record + '</span>'
       + '<span class="div">' + CA.esc(f.division) + '</span>'
-      + '<span class="sc one num" data-sys="ONE">' + f.one.score.toFixed(1) + '</span>'
-      + '<span class="sc dwcs num" data-sys="UFC">' + f.ufc.score.toFixed(1) + '</span>'
+      + '<span class="sc one num" data-sys="ONE"' + (firstRender ? ' data-count="' + f.one.score.toFixed(1) + '"' : '') + '>' + f.one.score.toFixed(1) + '</span>'
+      + '<span class="sc dwcs num" data-sys="UFC"' + (firstRender ? ' data-count="' + f.ufc.score.toFixed(1) + '"' : '') + '>' + f.ufc.score.toFixed(1) + '</span>'
       + CHEV + '</summary>'
       + '<div class="detail"><div class="pair">' + CA.anatomy(f.one, 'one') + CA.anatomy(f.ufc, 'ufc') + '</div>'
       + '<div class="facts"><p>' + CA.esc(f.notes) + '</p>'
@@ -202,6 +202,7 @@
     });
     $('board').innerHTML = head + (list.length ? list.map(row).join('') : '<p style="padding:18px" class="muted">No fighters in this division yet.</p>');
     $('count').textContent = list.length + (list.length === 1 ? ' fighter' : ' fighters');
+    if (firstRender) { firstRender = false; CA.countUp($('board')); }
   }
 
   function openFromHash() {

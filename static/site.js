@@ -27,7 +27,7 @@
     var posSum = pos.reduce(function (a, s) { return a + s.g.value; }, 0);
     var html = '<div class="anatomy ' + sys + (opts.animate ? ' animate' : '') + '">'
       + '<div class="anatomy-top"><span class="anatomy-name">' + esc(result.name) + '</span>'
-      + '<span class="anatomy-score">' + result.score.toFixed(1) + '</span></div>'
+      + '<span class="anatomy-score"' + (opts.count ? ' data-count="' + result.score.toFixed(1) + '"' : '') + '>' + result.score.toFixed(1) + '</span></div>'
       + '<div class="bar" role="img" aria-label="' + esc(result.name) + ' ' + result.score.toFixed(1) + ', built from '
       + esc(pos.map(function (s) { return s.g.label.toLowerCase(); }).join(', ')) + '">';
     pos.forEach(function (s, i) {
@@ -52,6 +52,22 @@
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || 'Request failed'); return j; }); });
   }
 
-  window.CA = { anatomy: anatomy, esc: esc, api: api };
+  /** Count scores up from 0 the first time they appear. Skipped if the visitor prefers reduced motion. */
+  function countUp(root) {
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    (root || document).querySelectorAll('[data-count]').forEach(function (el) {
+      var end = parseFloat(el.dataset.count), start = null;
+      el.removeAttribute('data-count');
+      function step(t) {
+        if (start === null) start = t;
+        var k = Math.min(1, (t - start) / 1000), eased = 1 - Math.pow(1 - k, 3);
+        el.textContent = (end * eased).toFixed(1);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  window.CA = { anatomy: anatomy, esc: esc, api: api, countUp: countUp };
   document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();

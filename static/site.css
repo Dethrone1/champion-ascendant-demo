@@ -210,7 +210,7 @@ code { font-family: var(--font-code); font-size: 0.9em; background: var(--panel-
 body::before, body::after {
   content: ""; position: fixed; z-index: -1; pointer-events: none;
   width: 620px; height: 620px;
-  animation: cage-pulse 9s ease-in-out infinite;
+  animation: cage-pulse 5s ease-in-out infinite;
 }
 body::before { /* ONE Championship's circular cage */
   left: -220px; top: 90px; border-radius: 50%;
@@ -219,8 +219,8 @@ body::before { /* ONE Championship's circular cage */
   background: radial-gradient(circle, rgba(226, 181, 63, 0.06), transparent 65%);
 }
 body::after { /* the UFC's octagon */
-  right: -230px; bottom: -160px; animation-delay: -4.5s;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M29.3 1h41.4L99 29.3v41.4L70.7 99H29.3L1 70.7V29.3z' fill='rgba(59,183,196,0.05)' stroke='rgba(59,183,196,0.24)' stroke-width='0.5'/%3E%3Cpath d='M31.4 6h37.2L94 31.4v37.2L68.6 94H31.4L6 68.6V31.4z' fill='none' stroke='rgba(59,183,196,0.1)' stroke-width='0.35'/%3E%3C/svg%3E") center / contain no-repeat;
+  right: -230px; bottom: -160px; animation-delay: -2.5s;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M29.3 1h41.4L99 29.3v41.4L70.7 99H29.3L1 70.7V29.3z' fill='rgba(59,183,196,0.08)' stroke='rgba(59,183,196,0.48)' stroke-width='0.6'/%3E%3Cpath d='M31.4 6h37.2L94 31.4v37.2L68.6 94H31.4L6 68.6V31.4z' fill='none' stroke='rgba(59,183,196,0.22)' stroke-width='0.4'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 @keyframes cage-pulse {
   0%, 100% { opacity: 0.55; transform: scale(1); }
@@ -250,3 +250,68 @@ h1.display {
 .fighter > summary:hover {
   box-shadow: inset 3px 0 0 var(--one), inset 0 0 40px rgba(226, 181, 63, 0.06), inset -3px 0 0 var(--dwcs);
 }
+
+/* ---------- holographic hover (pointer position comes from site.js as --mx / --my) ---------- */
+.holo { position: relative; overflow: hidden; isolation: isolate; transform-style: preserve-3d;
+  transition: transform 0.25s ease, box-shadow 0.25s ease; --mx: 50%; --my: 50%; --rx: 0deg; --ry: 0deg; }
+.holo::after {
+  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit;
+  opacity: 0; transition: opacity 0.3s ease;
+  background:
+    radial-gradient(circle at var(--mx) var(--my), rgba(255,255,255,0.28), transparent 42%),
+    linear-gradient(115deg, rgba(255,0,170,0.18), rgba(0,229,255,0.18) 25%, rgba(140,255,120,0.16) 45%,
+      rgba(255,230,90,0.18) 65%, rgba(170,90,255,0.18) 85%);
+  background-size: 100% 100%, 300% 300%;
+  background-position: center, calc(var(--mx) * 1.5) calc(var(--my) * 1.5);
+  mix-blend-mode: color-dodge;
+}
+.holo:hover::after { opacity: 1; }
+.holo:hover { box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08); }
+@media (prefers-reduced-motion: no-preference) {
+  .holo:hover { transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)); }
+}
+
+/* ---------- link underlines that draw in ---------- */
+.site-foot a, .tape-foot a, .facts a {
+  text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  transition: background-size 0.3s ease, color 0.2s;
+  padding-bottom: 2px;
+}
+.site-foot a:hover, .tape-foot a:hover, .facts a:hover { background-size: 100% 1px; text-decoration: none; color: var(--text); }
+.nav a:not(.gh) { position: relative; }
+.nav a:not(.gh)::after {
+  content: ""; position: absolute; left: 12px; right: 12px; bottom: 4px; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--one), var(--dwcs)); transform: scaleX(0); transition: transform 0.3s ease;
+}
+.nav a:not(.gh):hover::after, .nav a[aria-current="page"]::after { transform: scaleX(1); }
+
+/* ---------- buttons: light sweep on hover, press feedback ---------- */
+.btn { position: relative; overflow: hidden; transition: transform 0.15s ease, background 0.2s, box-shadow 0.2s; }
+.btn-primary::before {
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent); transform: skewX(-20deg);
+  transition: left 0.6s ease;
+}
+.btn-primary:hover::before { left: 120%; }
+.btn:active { transform: translateY(1px) scale(0.98); }
+
+/* ---------- featured card: slow gold-to-teal border ---------- */
+.tape { position: relative; }
+.tape::before {
+  content: ""; position: absolute; inset: -1px; border-radius: inherit; padding: 1px; pointer-events: none;
+  background: conic-gradient(from var(--angle, 0deg), var(--one), transparent 30%, var(--dwcs) 50%, transparent 80%, var(--one));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude; opacity: 0.8;
+}
+@property --angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+@media (prefers-reduced-motion: no-preference) {
+  .tape::before { animation: spin-border 8s linear infinite; }
+  @keyframes spin-border { to { --angle: 360deg; } }
+}
+
+/* ---------- small touches ---------- */
+::selection { background: rgba(226, 181, 63, 0.35); color: var(--text); }
+html { scrollbar-color: var(--line) var(--bg); scrollbar-width: thin; }
+.field input, .field select { transition: border-color 0.2s, box-shadow 0.2s; }
+.chip { transition: color 0.2s, background 0.2s, border-color 0.2s; }

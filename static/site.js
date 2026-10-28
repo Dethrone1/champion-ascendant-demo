@@ -68,6 +68,17 @@
     });
   }
 
+  // Holographic cards: feed the pointer position to CSS as --mx/--my and a small tilt.
+  document.addEventListener('pointermove', function (e) {
+    var el = e.target.closest && e.target.closest('.holo');
+    if (!el) return;
+    var r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    el.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+    el.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+    el.style.setProperty('--ry', ((x - 0.5) * 6).toFixed(2) + 'deg');
+    el.style.setProperty('--rx', ((0.5 - y) * 6).toFixed(2) + 'deg');
+  });
+
   window.CA = { anatomy: anatomy, esc: esc, api: api, countUp: countUp };
   document.querySelectorAll('[data-year]').forEach(function (el) { el.textContent = new Date().getFullYear(); });
 })();

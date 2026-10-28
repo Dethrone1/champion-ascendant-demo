@@ -40,7 +40,7 @@
     .field label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 5px; font-weight: 600; }
     .field input, .field select {
       width: 100%; padding: 10px 12px; font: 600 15px var(--font-body); color: var(--text);
-      background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-sm);
+      background-color: var(--bg); border: 1px solid var(--line); border-radius: var(--r-sm);
     }
     .field input:focus, .field select:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px rgba(244,214,122,0.18); }
     .form-msg { font-size: 14px; color: var(--neg); min-height: 1.3em; }
@@ -146,12 +146,12 @@
       <div class="panel">
         <h3 class="one">ONE ASCENT</h3>
         <p>Built from the fighters ONE Championship has signed since 2023.</p>
-        <ul><li class="tag">Finishing</li><li class="tag">Record</li><li class="tag">Promotion</li><li class="tag">Age and origin</li><li class="tag">Titles</li></ul>
+        <ul><li class="tag">Finish rate</li><li class="tag">Record</li><li class="tag">Promotion</li><li class="tag">Age and origin</li><li class="tag">Titles</li></ul>
       </div>
       <div class="panel">
         <h3 class="ufc">DWCS/UFC ASCENT</h3>
         <p>Built from the fighters the UFC brings in through the Contender Series. High scores also fit the fighters it signs directly.</p>
-        <ul><li class="tag">Finishing</li><li class="tag">Record and momentum</li><li class="tag">Promotion</li><li class="tag">Age</li><li class="tag">Titles</li></ul>
+        <ul><li class="tag">Finish rate</li><li class="tag">Record and momentum</li><li class="tag">Promotion</li><li class="tag">Age</li><li class="tag">Titles</li></ul>
       </div>
     </div>
   </div>
@@ -160,10 +160,10 @@
 
 <footer class="site-foot">
   <div class="wrap">
-    <div>
-      <p style="color:var(--muted);margin-bottom:8px"><strong>Champion Ascendant</strong></p>
+    <div class="foot-about">
+      <p class="foot-name">Champion Ascendant</p>
       <p>Scores unsigned fighters on how closely they match the fighters who got signed.</p>
-      <p style="margin-top:10px">&copy; <span data-year>2026</span> Champion Ascendant. Conceived and directed by Chris, built using AI tools.</p>
+      <p class="foot-copy">&copy; <span data-year>2026</span> Champion Ascendant</p>
     </div>
     <div>
       <h4>Site</h4>
@@ -172,8 +172,8 @@
     <div>
       <h4>Follow</h4>
       <ul><li><a href="https://www.instagram.com/championascendant" rel="noopener">Instagram</a></li><li><a href="https://github.com/Dethrone1/champion-ascendant-demo" rel="noopener">GitHub</a></li></ul>
-      <h4 style="margin-top:18px">Records from</h4>
-      <ul><li>Tapology</li><li>Sherdog</li></ul>
+      <h4 class="foot-sub">Records from</h4>
+      <ul class="plain"><li>Tapology</li><li>Sherdog</li></ul>
     </div>
   </div>
 </footer>

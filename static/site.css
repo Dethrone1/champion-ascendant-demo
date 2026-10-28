@@ -321,7 +321,37 @@ html { scrollbar-color: var(--line) var(--bg); scrollbar-width: thin; }
 
 /* ---------- comfortable tap targets on phones and tablets ---------- */
 @media (max-width: 960px), (hover: none) {
-  .site-foot ul { gap: 0; }
-  .site-foot li a, .tape-foot a, .facts a { display: inline-block; padding: 11px 0; background-position: 0 calc(100% - 9px); }
+  .tape-foot a, .facts a { display: inline-block; padding: 11px 0; background-position: 0 calc(100% - 9px); }
   .brand { padding: 7px 0; }
 }
+
+/* ---------- footer layout ---------- */
+.site-foot .foot-name { color: var(--text); font-weight: 700; margin-bottom: 6px; }
+.site-foot .foot-copy { margin-top: 10px; }
+.site-foot .foot-sub { margin-top: 18px; }
+@media (max-width: 760px) {
+  .site-foot { padding: 32px 0 40px; }
+  .site-foot .wrap { grid-template-columns: 1fr 1fr; gap: 24px 20px; }
+  .site-foot .foot-about { grid-column: 1 / -1; }
+  .site-foot ul { gap: 2px; }
+  .site-foot li a { display: inline-block; padding: 6px 0; background-position: 0 calc(100% - 4px); }
+}
+
+/* ---------- selects: light chevron so it shows on the dark background (iOS draws a dark one) ---------- */
+select {
+  -webkit-appearance: none; appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23A3AEBF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+  padding-right: 38px !important;
+}
+select::-ms-expand { display: none; }
+
+/* ---------- phones: nav wraps and centres so every item, including Code, is visible ---------- */
+@media (max-width: 860px) {
+  .site-head .wrap { justify-content: center; padding-bottom: 6px; }
+  .brand { width: 100%; justify-content: center; }
+  .nav { width: 100%; margin: 4px 0 0; padding: 0; overflow: visible; flex-wrap: wrap; justify-content: center; gap: 2px 4px; mask-image: none; -webkit-mask-image: none; }
+  .nav a { padding: 8px 10px; font-size: 14px; }
+  .nav .gh { margin-left: 4px; }
+}
+@media (max-width: 860px) { .site-head { position: static; } }

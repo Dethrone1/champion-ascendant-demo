@@ -16,7 +16,7 @@ def test_score_returns_both_systems_separately():
     assert j["one"]["name"] == "ONE ASCENT" and j["ufc"]["name"] == "DWCS/UFC ASCENT"
     for s in (j["one"], j["ufc"]):
         assert isinstance(s["score"], float)
-        assert {g["label"] for g in s["groups"]} >= {"Finishing", "Record", "Promotion", "Titles"}
+        assert {g["label"] for g in s["groups"]} >= {"Finish rate", "Record", "Promotion", "Titles"}
 
 
 def test_no_age_still_scores_one():

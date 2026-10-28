@@ -251,25 +251,19 @@ h1.display {
   box-shadow: inset 3px 0 0 var(--one), inset 0 0 40px rgba(226, 181, 63, 0.06), inset -3px 0 0 var(--dwcs);
 }
 
-/* ---------- holographic hover (pointer position comes from site.js as --mx / --my) ---------- */
-.holo { position: relative; overflow: hidden; isolation: isolate; transform-style: preserve-3d;
-  transition: transform 0.25s ease, box-shadow 0.25s ease; --mx: 50%; --my: 50%; --rx: 0deg; --ry: 0deg; }
+/* ---------- holographic card hover: diagonal shimmer slides down, card lifts and glows ---------- */
+.holo { position: relative; overflow: hidden; isolation: isolate; --glow: 59, 183, 196;
+  transition: transform 0.4s ease, box-shadow 0.4s ease; }
+.holo.one, .btn.holo { --glow: 226, 181, 63; }
 .holo::after {
-  content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit;
-  opacity: 0; transition: opacity 0.3s ease;
-  background:
-    linear-gradient(105deg, transparent calc(var(--mx) - 18%), rgba(255, 255, 255, 0.38) var(--mx), transparent calc(var(--mx) + 18%)),
-    repeating-linear-gradient(115deg, transparent 0 3px, rgba(226, 181, 63, 0.11) 3px 4px, rgba(59, 183, 196, 0.11) 4px 5px, transparent 5px 8px),
-    linear-gradient(140deg, rgba(59, 183, 196, 0.22), rgba(226, 181, 63, 0.2) 50%, rgba(59, 183, 196, 0.22));
-  background-size: 100% 100%, 100% 100%, 200% 200%;
-  background-position: 0 0, calc(var(--mx) * 0.3) calc(var(--my) * 0.3), var(--mx) var(--my);
-  mix-blend-mode: screen;
+  content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; z-index: 2;
+  pointer-events: none; opacity: 0;
+  background: linear-gradient(0deg, transparent, transparent 30%, rgba(var(--glow), 0.3));
+  transform: rotate(-45deg); transition: transform 0.5s ease, opacity 0.5s ease;
 }
-.holo:hover::after { opacity: 1; }
-.holo:hover { box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.08); }
-@media (prefers-reduced-motion: no-preference) {
-  .holo:hover { transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)); }
-}
+.holo:hover { transform: scale(1.03); box-shadow: 0 0 20px rgba(var(--glow), 0.5); }
+.holo:hover::after { opacity: 1; transform: rotate(-45deg) translateY(100%); }
+@media (prefers-reduced-motion: reduce) { .holo:hover { transform: none; } .holo::after { transition: opacity 0.3s; } }
 
 /* ---------- link underlines that draw in ---------- */
 .site-foot a, .tape-foot a, .facts a {

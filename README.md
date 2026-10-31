@@ -24,7 +24,7 @@ Scoring runs only on the server, so the formulas never reach the browser. Pages 
 
 **This repo ships stand-in formulas** (`scoring/sample_formulas.py`) with the same interface as the private ones, so everything runs, but its scores are not the published ones.
 
-![Top prospects with a fighter's breakdown open](static/both-systems.png)
+![Top Prospects with a fighter's breakdown open](static/both-systems.png)
 
 ## Tests
 
@@ -33,7 +33,7 @@ pip install -r requirements.txt pytest
 pytest tests
 ```
 
-- **Top prospects:** every published score is recomputed from its inputs (runs where the private formulas are present)
+- **Top Prospects:** every published score is recomputed from its inputs (runs where the private formulas are present)
 - **API:** bad input is rejected with a clear message; responses never expose formula data
 - **Pages:** every page loads, no stray code or version labels on the page, page scripts parse, formula files are never served
 

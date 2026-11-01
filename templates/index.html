@@ -41,6 +41,9 @@
     .tape-label:hover { background: rgba(226, 181, 63, 0.1); }
     .tape-foot { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line-soft); font-size: 14px; }
 
+    .does .panel { display: block; color: inherit; text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
+    .does .panel:hover { border-color: var(--one); transform: translateY(-2px); }
+    .does .panel h3 { color: var(--text); }
     .factors { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
     .factors .panel h3 { margin-bottom: 4px; }
     .factors .panel h3.one { color: var(--one); }
@@ -87,6 +90,26 @@
     <article class="tape" id="featured" aria-live="polite">
       <noscript><p class="muted">Turn on JavaScript to see scores, or see <a href="/both">Top Prospects</a>.</p></noscript>
     </article>
+  </div>
+</section>
+
+<section class="block">
+  <div class="wrap">
+    <div class="block-intro"><h2 class="display">What does Champion Ascendant do?</h2></div>
+    <div class="grid-3 does">
+      <a class="panel" href="/calculator">
+        <h3>Scores any fighter</h3>
+        <p>Enter a pro record and get two scores: one for ONE Championship, one for the UFC.</p>
+      </a>
+      <a class="panel" href="/both">
+        <h3>Finds Top Prospects</h3>
+        <p>A shortlist of unsigned fighters who score 85 or higher for both promotions.</p>
+      </a>
+      <a class="panel" href="/methodology">
+        <h3>Shows why</h3>
+        <p>Every score breaks down into finish rate, record, promotion, profile and titles.</p>
+      </a>
+    </div>
   </div>
 </section>
 

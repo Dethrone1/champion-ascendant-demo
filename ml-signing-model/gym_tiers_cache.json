@@ -1,0 +1,598 @@
+{
+ "10th Planet Jiu Jitsu El Paso / Elite Kickboxing Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "4oz. Fight Club": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "53 Degrees MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "719 Fight Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "AKA Thailand": {
+  "tier": 1,
+  "label": "established"
+ },
+ "AMP MMA / Fusion X-Cel Performance": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Academia Octogono": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Allstars Training Center": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Almas Kyrandary": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Ambush Muay Thai": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "American Top Team": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "American Top Team Asheville": {
+  "tier": 1,
+  "label": "established"
+ },
+ "American Top Team Zagreb": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Amir Temur": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Amir Timur": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Arlan MMA Pro Team / Tiger Muay Thai": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Astra Fight Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Atch Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Atherton Submission Wrestling": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Aurora MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Bas Rutten's Elite MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Batyr Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Blackledge MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Bonfim Brothers": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Brazilian TKO": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Brazilian Top Team": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Brothers of Life MMA / Team Lucas Mineiro": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Bulgarian Top Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "CM System": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "CSW Training Center": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "California MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "California Mixed Martial Arts": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Canadian Martial Arts Centre": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Chute Boxe Diego Lima": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Chute Boxe Joao Emilio": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Czerwony Smok": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Dima's Gym Noerdlingen": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Dyogo Teles MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "ESKF Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Evolucao Thai": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Evolution MMA": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Factory X": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Fearless MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Fight Club Akhmat": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Fight Club Berkut": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Fight House Verona": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Fight Ready": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "FightFit Militia": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Five Rounds": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Fortis MMA": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Full Power Gym": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Fusion X-Cel Performance": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "GEAcademy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Gina's Den": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Goa Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Griphouse": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Guram Fight Club": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Guray Fight Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "H-Fight / NR Fight": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "HAMMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Hammer Team / Aurora MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Hanuman Gym Bratislava": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Higher Level MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Hit Squad Hull": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Jackson-Wink MMA": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Judo Ural Western Siberia / American Top Team": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "K Dojo Warrior Tribe Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "KHK MMA": {
+  "tier": 1,
+  "label": "established"
+ },
+ "KKS Sparta Aachen": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Kill Cliff FC": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Killer Bees / OCS Jiu-Jitsu": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Kioshi Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Kraft Kampsport": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "La Bodega Fight Club": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "La Bodega Fight Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Lion Fight Gym": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Longo-Weidman MMA": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "MMA Factory": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "MMA Fight Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "MMA Lab": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "MMA Lappeenranta": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "MMA Masters": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "MSP": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Machine MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Maquininha do Futuro": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Marajo Brothers Team": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Middlesbrough Fight Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Miura BJJ / UFC Gym Costa Mesa": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Multiboxing Persan": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Next Generation MMA Liverpool": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Norwegian Top Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Nova MMA Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Nova Uniao": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Nova Uniao / Fight House": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Octagon Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Off the Chain MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Pakido Fight Club": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Peso Pesado Gold Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Phuket Top Team": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Pitbull Jiu-Jitsu Club": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Planet Eater": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Pound 4 Pound Muay Thai": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "RD Champions": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "RD Champions / Giants Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Ranger MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Raty Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Redline Training Center / Manchester Top Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Rendoki Dojo": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Renovacao Fight Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Rings Lithuania": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Rio Grappling": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Root MMA": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Russao Muay Thai": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Scorpion Fighting System": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Scottish Hit Squad": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Skywalker 101 Boxing Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Soma Fight Club": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "TF Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Tata Fight Team": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Tata Fight Team / Team Malafaia": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Team Agon": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Team Alpha Male": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Team Dias": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Team Lucas Mineiro": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Team Nogueira": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Team Nogueira Campinas": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Team Renegade": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Team Ryano": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Team Turbao": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Team XXL - Yonou Gainde": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Thai Brasil": {
+  "tier": 1,
+  "label": "established"
+ },
+ "Thai Brasil Floripa": {
+  "tier": 1,
+  "label": "established"
+ },
+ "The Academy MN": {
+  "tier": 1,
+  "label": "established"
+ },
+ "The Cellar Gym": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "The Fighting Nerds": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "The Goat Shed Academy": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "The MMA Academy Liverpool": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Tobet Top Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "UFC Gym Dushanbe": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "UFC Gym Hoboken": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Uluu Kyrgyz Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Vale Top Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "W4R Training Center": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "WCA Fight Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Wolf Fight Team": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "X-Gym": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Xtreme Couture": {
+  "tier": 2,
+  "label": "elite"
+ },
+ "Zenith Vera Fight Club": {
+  "tier": 0,
+  "label": "regional"
+ },
+ "Zenith Vera Fight Club / WCA Fight Team": {
+  "tier": 0,
+  "label": "regional"
+ }
+}

@@ -28,7 +28,7 @@ Scoring runs only on the server, so the formulas never reach the browser. Pages 
 
 ## ML signing model
 
-A separate machine-learning study: **can a fight record predict a DWCS/UFC call-up?** 172 hand-verified regional fighters, logistic regression vs a rule of thumb vs the hand-built score, plus an AI-classified gym feature. Fighters the model ranks in its top 20% got the call 51% of the time; in its bottom 20%, 6%.
+How much does a regional fighter's record tell you about whether the UFC calls? I checked 172 fighters' records by hand and trained a model on who got signed. The fighters it rated highest got the call 51% of the time; the lowest-rated, 6%.
 
 → [`ml-signing-model/`](ml-signing-model/)
 

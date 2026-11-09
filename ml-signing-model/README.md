@@ -1,75 +1,74 @@
-# DWCS/UFC Ascent: can a fight record predict a UFC call-up?
+# Predicting the UFC call from the fight record
 
-**Fighters a machine-learning model ranks in its top 20% got a DWCS/UFC call-up 51% of the time. In its bottom 20%, it was 6%.**
-From the fight record alone (no film, no management, no opponent data), a learned model ranks prospects better than a rule of thumb and slightly better than my hand-built scouting score, but record-only prediction tops out at around 0.70 AUC.
+I wanted to know how much a regional fighter's record actually tells you about whether the UFC calls. So I took 172 headliners from 2024–25, checked every record fight by fight, and trained a model on who got signed.
+
+**Short answer:** fighters the model rated highest got the call 51% of the time. The lowest-rated got it 6% of the time. Overall it scores 0.70 AUC, a bit better than a simple rule of thumb and my own hand-built score, but the record only gets you so far.
 
 ![AUC comparison](charts/1_auc_comparison.png)
 
-## The question
-Every year, hundreds of regional fighters headline cards at feeder promotions like LFA, Cage Warriors and Fury FC. A few get a call from Dana White's Contender Series or the UFC. **How much of that call is visible in the fight record?**
-
-## The data
-- **172 fighters** who fought on LFA, Cage Warriors, Fury FC, UAE Warriors, Brave CF and OKTAGON cards in 2024–25. **54 (31%)** later appeared on DWCS, in the UFC, on TUF or on Road to UFC (through 31 Oct 2026).
-- **Every record was hand-verified.** Each fighter's full Sherdog fight list was counted bout by bout in code, and conflicts were settled with Tapology, promotion sites and press releases. Along the way this caught a cancelled bout, records missing up to 8 wins, and several fighters whose listed fight was actually amateur.
-- **No future data leaks in.** Every stat is taken *before* the fighter's listed regional bout, never after.
-- Dataset: [`dwcs_prospects_172.csv`](dwcs_prospects_172.csv)
+## Data
+- **172 fighters** who headlined LFA, Cage Warriors, Fury FC, UAE Warriors, Brave CF and OKTAGON cards in 2024–25. **54 (31%)** later showed up on the Contender Series, in the UFC, on TUF or on Road to UFC (through 31 Oct 2026).
+- **Records checked by hand.** I counted every fighter's full Sherdog fight list in code and settled disagreements with Tapology and promotion sites. That caught a cancelled fight, a few fighters whose listed bout was actually amateur, and two records missing 4 and 8 wins.
+- **No peeking.** Stats are as of the fight before their listed bout, so nothing from later leaks in.
+- Data: [`dwcs_prospects_172.csv`](dwcs_prospects_172.csv)
 
 ## Results
 | Approach | AUC | 95% range |
 |---|---|---|
 | Coin flip | 0.50 | — |
-| Rule of thumb (undefeated + age ≤ 27 + finishes 60%+) | 0.67 | 0.58–0.75 |
-| Ascent score (hand-built scouting formula) | 0.68 | 0.60–0.76 |
-| **Logistic regression (learned)** | **0.70** | 0.62–0.78 |
+| Rule of thumb (undefeated, 27 or under, finishes 60%+ of wins) | 0.67 | 0.58–0.75 |
+| My hand-built DWCS/UFC Ascent score | 0.68 | 0.60–0.76 |
+| **Logistic regression** | **0.70** | 0.62–0.78 |
 
-*AUC = the chance the model ranks a randomly chosen signed fighter above a randomly chosen unsigned one. Out-of-fold, 5-fold cross-validation repeated 20×.*
+AUC = how often a signed fighter ranks above an unsigned one. Every fighter was scored by a version of the model trained without them (5-fold cross-validation, repeated 20 times). The ranges overlap, so the model's edge is small and not proven yet.
 
 ![Signed rate by model score](charts/2_signed_rate_by_score.png)
 
-### What the model learned
-Win % and youth matter most. Once win % is known, finish rate adds almost nothing, and a long win streak counts slightly *against* a fighter (long streaks often come against weaker regional opposition).
+### What the model weights
+Win % and age matter most. Finish rate barely moves it once win % is in. A long win streak actually counts a little against a fighter, probably because long streaks often come against weaker regional opponents.
 
 ![Model weights](charts/3_model_weights.png)
 
-### Learned model vs hand-built score
-The two scores agree only moderately (rank correlation 0.54; 15 of their top 30 overlap), but both find about 15–16 signees in their top 30, versus about 9 by chance. They disagree in a telling way: the hand-built score rewards **high-finish-rate veterans** (e.g. 18-9 knockout artists), while the learned model prefers **young fighters with few losses** Neither side clearly wins those disagreements in this sample, which suggests combining them is worth testing.
+### Model vs. my hand-built score
+They only partly agree (rank correlation 0.54, 15 of their top 30 are the same), but both get 15–16 signees in their top 30, against about 9 by chance. Where they disagree, my score likes veterans with lots of finishes (think 18-9 knockout artists) and the model likes young fighters with few losses. Neither side clearly wins those cases here, so combining the two is worth trying.
 
 ![Ascent vs model](charts/4_ascent_vs_model.png)
 
-### Adding an AI-extracted feature: gym / team
-Records miss a lot, so I added one feature a record can't show: **where the fighter trains**. Each fighter's gym (from Sherdog) was classified by a language model (Claude, fixed rubric, [`extract_gym_tier.py`](extract_gym_tier.py)) as **elite** (e.g. American Top Team, Kill Cliff, Xtreme Couture), **established** or **regional**.
+### Does the gym matter?
+A record doesn't show where someone trains, so I sorted every fighter's gym (from Sherdog) into elite camp (American Top Team, Kill Cliff, Xtreme Couture and so on), established team or regional gym. The sorting was done with Claude against a fixed set of criteria; see [`extract_gym_tier.py`](extract_gym_tier.py).
 
 ![Gym tier](charts/5_gym_tier.png)
 
 | Model | AUC |
 |---|---|
 | Record only | 0.70 |
-| Record + elite gym (AI-classified) | 0.70 |
+| Record + elite gym | 0.70 |
 
-**It didn't help.** Elite-camp fighters were signed a bit more often (42% vs 34%), but once the record is in the model, gym tier adds nothing, perhaps because elite camps mostly take fighters who already have strong records. One trap I caught: "no gym listed" looks hugely predictive (0 of 11 signed), but that's probably **leakage**. Sherdog profiles get filled in *after* a fighter is signed, so a blank field partly reflects the outcome. I left it out.
+Not really. Elite-camp fighters got signed a bit more (42% vs 34%), but once the record is in the model, the gym adds nothing. My guess is elite camps mostly take on fighters who already have good records.
 
-## Limits (read before quoting a number)
-- **Small sample.** 172 fighters; the 95% ranges overlap, so no approach is *proven* better than another.
-- **Uneven follow-up time.** 2024 fighters had about 2 years to get the call, late-2025 fighters about 1. Some current "not signed" fighters will be signed later.
-- **Record-only inputs.** Opponent quality, management, weight-class needs and market fit all drive signings, and none of them is in here.
-- **Win streak and win % overlap**, so read individual model weights for direction, not exact size.
-- Gym affiliation is the *current* one, not as of the snapshot date; a few fighters may have moved camps after signing.
-- The Ascent score was partly calibrated on DWCS rosters that overlap with some fighters here, and it uses promotion tier, which the model doesn't. Its formula is not published.
+Fighters with no gym listed went 0 for 11, which looks like a great signal. It isn't. Profiles usually get filled in after someone signs, so a blank profile partly reflects the outcome. I left it out.
+
+## Limits
+- 172 is a small sample, so treat every number here as a range.
+- Fighters from late 2025 have had less time to get the call than 2024 fighters, so a few "not signed" will change.
+- Opponent quality, management and what divisions the UFC needs all matter too. None of that is in the model yet.
+- Gym is the fighter's current one, not where they trained at the time.
+- My Ascent score was partly tuned on Contender Series rosters that overlap with some fighters here, and it uses promotion tier, which the model doesn't. Its formula isn't published.
 
 ## Next
-Add opponent quality (the strongest signal still missing): the records of the fighters each prospect beat, and test the model *out of time*: train on 2024, predict 2025.
+Add opponent quality (the records of the fighters each prospect beat), and test it the way it would really be used: train on 2024, predict 2025.
 
 ## Run it
 ```
 pip install -r requirements.txt
-jupyter notebook dwcs_ascent_ml.ipynb   # full analysis + charts
-python retrain.py                       # retrain the model in one command
+jupyter notebook dwcs_ascent_ml.ipynb   # full analysis and charts
+python retrain.py                       # retrain in one command
 ```
 
 ## Keeping it current
-The model doesn't change on its own. It **retrains with one command** when new outcomes come in:
-1. Re-check "not signed" fighters after each DWCS season and flip any who got the call (0 → 1).
-2. Add new verified fighters (stats as of their snapshot bout).
-3. Run `python retrain.py`. Each run is logged in [`retrain_log.csv`](retrain_log.csv) and compared with the last kept model. If accuracy drops by more than 0.02, the new model is **not** saved, so bad data can't silently make it worse.
+The model doesn't update on its own. When new results come in:
+1. After each Contender Series season, re-check the "not signed" fighters and flip anyone who got the call (0 → 1).
+2. Add new fighters, with stats as of their listed bout.
+3. Run `python retrain.py`. Each run is logged in [`retrain_log.csv`](retrain_log.csv). If accuracy drops by more than 0.02, the new model isn't saved, so bad data can't quietly make it worse.
 
 Part of [Champion Ascendant](https://championascendant.com).

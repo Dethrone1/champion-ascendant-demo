@@ -82,6 +82,24 @@
       .detail { padding: 6px 14px 20px; }
       .detail .pair { grid-template-columns: 1fr; gap: 22px; }
     }
+    .signup-card { display: grid; grid-template-columns: 1fr 1.1fr; gap: 28px; align-items: center;
+      background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--one); border-radius: var(--r-lg); padding: 28px; }
+    .signup-card h2 { margin-bottom: 8px; }
+    .signup-row { display: flex; gap: 10px; }
+    .signup-row input { flex: 1; min-width: 0; padding: 13px 14px; font: 600 16px var(--font-body); color: var(--text);
+      background: var(--bg); border: 1px solid var(--line); border-radius: var(--r); }
+    .signup-row input:focus { outline: none; border-color: var(--focus); box-shadow: 0 0 0 3px rgba(244,214,122,0.18); }
+    .signup-row .btn { white-space: nowrap; }
+    .signup-msg { min-height: 1.4em; margin: 8px 0 2px; font-size: 14.5px; font-weight: 600; }
+    .signup-msg.ok { color: var(--pos); }
+    .signup-msg.err { color: var(--neg); }
+    .hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+    .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+    @media (max-width: 760px) {
+      .signup-card { grid-template-columns: 1fr; padding: 22px 18px; gap: 16px; }
+      .signup-row { flex-direction: column; }
+      .signup-row .btn { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -139,6 +157,30 @@
         <span class="num" style="color:var(--one)">ONE</span><span class="num" style="color:var(--dwcs)">DWCS/UFC</span><span></span>
       </div>
       <noscript><p style="padding:18px" class="muted">This list needs JavaScript.</p></noscript>
+    </div>
+  </div>
+</section>
+
+<section class="block signup" id="get-the-list">
+  <div class="wrap">
+    <div class="signup-card">
+      <div>
+        <h2 class="display">Get 20 more prospects</h2>
+        <p class="muted">Enter your email and I'll send you 20 more scored, verified fighters.</p>
+      </div>
+      <form id="signup-form" action="https://formsubmit.co/championascendant@protonmail.com" method="POST" novalidate>
+        <input type="hidden" name="_subject" value="Champion Ascendant: list request"/>
+        <input type="hidden" name="_template" value="table"/>
+        <input type="hidden" name="_captcha" value="false"/>
+        <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true"/>
+        <label for="signup-email" class="sr-only">Email address</label>
+        <div class="signup-row">
+          <input id="signup-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" required/>
+          <button class="btn btn-primary" type="submit">Send me the list</button>
+        </div>
+        <p class="signup-msg" id="signup-msg" role="status" aria-live="polite"></p>
+        <p class="tiny">Your email is only used to send the list. No spam.</p>
+      </form>
     </div>
   </div>
 </section>
@@ -252,6 +294,29 @@
     render(); openFromHash();
   }).catch(function () { $('count').textContent = 'The list didn\'t load. Refresh to try again.'; });
   window.addEventListener('hashchange', openFromHash);
+})();
+</script>
+<script>
+(function () {
+  'use strict';
+  var form = document.getElementById('signup-form'), msg = document.getElementById('signup-msg');
+  if (!form) return;
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = form.email.value.trim();
+    msg.className = 'signup-msg';
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { msg.textContent = 'Enter a valid email address.'; msg.classList.add('err'); return; }
+    if (form._honey.value) return;
+    var btn = form.querySelector('button'); btn.disabled = true; btn.textContent = 'Sending…';
+    fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email, _subject: form._subject.value, _template: 'table', page: 'Top Prospects' })
+    }).then(function (r) { if (!r.ok) throw new Error(); return r.json(); }).then(function () {
+      form.reset(); msg.textContent = 'Thanks! The list is on its way to your inbox.'; msg.classList.add('ok');
+    }).catch(function () {
+      msg.textContent = 'That didn\'t send. Try again, or DM @championascendant on Instagram.'; msg.classList.add('err');
+    }).then(function () { btn.disabled = false; btn.textContent = 'Send me the list'; });
+  });
 })();
 </script>
 </body>

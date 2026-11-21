@@ -243,6 +243,54 @@
         "ONE": 86.5,
         "DWCS": 91.9
       }
+    },
+    {
+      "name": "Laura Vasconcelos",
+      "country": "Brazil",
+      "age": 26,
+      "ageLabel": "26",
+      "division": "Women's Strawweight",
+      "wins": 6,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 83.3,
+      "winStreak": 6,
+      "titleWins": 2,
+      "onePromotion": "LFA",
+      "dwcsPromotion": "LFA",
+      "promotionName": "LFA",
+      "lastFight": "13 Nov 2026",
+      "notes": "6-0 with 5 finishes and two Jungle Fight title wins. LFA debut: TKO at LFA 246.",
+      "flag": false,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/306012-laura-vieira",
+      "expected": {
+        "ONE": 106.1,
+        "DWCS": 109.3
+      }
+    },
+    {
+      "name": "Dzhamaludin Aliev",
+      "country": "Turkey",
+      "age": 27,
+      "ageLabel": "27",
+      "division": "Bantamweight",
+      "wins": 11,
+      "losses": 0,
+      "draws": 0,
+      "finishRate": 90.9,
+      "winStreak": 11,
+      "titleWins": 4,
+      "onePromotion": "Core_FC",
+      "dwcsPromotion": "CFC",
+      "promotionName": "Core FC",
+      "lastFight": "11 Dec 2025",
+      "notes": "11-0 with 10 finishes and four title fight wins (SBC and OFC).",
+      "flag": false,
+      "tapology": "https://www.tapology.com/fightcenter/fighters/176853-dzhamaludin-aliev",
+      "expected": {
+        "ONE": 90.9,
+        "DWCS": 97.5
+      }
     }
   ],
   "held": [
@@ -253,16 +301,20 @@
   ],
   "justMissed": [
     {
-      "name": "Laura Vasconcelos",
-      "why": "clears 85 on both, but inactive since May 2025 (booked for LFA 246)"
-    },
-    {
       "name": "Ieuan Davies",
       "why": "ONE 83.3, below the cut"
     },
     {
       "name": "Murad Guseinov",
       "why": "ONE 77.5, below the cut"
+    },
+    {
+      "name": "Maximus Lally",
+      "why": "ONE 82.2, below the cut"
+    },
+    {
+      "name": "Luis Aguiar",
+      "why": "DWCS/UFC 84.5, below the cut"
     }
   ]
 }

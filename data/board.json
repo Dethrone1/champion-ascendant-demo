@@ -142,7 +142,7 @@
       "lastFight": "Mar 2026",
       "notes": "11-1 with 10 finishes.",
       "flag": false,
-      "tapology": "https://www.tapology.com/search?term=Richard+Martins",
+      "tapology": "https://www.tapology.com/fightcenter/fighters/208205-richard-martins",
       "expected": {
         "ONE": 88.9,
         "DWCS": 87.1
@@ -166,7 +166,7 @@
       "lastFight": "22 Nov 2025",
       "notes": "Five wins, all finishes. Last out: anaconda choke at Cage Warriors 198.",
       "flag": false,
-      "tapology": "https://www.tapology.com/search?term=Jack+Humphries",
+      "tapology": "https://www.tapology.com/fightcenter/fighters/342872-jack-humphries",
       "expected": {
         "ONE": 87.2,
         "DWCS": 93.0
@@ -190,7 +190,7 @@
       "lastFight": null,
       "notes": "Reigning CFFC welterweight champion.",
       "flag": false,
-      "tapology": "https://www.tapology.com/search?term=Busurman+Zhumagul",
+      "tapology": "https://www.tapology.com/fightcenter/fighters/379136-busurman-zhumagul",
       "expected": {
         "ONE": 87.1,
         "DWCS": 87.8
@@ -214,7 +214,7 @@
       "lastFight": null,
       "notes": "All seven wins by stoppage.",
       "flag": false,
-      "tapology": "https://www.tapology.com/search?term=Ullubiy+Amirzhanov",
+      "tapology": "https://www.tapology.com/fightcenter/fighters/386651-ullubiy-amirzhanov",
       "expected": {
         "ONE": 86.9,
         "DWCS": 95.0

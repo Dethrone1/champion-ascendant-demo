@@ -80,3 +80,12 @@ def test_link_preview_tags():
                     'property="og:image:width" content="1200"', 'property="og:image:height" content="630"'):
             assert tag in html, f"{name}: missing {tag}"
     assert "Disallow: /" not in app.test_client().get("/robots.txt").get_data(as_text=True)
+
+
+def test_old_both_url_redirects_to_top_prospects():
+    from app import app
+    c = app.test_client()
+    for old in ("/both", "/both.html"):
+        r = c.get(old)
+        assert r.status_code == 301 and r.headers["Location"].endswith("/top-prospects")
+    assert c.get("/top-prospects").status_code == 200

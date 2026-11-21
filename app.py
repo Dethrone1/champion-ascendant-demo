@@ -10,10 +10,10 @@ PAGES_DIR = Path(__file__).parent / "templates"
 STATIC_DIR = Path(__file__).parent / "static"
 
 # Live pages. Each is reachable at /name and /name.html.
-PAGES = {"index", "calculator", "both", "methodology", "build"}
+PAGES = {"index", "calculator", "top-prospects", "methodology", "build"}
 
 # Retired pages point to the page that replaced them, so old links keep working.
-RETIRED = {"prospects": "both", "dwcs": "both", "receipts": "index"}
+RETIRED = {"both": "top-prospects", "prospects": "top-prospects", "dwcs": "top-prospects", "receipts": "index"}
 
 
 def serve_page(name):
@@ -62,7 +62,7 @@ def api_board():
 def page(slug):
     name = slug[:-5] if slug.endswith(".html") else slug
     if name in RETIRED:
-        return redirect(f"/{RETIRED[name]}.html" if RETIRED[name] != "index" else "/", code=301)
+        return redirect(f"/{RETIRED[name]}" if RETIRED[name] != "index" else "/", code=301)
     if name in PAGES:
         return serve_page(name)
     abort(404)
